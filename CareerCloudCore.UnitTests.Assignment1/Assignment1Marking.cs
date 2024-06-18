@@ -1,4 +1,7 @@
 ﻿using CareerCloud.Pocos;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 using System.Reflection;
 
 namespace CareerCloudCore.UnitTests.Assignment1
