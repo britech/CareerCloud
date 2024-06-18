@@ -11,7 +11,6 @@ namespace CareerCloud.Pocos
 
         public Guid Login {  get; set; }
 
-        [Column(name: "Role")]
         public Guid Role { get; set; }
 
         [Column(name: "Time_Stamp")]
