@@ -27,7 +27,7 @@ namespace CareerCloud.Pocos
         public Byte EndMonth { get; set; }
 
         [Column(name: "End_Year")]
-        public Byte EndYear { get; set; }
+        public int EndYear { get; set; }
 
         [Column(name: "Time_Stamp")]
         public byte[] TimeStamp { get; set; }
