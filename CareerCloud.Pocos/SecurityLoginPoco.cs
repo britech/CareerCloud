@@ -29,7 +29,7 @@ namespace CareerCloud.Pocos
         public bool IsLocked { get; set; }
 
         [Column(name: "Is_Inactive")]
-        public bool? IsInactive { get; set; }
+        public bool IsInactive { get; set; }
 
         [Column(name: "Email_Address")]
         public string EmailAddress {  get; set; }
