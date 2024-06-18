@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CareerCloud.Pocos
 {
     [Table(name: "Company_Jobs_Descriptions")]
-    public class CompanyJobsDescriptionPoco : IPoco
+    public class CompanyJobDescriptionPoco : IPoco
     {
         [Key]
         public Guid Id { get; set; }
