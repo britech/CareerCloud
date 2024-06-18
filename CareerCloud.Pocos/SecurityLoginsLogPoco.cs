@@ -7,10 +7,8 @@ namespace CareerCloud.Pocos
     public class SecurityLoginsLogPoco : IPoco
     {
         [Key]
-        [Column(name: "Id")]
         public Guid Id { get; set; }
 
-        [Column(name: "Login")]
         public Guid Login {  get; set; }
 
         [Column(name: "Source_IP")]

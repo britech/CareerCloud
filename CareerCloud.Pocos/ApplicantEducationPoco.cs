@@ -7,10 +7,8 @@ namespace CareerCloud.Pocos
     public class ApplicantEducationPoco : IPoco
     {
         [Key]
-        [Column(name: "Id")]
         public Guid Id { get; set; }
 
-        [Column(name: "Applicant")]
         public Guid Applicant { get; set; }
 
         [Column(name: "Major")]

@@ -7,7 +7,6 @@ namespace CareerCloud.Pocos
     public class SecurityRolePoco : IPoco
     {
         [Key]
-        [Column(name: "Id")]
         public Guid Id { get; set; }
 
         [Column(name: "Role")]
