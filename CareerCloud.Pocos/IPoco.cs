@@ -2,6 +2,6 @@
 {
     public interface IPoco
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
     }
 }
