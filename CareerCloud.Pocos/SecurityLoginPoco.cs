@@ -47,6 +47,6 @@ namespace CareerCloud.Pocos
         public string PrefferredLanguage { get; set; }
 
         [Column(name: "Time_Stamp")]
-        public DateTime? TimeStamp { get; set; }
+        public byte[] TimeStamp { get; set; }
     }
 }
