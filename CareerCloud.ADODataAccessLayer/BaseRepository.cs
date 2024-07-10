@@ -5,8 +5,8 @@ namespace CareerCloud.ADODataAccessLayer
 {
     public abstract class BaseRepository<T> : IDataRepository<T>
     {
-        protected const string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=JOB_PORTAL_DB;Integrated Security=true";
-
+        protected const string CONNECTION_STRING = "Server=(localdb)\\mssqllocaldb;Database=JOB_PORTAL_DB;Integrated Security=true";
+        
         public abstract void Add(params T[] items);
         public abstract void CallStoredProc(string name, params Tuple<string, string>[] parameters);
         public abstract IList<T> GetAll(params Expression<Func<T, object>>[] navigationProperties);
