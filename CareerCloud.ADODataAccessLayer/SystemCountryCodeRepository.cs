@@ -1,15 +1,16 @@
-﻿using CareerCloud.Pocos;
+﻿using CareerCloud.DataAccessLayer;
+using CareerCloud.Pocos;
 using Microsoft.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class SystemCountryCodeRepository : BaseRepository<SystemCountryCodePoco>
+    public class SystemCountryCodeRepository : IDataRepository<SystemCountryCodePoco>
     {
-        public override void Add(params SystemCountryCodePoco[] items)
+        public void Add(params SystemCountryCodePoco[] items)
         {
-           using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
-           {
+            using (SqlConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
+            {
                 connection.Open();
                 using (SqlTransaction txn = connection.BeginTransaction())
                 {
@@ -27,7 +28,7 @@ namespace CareerCloud.ADODataAccessLayer
                             }
                             txn.Commit();
                         }
-                        catch (Exception) 
+                        catch (Exception)
                         {
                             txn.Rollback();
                             throw;
@@ -37,23 +38,23 @@ namespace CareerCloud.ADODataAccessLayer
             }
         }
 
-        public override void CallStoredProc(string name, params Tuple<string, string>[] parameters)
+        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
         {
             throw new NotImplementedException();
         }
 
-        public override IList<SystemCountryCodePoco> GetAll(params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
+        public IList<SystemCountryCodePoco> GetAll(params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
             IList<SystemCountryCodePoco> items = new List<SystemCountryCodePoco>();
-            
-            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+
+            using (SqlConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
             {
                 using (SqlCommand cmd = new SqlCommand("select code, name from system_country_code", connection))
                 {
                     connection.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while(reader.Read())
+                        while (reader.Read())
                         {
                             var item = new SystemCountryCodePoco();
                             item.Code = reader.GetString(0);
@@ -66,19 +67,19 @@ namespace CareerCloud.ADODataAccessLayer
             return items;
         }
 
-        public override IList<SystemCountryCodePoco> GetList(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
+        public IList<SystemCountryCodePoco> GetList(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
             throw new NotImplementedException();
         }
 
-        public override SystemCountryCodePoco GetSingle(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
+        public SystemCountryCodePoco GetSingle(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
             return GetAll().AsQueryable().Where(where).FirstOrDefault(null as SystemCountryCodePoco)!;
         }
 
-        public override void Remove(params SystemCountryCodePoco[] items)
+        public void Remove(params SystemCountryCodePoco[] items)
         {
-            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+            using (SqlConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
             {
                 connection.Open();
                 using (SqlTransaction txn = connection.BeginTransaction())
@@ -95,8 +96,8 @@ namespace CareerCloud.ADODataAccessLayer
                             }
                             txn.Commit();
                         }
-                        catch (Exception) 
-                        { 
+                        catch (Exception)
+                        {
                             txn.Rollback();
                             throw;
                         }
@@ -105,9 +106,9 @@ namespace CareerCloud.ADODataAccessLayer
             }
         }
 
-        public override void Update(params SystemCountryCodePoco[] items)
+        public void Update(params SystemCountryCodePoco[] items)
         {
-            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+            using (SqlConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
             {
                 connection.Open();
                 using (SqlTransaction txn = connection.BeginTransaction())
