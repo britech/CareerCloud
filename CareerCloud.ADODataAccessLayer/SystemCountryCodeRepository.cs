@@ -73,7 +73,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public override SystemCountryCodePoco GetSingle(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
-            return GetAll().AsQueryable().Where(where).FirstOrDefault((SystemCountryCodePoco) null);
+            return GetAll().AsQueryable().Where(where).FirstOrDefault(null as SystemCountryCodePoco)!;
         }
 
         public override void Remove(params SystemCountryCodePoco[] items)
