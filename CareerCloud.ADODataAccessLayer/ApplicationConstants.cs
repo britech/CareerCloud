@@ -1,12 +1,14 @@
-﻿namespace CareerCloud.ADODataAccessLayer
+﻿using Microsoft.Data.SqlClient;
+
+namespace CareerCloud.ADODataAccessLayer
 {
-    public sealed class ApplicationConstants
+    public static class ApplicationConstants
     {
-        public const string CONNECTION_STRING = "Server=(localdb)\\mssqllocaldb;Database=JOB_PORTAL_DB;Integrated Security=true";
-
-        private ApplicationConstants()
+        public static readonly string CONNECTION_STRING = new SqlConnectionStringBuilder()
         {
-
-        }
+            DataSource = "(localdb)\\mssqllocaldb",
+            InitialCatalog = "JOB_PORTAL_DB",
+            IntegratedSecurity = true
+        }.ConnectionString;
     }
 }
