@@ -21,16 +21,8 @@ namespace CareerCloud.ADODataAccessLayer
                         using (DbCommand cmd = connection.CreateCommand())
                         {
                             cmd.CommandText = "insert into system_country_codes(code, name) values(@code, @name)";
-                            cmd.Parameters.Add(new SqlParameter()
-                            {
-                                ParameterName = "@code",
-                                Value = item.Code
-                            });
-                            cmd.Parameters.Add(new SqlParameter()
-                            {
-                                ParameterName = "@name",
-                                Value = item.Name
-                            });
+                            cmd.Parameters.Add(new SqlParameter(parameterName: "@code", value: item.Code));
+                            cmd.Parameters.Add(new SqlParameter(parameterName: "@name", value: item.Name));
                             cmd.ExecuteNonQuery();
                         }
                     }
@@ -92,11 +84,7 @@ namespace CareerCloud.ADODataAccessLayer
                         using (DbCommand cmd = connection.CreateCommand())
                         {
                             cmd.CommandText = "delete from system_country_codes where code = @code";
-                            cmd.Parameters.Add(new SqlParameter()
-                            {
-                                ParameterName = "@code",
-                                Value = item.Code
-                            });
+                            cmd.Parameters.Add(new SqlParameter(parameterName: "@code", value: item.Code));
                             cmd.ExecuteNonQuery();
                         }
                     }
@@ -117,16 +105,8 @@ namespace CareerCloud.ADODataAccessLayer
                         using (DbCommand cmd = connection.CreateCommand())
                         {
                             cmd.CommandText = "update system_country_codes set name = @name where code = @code";
-                            cmd.Parameters.Add(new SqlParameter()
-                            {
-                                ParameterName = "@name",
-                                Value = item.Name
-                            });
-                            cmd.Parameters.Add(new SqlParameter()
-                            {
-                                ParameterName = "@code",
-                                Value = item.Code
-                            });
+                            cmd.Parameters.Add(new SqlParameter(parameterName: "@name", value: item.Name));
+                            cmd.Parameters.Add(new SqlParameter(parameterName: "@code", value: item.Code));
                             cmd.ExecuteNonQuery();
                         }
                     }
