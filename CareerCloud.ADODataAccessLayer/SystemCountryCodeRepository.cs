@@ -1,7 +1,9 @@
 ﻿using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using Microsoft.Data.SqlClient;
+using System.Data.Common;
 using System.Linq.Expressions;
+using System.Transactions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
@@ -9,31 +11,30 @@ namespace CareerCloud.ADODataAccessLayer
     {
         public void Add(params SystemCountryCodePoco[] items)
         {
-            using (SqlConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
+            using (TransactionScope scope = new TransactionScope())
             {
-                connection.Open();
-                using (SqlTransaction txn = connection.BeginTransaction())
+                using (DbConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
                 {
-                    using (SqlCommand cmd = new SqlCommand("insert into system_country_code(code, name) values(@code, @name)", connection, txn))
+                    connection.Open();
+                    foreach (var item in items)
                     {
-                        cmd.Parameters.Add("@code");
-                        cmd.Parameters.Add("@name");
-                        try
+                        using (DbCommand cmd = connection.CreateCommand())
                         {
-                            foreach (var item in items)
+                            cmd.CommandText = "insert into system_country_codes(code, name) values(@code, @name)";
+                            cmd.Parameters.Add(new SqlParameter()
                             {
-                                cmd.Parameters["@code"].Value = item.Code;
-                                cmd.Parameters["@name"].Value = item.Name;
-                                cmd.ExecuteNonQuery();
-                            }
-                            txn.Commit();
-                        }
-                        catch (Exception)
-                        {
-                            txn.Rollback();
-                            throw;
+                                ParameterName = "@code",
+                                Value = item.Code
+                            });
+                            cmd.Parameters.Add(new SqlParameter()
+                            {
+                                ParameterName = "@name",
+                                Value = item.Name
+                            });
+                            cmd.ExecuteNonQuery();
                         }
                     }
+                    scope.Complete();
                 }
             }
         }
@@ -47,12 +48,14 @@ namespace CareerCloud.ADODataAccessLayer
         {
             IList<SystemCountryCodePoco> items = new List<SystemCountryCodePoco>();
 
-            using (SqlConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
+            using (DbConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
             {
-                using (SqlCommand cmd = new SqlCommand("select code, name from system_country_code", connection))
+                using (DbCommand cmd = connection.CreateCommand())
                 {
+                    cmd.CommandText = "select code, name from system_country_codes";
+
                     connection.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    using (DbDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -79,60 +82,55 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params SystemCountryCodePoco[] items)
         {
-            using (SqlConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
+            using (TransactionScope scope = new TransactionScope())
             {
-                connection.Open();
-                using (SqlTransaction txn = connection.BeginTransaction())
+                using (DbConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
                 {
-                    using (SqlCommand cmd = new SqlCommand("delete from system_country_code where code = @code", connection, txn))
+                    connection.Open();
+                    foreach (var item in items)
                     {
-                        cmd.Parameters.Add("@code");
-                        try
+                        using (DbCommand cmd = connection.CreateCommand())
                         {
-                            foreach (var item in items)
+                            cmd.CommandText = "delete from system_country_codes where code = @code";
+                            cmd.Parameters.Add(new SqlParameter()
                             {
-                                cmd.Parameters["@code"].Value = item.Code;
-                                cmd.ExecuteNonQuery();
-                            }
-                            txn.Commit();
-                        }
-                        catch (Exception)
-                        {
-                            txn.Rollback();
-                            throw;
+                                ParameterName = "@code",
+                                Value = item.Code
+                            });
+                            cmd.ExecuteNonQuery();
                         }
                     }
+                    scope.Complete();
                 }
             }
         }
 
         public void Update(params SystemCountryCodePoco[] items)
         {
-            using (SqlConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
+            using (TransactionScope scope = new TransactionScope())
             {
-                connection.Open();
-                using (SqlTransaction txn = connection.BeginTransaction())
+                using (DbConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
                 {
-                    using (SqlCommand cmd = new SqlCommand("update system_country_code set name = @name where code = @code", connection, txn))
+                    connection.Open();
+                    foreach (var item in items)
                     {
-                        cmd.Parameters.Add("@name");
-                        cmd.Parameters.Add("@code");
-                        try
+                        using (DbCommand cmd = connection.CreateCommand())
                         {
-                            foreach (var item in items)
+                            cmd.CommandText = "update system_country_codes set name = @name where code = @code";
+                            cmd.Parameters.Add(new SqlParameter()
                             {
-                                cmd.Parameters["@name"].Value = item.Name;
-                                cmd.Parameters["@code"].Value = item.Code;
-                                cmd.ExecuteNonQuery();
-                            }
-                            txn.Commit();
-                        }
-                        catch (Exception)
-                        {
-                            txn.Rollback();
-                            throw;
+                                ParameterName = "@name",
+                                Value = item.Name
+                            });
+                            cmd.Parameters.Add(new SqlParameter()
+                            {
+                                ParameterName = "@code",
+                                Value = item.Code
+                            });
+                            cmd.ExecuteNonQuery();
                         }
                     }
+                    scope.Complete();
                 }
             }
         }
