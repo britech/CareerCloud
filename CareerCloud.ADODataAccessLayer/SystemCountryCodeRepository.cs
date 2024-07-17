@@ -27,7 +27,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<SystemCountryCodePoco> GetAll(params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
-            return DbHelper.LoadFromDB<SystemCountryCodePoco>("select code, name from system_country_codes", new DbMapperImpl()); ;
+            return DbHelper.LoadFromDB<SystemCountryCodePoco>("select code, name from system_country_codes", new RowMapperImpl()); ;
         }
 
         public IList<SystemCountryCodePoco> GetList(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
@@ -65,7 +65,7 @@ namespace CareerCloud.ADODataAccessLayer
             }).ToList());
         }
 
-        private class DbMapperImpl : IDbRowMapper<SystemCountryCodePoco>
+        private class RowMapperImpl : IDbRowMapper<SystemCountryCodePoco>
         {
             public SystemCountryCodePoco MapRow(DbDataReader reader)
             {
