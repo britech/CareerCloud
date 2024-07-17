@@ -1,9 +1,7 @@
 ﻿using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
-using Microsoft.Data.SqlClient;
 using System.Data.Common;
 using System.Linq.Expressions;
-using System.Transactions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
@@ -11,24 +9,15 @@ namespace CareerCloud.ADODataAccessLayer
     {
         public void Add(params SystemCountryCodePoco[] items)
         {
-            using (TransactionScope scope = new TransactionScope())
+            DbHelper.WriteToDB("insert into system_country_codes(code, name) values(@code, @name)", items.AsEnumerable().Select(item =>
             {
-                using (DbConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
+                IDictionary<string, object?> queryParams = new Dictionary<string, object?>
                 {
-                    connection.Open();
-                    foreach (var item in items)
-                    {
-                        using (DbCommand cmd = connection.CreateCommand())
-                        {
-                            cmd.CommandText = "insert into system_country_codes(code, name) values(@code, @name)";
-                            cmd.Parameters.Add(new SqlParameter(parameterName: "@code", value: item.Code));
-                            cmd.Parameters.Add(new SqlParameter(parameterName: "@name", value: item.Name));
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    scope.Complete();
-                }
-            }
+                    { "@code", item.Code },
+                    { "@name", item.Name}
+                };
+                return queryParams;
+            }).ToList());
         }
 
         public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
@@ -38,28 +27,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<SystemCountryCodePoco> GetAll(params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
-            IList<SystemCountryCodePoco> items = new List<SystemCountryCodePoco>();
-
-            using (DbConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
-            {
-                using (DbCommand cmd = connection.CreateCommand())
-                {
-                    cmd.CommandText = "select code, name from system_country_codes";
-
-                    connection.Open();
-                    using (DbDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var item = new SystemCountryCodePoco();
-                            item.Code = reader.GetString(0);
-                            item.Name = reader.GetString(1);
-                            items.Add(item);
-                        }
-                    }
-                }
-            }
-            return items;
+            return DbHelper.LoadFromDB<SystemCountryCodePoco>("select code, name from system_country_codes", new DbMapperImpl()); ;
         }
 
         public IList<SystemCountryCodePoco> GetList(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
@@ -74,44 +42,37 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params SystemCountryCodePoco[] items)
         {
-            using (TransactionScope scope = new TransactionScope())
+            DbHelper.WriteToDB("delete from system_country_codes where code = @code", items.AsEnumerable().Select(item =>
             {
-                using (DbConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
+                IDictionary<string, object?> queryParams = new Dictionary<string, object?>
                 {
-                    connection.Open();
-                    foreach (var item in items)
-                    {
-                        using (DbCommand cmd = connection.CreateCommand())
-                        {
-                            cmd.CommandText = "delete from system_country_codes where code = @code";
-                            cmd.Parameters.Add(new SqlParameter(parameterName: "@code", value: item.Code));
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    scope.Complete();
-                }
-            }
+                    { "@code", item.Code }
+                };
+                return queryParams;
+            }).ToList());
         }
 
         public void Update(params SystemCountryCodePoco[] items)
         {
-            using (TransactionScope scope = new TransactionScope())
+            DbHelper.WriteToDB("update system_country_codes set name = @name where code = @code", items.AsEnumerable().Select(item =>
             {
-                using (DbConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
+                IDictionary<string, object?> queryParams = new Dictionary<string, object?>
                 {
-                    connection.Open();
-                    foreach (var item in items)
-                    {
-                        using (DbCommand cmd = connection.CreateCommand())
-                        {
-                            cmd.CommandText = "update system_country_codes set name = @name where code = @code";
-                            cmd.Parameters.Add(new SqlParameter(parameterName: "@name", value: item.Name));
-                            cmd.Parameters.Add(new SqlParameter(parameterName: "@code", value: item.Code));
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    scope.Complete();
-                }
+                    { "@code", item.Code },
+                    { "@name", item.Name }
+                };
+                return queryParams;
+            }).ToList());
+        }
+
+        private class DbMapperImpl : IDbRowMapper<SystemCountryCodePoco>
+        {
+            public SystemCountryCodePoco MapRow(DbDataReader reader)
+            {
+                var item = new SystemCountryCodePoco();
+                item.Code = reader.GetString(0);
+                item.Name = reader.GetString(1);
+                return item;
             }
         }
     }
