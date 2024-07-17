@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class SystemCountryCodeRepository : IDataRepository<SystemCountryCodePoco>
+    public class SystemCountryCodeRepository : IDataRepository<SystemCountryCodePoco>, IDbRowMapper<SystemCountryCodePoco>
     {
         public void Add(params SystemCountryCodePoco[] items)
         {
@@ -14,7 +14,7 @@ namespace CareerCloud.ADODataAccessLayer
                 IDictionary<string, object?> queryParams = new Dictionary<string, object?>
                 {
                     { "@code", item.Code },
-                    { "@name", item.Name}
+                    { "@name", item.Name }
                 };
                 return queryParams;
             }).ToList());
@@ -27,7 +27,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<SystemCountryCodePoco> GetAll(params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
-            return DbHelper.LoadFromDB<SystemCountryCodePoco>("select code, name from system_country_codes", new RowMapperImpl()); ;
+            return DbHelper.LoadFromDB<SystemCountryCodePoco>("select code, name from system_country_codes", this); ;
         }
 
         public IList<SystemCountryCodePoco> GetList(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
@@ -38,6 +38,14 @@ namespace CareerCloud.ADODataAccessLayer
         public SystemCountryCodePoco GetSingle(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
             return GetAll().AsQueryable().Where(where).FirstOrDefault(null as SystemCountryCodePoco)!;
+        }
+
+        public SystemCountryCodePoco MapRow(DbDataReader reader)
+        {
+            var item = new SystemCountryCodePoco();
+            item.Code = reader.GetString(0);
+            item.Name = reader.GetString(1);
+            return item;
         }
 
         public void Remove(params SystemCountryCodePoco[] items)
@@ -63,17 +71,6 @@ namespace CareerCloud.ADODataAccessLayer
                 };
                 return queryParams;
             }).ToList());
-        }
-
-        private class RowMapperImpl : IDbRowMapper<SystemCountryCodePoco>
-        {
-            public SystemCountryCodePoco MapRow(DbDataReader reader)
-            {
-                var item = new SystemCountryCodePoco();
-                item.Code = reader.GetString(0);
-                item.Name = reader.GetString(1);
-                return item;
-            }
         }
     }
 }
