@@ -1,44 +1,57 @@
-﻿using CareerCloud.DataAccessLayer;
-using CareerCloud.Pocos;
-using System.Linq.Expressions;
+﻿using CareerCloud.Pocos;
+using Microsoft.Data.SqlClient;
+using System.Data.Common;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class CompanyDescriptionRepository : IDataRepository<CompanyDescriptionPoco>
+    public class CompanyDescriptionRepository : BaseRepositoryImpl<CompanyDescriptionPoco>
     {
-        public void Add(params CompanyDescriptionPoco[] items)
+        public CompanyDescriptionRepository() :
+            base("insert into company_descriptions(id, company, languageid, company_name, company_description) values(@id, @company, @languageId, @company_name, @company_description)",
+                "update company_descriptions set company = @company, languageid = @languageId, company_name = @company_name, company_description = @company_description where id = @id",
+                "delete from company_descriptions where id = @id",
+                "select id, company, languageid, company_name, company_description, time_stamp from company_descriptions", 
+                new UpdateCmdParameterSetterImpl(), 
+                new DeleteCmdParameterSetterImpl(),
+                new RowMapperImpl())
         {
-            throw new NotImplementedException();
+
         }
 
-        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
+        private class UpdateCmdParameterSetterImpl : IDbCommandParameterSetter<CompanyDescriptionPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, CompanyDescriptionPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                cmd.Parameters.Add(new SqlParameter("@company", item.Company));
+                cmd.Parameters.Add(new SqlParameter("@languageId", item.LanguageId));
+                cmd.Parameters.Add(new SqlParameter("@company_name", item.CompanyName));
+                cmd.Parameters.Add(new SqlParameter("@company_description", item.CompanyDescription));
+            }
         }
 
-        public IList<CompanyDescriptionPoco> GetAll(params Expression<Func<CompanyDescriptionPoco, object>>[] navigationProperties)
+        private class DeleteCmdParameterSetterImpl : IDbCommandParameterSetter<CompanyDescriptionPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, CompanyDescriptionPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+            }
         }
 
-        public IList<CompanyDescriptionPoco> GetList(Expression<Func<CompanyDescriptionPoco, bool>> where, params Expression<Func<CompanyDescriptionPoco, object>>[] navigationProperties)
+        private class RowMapperImpl : IDbRowMapper<CompanyDescriptionPoco>
         {
-            throw new NotImplementedException();
-        }
-
-        public CompanyDescriptionPoco GetSingle(Expression<Func<CompanyDescriptionPoco, bool>> where, params Expression<Func<CompanyDescriptionPoco, object>>[] navigationProperties)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(params CompanyDescriptionPoco[] items)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(params CompanyDescriptionPoco[] items)
-        {
-            throw new NotImplementedException();
+            public CompanyDescriptionPoco MapRow(DbDataReader reader)
+            {
+                return new CompanyDescriptionPoco()
+                {
+                    Id = reader.GetGuid(0),
+                    Company = reader.GetGuid(1),
+                    LanguageId = reader.GetString(2),
+                    CompanyName = reader.GetString(3),
+                    CompanyDescription = reader.GetString(4),
+                    TimeStamp = reader.GetValue(5) as byte[] ?? []
+                };
+            }
         }
     }
 }
