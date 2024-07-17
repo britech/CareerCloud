@@ -8,13 +8,13 @@ namespace CareerCloud.ADODataAccessLayer
     {
         private readonly DbHelper _dbHelper;
 
-        protected string InsertQuery { get; private set; }
-        protected string UpdateQuery { get; private set; }
-        protected string DeleteQuery { get; private set; }
-        protected string SelectQuery { get; private set; }
-        protected IDbCommandParameterSetter<T> UpdateCmdParameterSetter { get; private set; }
-        protected IDbCommandParameterSetter<T> DeleteCmdParameterSetter { get; private set; }
-        protected IDbRowMapper<T> RowMapper { get; set; }
+        private string InsertQuery { get; set; }
+        private string UpdateQuery { get; set; }
+        private string DeleteQuery { get; set; }
+        private string SelectQuery { get; set; }
+        private IDbCommandParameterSetter<T> UpdateCmdParameterSetter { get; set; }
+        private IDbCommandParameterSetter<T> DeleteCmdParameterSetter { get; set; }
+        private IDbRowMapper<T> RowMapper { get; set; }
 
         public BaseRepositoryImpl(string InsertQuery, string UpdateQuery, string DeleteQuery, string SelectQuery,
             IDbCommandParameterSetter<T> UpdateCmdParameterSetter, 
