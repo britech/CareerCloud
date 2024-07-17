@@ -1,44 +1,63 @@
-﻿using CareerCloud.DataAccessLayer;
-using CareerCloud.Pocos;
-using System.Linq.Expressions;
+﻿using CareerCloud.Pocos;
+using Microsoft.Data.SqlClient;
+using System.Data.Common;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class ApplicantSkillRepository : IDataRepository<ApplicantSkillPoco>
+    public class ApplicantSkillRepository : BaseRepositoryImpl<ApplicantSkillPoco>
     {
-        public void Add(params ApplicantSkillPoco[] items)
+        public ApplicantSkillRepository():
+            base("insert into applicant_skills(id, applicant, skill, skill_level, start_month, start_year, end_month, end_year) values(@id, @applicant, @skill, @skill_level, @start_month, @start_year, @end_month, @end_year)", 
+                "update applicant_skills set applicant = @applicant, skill = @skill, skill_level = @skill_level, start_month = @start_month, start_year = @start_year, end_month = @end_month, end_year = @end_year where id = @id", 
+                "delete from applicant_skills where id = @id", 
+                "select id, applicant, skill, skill_level, start_month, start_year, end_month, end_year, time_stamp from applicant_skills", 
+                new UpdateCmdParameterSetterImpl(), 
+                new DeleteCmdParameterSetterImpl(), 
+                new RowMapperImpl())
         {
-            throw new NotImplementedException();
+
         }
 
-        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
+        private class UpdateCmdParameterSetterImpl : IDbCommandParameterSetter<ApplicantSkillPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, ApplicantSkillPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                cmd.Parameters.Add(new SqlParameter("@applicant", item.Applicant));
+                cmd.Parameters.Add(new SqlParameter("@skill", item.Skill));
+                cmd.Parameters.Add(new SqlParameter("@skill_level", item.SkillLevel));
+                cmd.Parameters.Add(new SqlParameter("@start_month", item.StartMonth));
+                cmd.Parameters.Add(new SqlParameter("@start_year", item.StartYear));
+                cmd.Parameters.Add(new SqlParameter("@end_month", item.EndMonth));
+                cmd.Parameters.Add(new SqlParameter("@end_year", item.EndYear));
+            }
         }
 
-        public IList<ApplicantSkillPoco> GetAll(params Expression<Func<ApplicantSkillPoco, object>>[] navigationProperties)
+        private class DeleteCmdParameterSetterImpl : IDbCommandParameterSetter<ApplicantSkillPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, ApplicantSkillPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+            }
         }
 
-        public IList<ApplicantSkillPoco> GetList(Expression<Func<ApplicantSkillPoco, bool>> where, params Expression<Func<ApplicantSkillPoco, object>>[] navigationProperties)
+        private class RowMapperImpl : IDbRowMapper<ApplicantSkillPoco>
         {
-            throw new NotImplementedException();
-        }
-
-        public ApplicantSkillPoco GetSingle(Expression<Func<ApplicantSkillPoco, bool>> where, params Expression<Func<ApplicantSkillPoco, object>>[] navigationProperties)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(params ApplicantSkillPoco[] items)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(params ApplicantSkillPoco[] items)
-        {
-            throw new NotImplementedException();
+            public ApplicantSkillPoco MapRow(DbDataReader reader)
+            {
+                return new ApplicantSkillPoco()
+                {
+                    Id = reader.GetGuid(0),
+                    Applicant = reader.GetGuid(1),
+                    Skill = reader.GetString(2),
+                    SkillLevel = reader.GetString(3),
+                    StartMonth = reader.GetByte(4),
+                    StartYear = reader.GetInt32(5),
+                    EndMonth = reader.GetByte(6),
+                    EndYear = reader.GetInt32(7),
+                    TimeStamp = reader.GetValue(8) as byte[] ?? []
+                };
+            }
         }
     }
 }
