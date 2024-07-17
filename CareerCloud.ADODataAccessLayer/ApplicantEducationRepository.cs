@@ -6,11 +6,11 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class ApplicantEducationRepository : IDataRepository<ApplicantEducationPoco>, IDbRowMapper<ApplicantEducationPoco>
+    public class ApplicantEducationRepository : IDataRepository<ApplicantEducationPoco>, IDataRowMapper<ApplicantEducationPoco>
     {
         public void Add(params ApplicantEducationPoco[] items)
         {
-            DbHelper.WriteToDB("insert into applicant_educations(id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent) values(@id, @applicant, @major, @certificateDiploma, @startDate, @completionDate, @completionPercent)", items.AsEnumerable().Select(item =>
+            DbHelper.Write("insert into applicant_educations(id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent) values(@id, @applicant, @major, @certificateDiploma, @startDate, @completionDate, @completionPercent)", items.AsEnumerable().Select(item =>
             {
                 IDictionary<string, object?> queryParams = new Dictionary<string, object?>()
                 {
@@ -33,7 +33,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<ApplicantEducationPoco> GetAll(params Expression<Func<ApplicantEducationPoco, object>>[] navigationProperties)
         {
-            return DbHelper.LoadFromDB<ApplicantEducationPoco>("select id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent, time_stamp from applicant_educations", this);
+            return DbHelper.Load<ApplicantEducationPoco>("select id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent, time_stamp from applicant_educations", this);
         }
 
         public IList<ApplicantEducationPoco> GetList(Expression<Func<ApplicantEducationPoco, bool>> where, params Expression<Func<ApplicantEducationPoco, object>>[] navigationProperties)
@@ -63,7 +63,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params ApplicantEducationPoco[] items)
         {
-            DbHelper.WriteToDB("delete from applicant_educations where id = @id", items.AsEnumerable().Select(item =>
+            DbHelper.Write("delete from applicant_educations where id = @id", items.AsEnumerable().Select(item =>
             {
                 IDictionary<string, object?> queryParams = new Dictionary<string, object?>()
                 {
@@ -75,7 +75,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params ApplicantEducationPoco[] items)
         {
-            DbHelper.WriteToDB("update applicant_educations set applicant = @applicant, major = @major, certificate_diploma = @certificateDiploma, start_date = @startDate, completion_date = @completionDate, completion_percent = @completionPercent where id = @id", items.AsEnumerable().Select(item =>
+            DbHelper.Write("update applicant_educations set applicant = @applicant, major = @major, certificate_diploma = @certificateDiploma, start_date = @startDate, completion_date = @completionDate, completion_percent = @completionPercent where id = @id", items.AsEnumerable().Select(item =>
             {
                 IDictionary<string, object?> queryParams = new Dictionary<string, object?>()
                 {

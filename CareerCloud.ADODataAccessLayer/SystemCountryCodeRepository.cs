@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class SystemCountryCodeRepository : IDataRepository<SystemCountryCodePoco>, IDbRowMapper<SystemCountryCodePoco>
+    public class SystemCountryCodeRepository : IDataRepository<SystemCountryCodePoco>, IDataRowMapper<SystemCountryCodePoco>
     {
         public void Add(params SystemCountryCodePoco[] items)
         {
-            DbHelper.WriteToDB("insert into system_country_codes(code, name) values(@code, @name)", items.AsEnumerable().Select(item =>
+            DbHelper.Write("insert into system_country_codes(code, name) values(@code, @name)", items.AsEnumerable().Select(item =>
             {
                 IDictionary<string, object?> queryParams = new Dictionary<string, object?>
                 {
@@ -27,7 +27,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<SystemCountryCodePoco> GetAll(params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
-            return DbHelper.LoadFromDB<SystemCountryCodePoco>("select code, name from system_country_codes", this); ;
+            return DbHelper.Load<SystemCountryCodePoco>("select code, name from system_country_codes", this); ;
         }
 
         public IList<SystemCountryCodePoco> GetList(Expression<Func<SystemCountryCodePoco, bool>> where, params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
@@ -50,7 +50,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params SystemCountryCodePoco[] items)
         {
-            DbHelper.WriteToDB("delete from system_country_codes where code = @code", items.AsEnumerable().Select(item =>
+            DbHelper.Write("delete from system_country_codes where code = @code", items.AsEnumerable().Select(item =>
             {
                 IDictionary<string, object?> queryParams = new Dictionary<string, object?>
                 {
@@ -62,7 +62,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params SystemCountryCodePoco[] items)
         {
-            DbHelper.WriteToDB("update system_country_codes set name = @name where code = @code", items.AsEnumerable().Select(item =>
+            DbHelper.Write("update system_country_codes set name = @name where code = @code", items.AsEnumerable().Select(item =>
             {
                 IDictionary<string, object?> queryParams = new Dictionary<string, object?>
                 {
