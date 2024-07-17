@@ -1,49 +1,69 @@
-﻿using CareerCloud.DataAccessLayer;
-using CareerCloud.Pocos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CareerCloud.Pocos;
+using Microsoft.Data.SqlClient;
+using System.Data.Common;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class ApplicantWorkHistoryRepository : IDataRepository<ApplicantWorkHistoryPoco>
+    public class ApplicantWorkHistoryRepository : BaseRepositoryImpl<ApplicantWorkHistoryPoco>
     {
-        public void Add(params ApplicantWorkHistoryPoco[] items)
+        public ApplicantWorkHistoryRepository() : 
+            base("insert into applicant_work_history(id, applicant, company_name, country_code, location, job_title, job_description, start_month, start_year, end_month, end_year) values(@id, @applicant, @company_name, @country_code, @location, @job_title, @job_description, @start_month, @start_year, @end_month, @end_year)", 
+                "update applicant_work_history set applicant = @applicant, company_name = @company_name, country_code = @country_code, location = @location, job_title = @job_title, job_description = @job_description, start_month = @start_month, start_year = @start_year, end_month = @end_month, end_year = @end_year where id = @id", 
+                "delete from applicant_work_history where id = @id", 
+                "select id, applicant, company_name, country_code, location, job_title, job_description, start_month, start_year, end_month, end_year, time_stamp from applicant_work_history", 
+                new UpdateCmdParameterSetterImpl(), 
+                new DeleteCmdParameterSetterImpl(), 
+                new RowMapperImpl())
         {
-            throw new NotImplementedException();
+
         }
 
-        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
+        private class UpdateCmdParameterSetterImpl : IDbCommandParameterSetter<ApplicantWorkHistoryPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, ApplicantWorkHistoryPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                cmd.Parameters.Add(new SqlParameter("@applicant", item.Applicant));
+                cmd.Parameters.Add(new SqlParameter("@company_name", item.CompanyName));
+                cmd.Parameters.Add(new SqlParameter("@country_code", item.CountryCode));
+                cmd.Parameters.Add(new SqlParameter("@location", item.Location));
+                cmd.Parameters.Add(new SqlParameter("@job_title", item.JobTitle));
+                cmd.Parameters.Add(new SqlParameter("@job_description", item.JobDescription));
+                cmd.Parameters.Add(new SqlParameter("@start_month", item.StartMonth));
+                cmd.Parameters.Add(new SqlParameter("@start_year", item.StartYear));
+                cmd.Parameters.Add(new SqlParameter("@end_month", item.EndMonth));
+                cmd.Parameters.Add(new SqlParameter("@end_year", item.EndYear));
+            }
         }
 
-        public IList<ApplicantWorkHistoryPoco> GetAll(params Expression<Func<ApplicantWorkHistoryPoco, object>>[] navigationProperties)
+        private class DeleteCmdParameterSetterImpl : IDbCommandParameterSetter<ApplicantWorkHistoryPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, ApplicantWorkHistoryPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+            }
         }
 
-        public IList<ApplicantWorkHistoryPoco> GetList(Expression<Func<ApplicantWorkHistoryPoco, bool>> where, params Expression<Func<ApplicantWorkHistoryPoco, object>>[] navigationProperties)
+        private class RowMapperImpl : IDbRowMapper<ApplicantWorkHistoryPoco>
         {
-            throw new NotImplementedException();
-        }
-
-        public ApplicantWorkHistoryPoco GetSingle(Expression<Func<ApplicantWorkHistoryPoco, bool>> where, params Expression<Func<ApplicantWorkHistoryPoco, object>>[] navigationProperties)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(params ApplicantWorkHistoryPoco[] items)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(params ApplicantWorkHistoryPoco[] items)
-        {
-            throw new NotImplementedException();
+            public ApplicantWorkHistoryPoco MapRow(DbDataReader reader)
+            {
+                return new ApplicantWorkHistoryPoco()
+                {
+                    Id = reader.GetGuid(0),
+                    Applicant = reader.GetGuid(1),
+                    CompanyName = reader.GetString(2),
+                    CountryCode = reader.GetString(3),
+                    Location = reader.GetString(4),
+                    JobTitle = reader.GetString(5),
+                    JobDescription = reader.GetString(6),
+                    StartMonth = reader.GetInt16(7),
+                    StartYear = reader.GetInt32(8),
+                    EndMonth = reader.GetInt16(9),
+                    EndYear = reader.GetInt32(10),
+                    TimeStamp = reader.GetValue(11) as byte[] ?? []
+                };
+            }
         }
     }
 }
