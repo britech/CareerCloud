@@ -2,7 +2,7 @@
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public interface IDbRowMapper<T>
+    public interface IDataRowMapper<T>
     {
         T MapRow(DbDataReader reader);
     }
