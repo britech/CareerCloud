@@ -6,7 +6,7 @@ namespace CareerCloud.ADODataAccessLayer
 {
     public static class DbHelper
     {
-        public static void WriteToDB(string query, IList<IDictionary<string, object?>> queryParams)
+        public static void Write(string query, IList<IDictionary<string, object?>> queryParams)
         {
             using (TransactionScope scope = new TransactionScope())
             {
@@ -29,7 +29,7 @@ namespace CareerCloud.ADODataAccessLayer
             }
         }
 
-        public static IList<T> LoadFromDB<T>(string query, IDbRowMapper<T> mapper) where T : class
+        public static IList<T> Load<T>(string query, IDataRowMapper<T> mapper) where T : class
         {
             IList<T> items = new List<T>();
             using (DbConnection connection = new SqlConnection(ApplicationConstants.CONNECTION_STRING))
