@@ -6,65 +6,74 @@ namespace CareerCloud.ADODataAccessLayer
     public class BaseRepositoryImpl<T> : IDataRepository<T>
         where T : class
     {
-        private readonly DbHelper _dbHelper;
-
-        private string InsertQuery { get; set; }
-        private string UpdateQuery { get; set; }
-        private string DeleteQuery { get; set; }
-        private string SelectQuery { get; set; }
-        private IDbCommandParameterSetter<T> UpdateCmdParameterSetter { get; set; }
-        private IDbCommandParameterSetter<T> DeleteCmdParameterSetter { get; set; }
-        private IDbRowMapper<T> RowMapper { get; set; }
+        private DbHelper DbHelper { get; init; }
+        private string InsertQuery { get; init; }
+        private string UpdateQuery { get; init; }
+        private string DeleteQuery { get; init; }
+        private string SelectQuery { get; init; }
+        private IDbCommandParameterSetter<T> UpdateCmdParameterSetter { get; init; }
+        private IDbCommandParameterSetter<T> DeleteCmdParameterSetter { get; init; }
+        private IDbRowMapper<T> RowMapper { get; init; }
 
         public BaseRepositoryImpl(string InsertQuery, string UpdateQuery, string DeleteQuery, string SelectQuery,
             IDbCommandParameterSetter<T> UpdateCmdParameterSetter, 
             IDbCommandParameterSetter<T> DeleteCmdParameterSetter,
-            IDbRowMapper<T> rowMapper) 
+            IDbRowMapper<T> rowMapper) : 
+            this(new DbHelper(ApplicationConstants.CONNECTION_STRING), InsertQuery, UpdateQuery, DeleteQuery, SelectQuery,
+                UpdateCmdParameterSetter, DeleteCmdParameterSetter, rowMapper)
         {
-            _dbHelper = new DbHelper(ApplicationConstants.CONNECTION_STRING);
             
+        }
+
+        public BaseRepositoryImpl(DbHelper dbHelper, 
+            string InsertQuery, string UpdateQuery, string DeleteQuery, string SelectQuery, 
+            IDbCommandParameterSetter<T> UpdateCmdParameterSetter, 
+            IDbCommandParameterSetter<T> DeleteCmdParameterSetter, 
+            IDbRowMapper<T> RowMapper)
+        {
+            this.DbHelper = dbHelper;
             this.InsertQuery = InsertQuery;
             this.UpdateQuery = UpdateQuery;
             this.DeleteQuery = DeleteQuery;
             this.SelectQuery = SelectQuery;
             this.UpdateCmdParameterSetter = UpdateCmdParameterSetter;
             this.DeleteCmdParameterSetter = DeleteCmdParameterSetter;
-            this.RowMapper = rowMapper;
+            this.RowMapper = RowMapper;
         }
-
-        public void Add(params T[] items)
+        
+        public virtual void Add(params T[] items)
         {
-            _dbHelper.Update(InsertQuery, UpdateCmdParameterSetter, items);
+            DbHelper.Update(InsertQuery, UpdateCmdParameterSetter, items);
         }
 
-        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<T> GetAll(params Expression<Func<T, object>>[] navigationProperties)
-        {
-            return _dbHelper.Query(SelectQuery, RowMapper);
-        }
-
-        public IList<T> GetList(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)
+        public virtual void CallStoredProc(string name, params Tuple<string, string>[] parameters)
         {
             throw new NotImplementedException();
         }
 
-        public T GetSingle(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)
+        public virtual IList<T> GetAll(params Expression<Func<T, object>>[] navigationProperties)
+        {
+            return DbHelper.Query(SelectQuery, RowMapper);
+        }
+
+        public virtual IList<T> GetList(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual T GetSingle(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)
         {
             return GetAll().AsQueryable().Where(where).FirstOrDefault(null as T)!;
         }
 
-        public void Remove(params T[] items)
+        public virtual void Remove(params T[] items)
         {
-            _dbHelper.Update(DeleteQuery, DeleteCmdParameterSetter, items);
+            DbHelper.Update(DeleteQuery, DeleteCmdParameterSetter, items);
         }
 
-        public void Update(params T[] items)
+        public virtual void Update(params T[] items)
         {
-            _dbHelper.Update(UpdateQuery, UpdateCmdParameterSetter, items);
+            DbHelper.Update(UpdateQuery, UpdateCmdParameterSetter, items);
         }
     }
 }
