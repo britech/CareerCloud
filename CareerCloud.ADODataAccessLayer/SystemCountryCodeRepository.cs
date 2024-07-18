@@ -7,7 +7,8 @@ namespace CareerCloud.ADODataAccessLayer
     public class SystemCountryCodeRepository : BaseRepositoryImpl<SystemCountryCodePoco>
     {
         public SystemCountryCodeRepository() :
-            base("insert into system_country_codes(code, name) values(@code, @name)",
+            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
+                "insert into system_country_codes(code, name) values(@code, @name)",
                 "update system_country_codes set name = @name where code = @code",
                 "delete from system_country_codes where code = @code",
                 "select code, name from system_country_codes",
