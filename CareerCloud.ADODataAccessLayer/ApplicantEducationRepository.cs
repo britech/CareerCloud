@@ -43,10 +43,10 @@ namespace CareerCloud.ADODataAccessLayer
                     Id = reader.GetGuid(0),
                     Applicant = reader.GetGuid(1),
                     Major = reader.GetString(2),
-                    CertificateDiploma = reader.GetString(3),
-                    StartDate = reader.GetDateTime(4),
-                    CompletionDate = reader.GetDateTime(5),
-                    CompletionPercent = reader.GetByte(6),
+                    CertificateDiploma = reader.GetValue(3) as string ?? null,
+                    StartDate = reader.GetValue(4) as DateTime?,
+                    CompletionDate = reader.GetValue(5)  as DateTime?,
+                    CompletionPercent = reader.GetValue(6) as Byte?,
                     TimeStamp = reader.GetValue(7) as byte[] ?? []
                 };
             });
