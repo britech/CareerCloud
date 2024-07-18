@@ -1,44 +1,57 @@
-﻿using CareerCloud.DataAccessLayer;
-using CareerCloud.Pocos;
-using System.Linq.Expressions;
+﻿using CareerCloud.Pocos;
+using Microsoft.Data.SqlClient;
+using System.Data.Common;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class SecurityLoginsLogRepository : IDataRepository<SecurityLoginsLogPoco>
+    public class SecurityLoginsLogRepository : BaseRepositoryImpl<SecurityLoginsLogPoco>
     {
-        public void Add(params SecurityLoginsLogPoco[] items)
+        public SecurityLoginsLogRepository() : 
+            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
+                "insert into security_logins_log(id, login, source_ip, logon_date, is_succesful) values(@id, @login, @source_ip, @logon_date, @is_succesful)",
+                "update security_logins_log set login = @login, source_ip = @source_ip, logon_date = @logon_date, is_succesful = @is_succesful where id = @id",
+                "delete from security_logins_log where id = @id",
+                "select id, login, source_ip, logon_date, is_succesful from security_logins_log",
+                new UpdateCmdParameterSetterImpl(),
+                new DeleteCmdParameterSetterImpl(),
+                new RowMapperImpl())
         {
-            throw new NotImplementedException();
+
         }
 
-        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
+        private class UpdateCmdParameterSetterImpl : IDbCommandParameterSetter<SecurityLoginsLogPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, SecurityLoginsLogPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                cmd.Parameters.Add(new SqlParameter("@login", item.Login));
+                cmd.Parameters.Add(new SqlParameter("@source_ip", item.SourceIP));
+                cmd.Parameters.Add(new SqlParameter("@logon_date", item.LogonDate));
+                cmd.Parameters.Add(new SqlParameter("@is_succesful", item.IsSuccesful));
+            }
         }
 
-        public IList<SecurityLoginsLogPoco> GetAll(params Expression<Func<SecurityLoginsLogPoco, object>>[] navigationProperties)
+        private class DeleteCmdParameterSetterImpl : IDbCommandParameterSetter<SecurityLoginsLogPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, SecurityLoginsLogPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+            }
         }
 
-        public IList<SecurityLoginsLogPoco> GetList(Expression<Func<SecurityLoginsLogPoco, bool>> where, params Expression<Func<SecurityLoginsLogPoco, object>>[] navigationProperties)
+        private class RowMapperImpl : IDbRowMapper<SecurityLoginsLogPoco>
         {
-            throw new NotImplementedException();
-        }
-
-        public SecurityLoginsLogPoco GetSingle(Expression<Func<SecurityLoginsLogPoco, bool>> where, params Expression<Func<SecurityLoginsLogPoco, object>>[] navigationProperties)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(params SecurityLoginsLogPoco[] items)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(params SecurityLoginsLogPoco[] items)
-        {
-            throw new NotImplementedException();
+            public SecurityLoginsLogPoco MapRow(DbDataReader reader)
+            {
+                return new SecurityLoginsLogPoco()
+                {
+                    Id = reader.GetGuid(0),
+                    Login = reader.GetGuid(1),
+                    SourceIP = reader.GetString(2),
+                    LogonDate = reader.GetDateTime(3),
+                    IsSuccesful = reader.GetBoolean(4)
+                };
+            }
         }
     }
 }
