@@ -1,44 +1,57 @@
-﻿using CareerCloud.DataAccessLayer;
-using CareerCloud.Pocos;
-using System.Linq.Expressions;
+﻿using CareerCloud.Pocos;
+using Microsoft.Data.SqlClient;
+using System.Data.Common;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class CompanyJobRepository : IDataRepository<CompanyJobPoco>
+    public class CompanyJobRepository : BaseRepositoryImpl<CompanyJobPoco>
     {
-        public void Add(params CompanyJobPoco[] items)
+        public CompanyJobRepository():
+            base("insert into company_jobs(id, company, profile_created, is_inactive, is_company_hidden) values(@id, @company, @profile_created, @is_inactive, @is_company_hidden)", 
+                "update company_jobs set company = @company, profile_created = @profile_created, is_inactive = @is_inactive, is_company_hidden = @is_company_hidden where id = @id", 
+                "delete from company_jobs where id = @id", 
+                "select id, company, profile_created, is_inactive, is_company_hidden, time_stamp from company_jobs", 
+                new UpdateCmdParameterSetterImpl(), 
+                new DeleteCmdParameterSetterImpl(), 
+                new RowMapperImpl())
         {
-            throw new NotImplementedException();
+            
         }
 
-        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
+        private class UpdateCmdParameterSetterImpl : IDbCommandParameterSetter<CompanyJobPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, CompanyJobPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                cmd.Parameters.Add(new SqlParameter("@company", item.Company));
+                cmd.Parameters.Add(new SqlParameter("@profile_created", item.ProfileCreated));
+                cmd.Parameters.Add(new SqlParameter("@is_inactive", item.IsInactive));
+                cmd.Parameters.Add(new SqlParameter("@is_company_hidden", item.IsCompanyHidden));
+            }
         }
 
-        public IList<CompanyJobPoco> GetAll(params Expression<Func<CompanyJobPoco, object>>[] navigationProperties)
+        private class DeleteCmdParameterSetterImpl : IDbCommandParameterSetter<CompanyJobPoco>
         {
-            throw new NotImplementedException();
+            public void SetValues(DbCommand cmd, CompanyJobPoco item)
+            {
+                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+            }
         }
 
-        public IList<CompanyJobPoco> GetList(Expression<Func<CompanyJobPoco, bool>> where, params Expression<Func<CompanyJobPoco, object>>[] navigationProperties)
+        private class RowMapperImpl : IDbRowMapper<CompanyJobPoco>
         {
-            throw new NotImplementedException();
-        }
-
-        public CompanyJobPoco GetSingle(Expression<Func<CompanyJobPoco, bool>> where, params Expression<Func<CompanyJobPoco, object>>[] navigationProperties)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(params CompanyJobPoco[] items)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(params CompanyJobPoco[] items)
-        {
-            throw new NotImplementedException();
+            public CompanyJobPoco MapRow(DbDataReader reader)
+            {
+                return new CompanyJobPoco()
+                {
+                    Id = reader.GetGuid(0),
+                    Company = reader.GetGuid(1),
+                    ProfileCreated = reader.GetDateTime(2),
+                    IsInactive = reader.GetBoolean(3),
+                    IsCompanyHidden = reader.GetBoolean(4),
+                    TimeStamp = reader.GetValue(5) as byte[] ?? []
+                };
+            }
         }
     }
 }
