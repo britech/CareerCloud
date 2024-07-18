@@ -3,44 +3,22 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class BaseRepositoryImpl<T> : IDataRepository<T>
+    public class BaseRepositoryImpl<T>(DbHelper DbHelper,
+        string InsertQuery, string UpdateQuery, string DeleteQuery, string SelectQuery,
+        IDbCommandParameterSetter<T> UpdateCmdParameterSetter,
+        IDbCommandParameterSetter<T> DeleteCmdParameterSetter,
+        IDbRowMapper<T> RowMapper) : IDataRepository<T>
         where T : class
     {
-        private DbHelper DbHelper { get; init; }
-        private string InsertQuery { get; init; }
-        private string UpdateQuery { get; init; }
-        private string DeleteQuery { get; init; }
-        private string SelectQuery { get; init; }
-        private IDbCommandParameterSetter<T> UpdateCmdParameterSetter { get; init; }
-        private IDbCommandParameterSetter<T> DeleteCmdParameterSetter { get; init; }
-        private IDbRowMapper<T> RowMapper { get; init; }
+        private DbHelper DbHelper { get; init; } = DbHelper;
+        private string InsertQuery { get; init; } = InsertQuery;
+        private string UpdateQuery { get; init; } = UpdateQuery;
+        private string DeleteQuery { get; init; } = DeleteQuery;
+        private string SelectQuery { get; init; } = SelectQuery;
+        private IDbCommandParameterSetter<T> UpdateCmdParameterSetter { get; init; } = UpdateCmdParameterSetter;
+        private IDbCommandParameterSetter<T> DeleteCmdParameterSetter { get; init; } = DeleteCmdParameterSetter;
+        private IDbRowMapper<T> RowMapper { get; init; } = RowMapper;
 
-        public BaseRepositoryImpl(string InsertQuery, string UpdateQuery, string DeleteQuery, string SelectQuery,
-            IDbCommandParameterSetter<T> UpdateCmdParameterSetter, 
-            IDbCommandParameterSetter<T> DeleteCmdParameterSetter,
-            IDbRowMapper<T> rowMapper) : 
-            this(new DbHelper(ApplicationConstants.CONNECTION_STRING), InsertQuery, UpdateQuery, DeleteQuery, SelectQuery,
-                UpdateCmdParameterSetter, DeleteCmdParameterSetter, rowMapper)
-        {
-            
-        }
-
-        public BaseRepositoryImpl(DbHelper dbHelper, 
-            string InsertQuery, string UpdateQuery, string DeleteQuery, string SelectQuery, 
-            IDbCommandParameterSetter<T> UpdateCmdParameterSetter, 
-            IDbCommandParameterSetter<T> DeleteCmdParameterSetter, 
-            IDbRowMapper<T> RowMapper)
-        {
-            this.DbHelper = dbHelper;
-            this.InsertQuery = InsertQuery;
-            this.UpdateQuery = UpdateQuery;
-            this.DeleteQuery = DeleteQuery;
-            this.SelectQuery = SelectQuery;
-            this.UpdateCmdParameterSetter = UpdateCmdParameterSetter;
-            this.DeleteCmdParameterSetter = DeleteCmdParameterSetter;
-            this.RowMapper = RowMapper;
-        }
-        
         public virtual void Add(params T[] items)
         {
             DbHelper.Update(InsertQuery, UpdateCmdParameterSetter, items);
