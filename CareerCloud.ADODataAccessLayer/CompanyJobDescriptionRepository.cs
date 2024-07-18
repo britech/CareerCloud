@@ -7,7 +7,8 @@ namespace CareerCloud.ADODataAccessLayer
     public class CompanyJobDescriptionRepository : BaseRepositoryImpl<CompanyJobDescriptionPoco>
     {
         public CompanyJobDescriptionRepository() : 
-            base("insert into company_jobs_descriptions(id, job, job_name, job_descriptions) values(@id, @job, @job_name, @job_descriptions)", 
+            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
+                "insert into company_jobs_descriptions(id, job, job_name, job_descriptions) values(@id, @job, @job_name, @job_descriptions)", 
                 "update company_jobs_descriptions set id = @id, job = @job, job_name = @job_name, job_descriptions = @job_descriptions where id = @id", 
                 "delete from company_jobs_descriptions where id = @id", 
                 "select id, job, job_name, job_descriptions, time_stamp from company_jobs_descriptions", 

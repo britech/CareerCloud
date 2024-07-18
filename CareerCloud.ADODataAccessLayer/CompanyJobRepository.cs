@@ -7,7 +7,8 @@ namespace CareerCloud.ADODataAccessLayer
     public class CompanyJobRepository : BaseRepositoryImpl<CompanyJobPoco>
     {
         public CompanyJobRepository():
-            base("insert into company_jobs(id, company, profile_created, is_inactive, is_company_hidden) values(@id, @company, @profile_created, @is_inactive, @is_company_hidden)", 
+            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
+                "insert into company_jobs(id, company, profile_created, is_inactive, is_company_hidden) values(@id, @company, @profile_created, @is_inactive, @is_company_hidden)", 
                 "update company_jobs set company = @company, profile_created = @profile_created, is_inactive = @is_inactive, is_company_hidden = @is_company_hidden where id = @id", 
                 "delete from company_jobs where id = @id", 
                 "select id, company, profile_created, is_inactive, is_company_hidden, time_stamp from company_jobs", 

@@ -7,7 +7,8 @@ namespace CareerCloud.ADODataAccessLayer
     public class ApplicantSkillRepository : BaseRepositoryImpl<ApplicantSkillPoco>
     {
         public ApplicantSkillRepository():
-            base("insert into applicant_skills(id, applicant, skill, skill_level, start_month, start_year, end_month, end_year) values(@id, @applicant, @skill, @skill_level, @start_month, @start_year, @end_month, @end_year)", 
+            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
+                "insert into applicant_skills(id, applicant, skill, skill_level, start_month, start_year, end_month, end_year) values(@id, @applicant, @skill, @skill_level, @start_month, @start_year, @end_month, @end_year)", 
                 "update applicant_skills set applicant = @applicant, skill = @skill, skill_level = @skill_level, start_month = @start_month, start_year = @start_year, end_month = @end_month, end_year = @end_year where id = @id", 
                 "delete from applicant_skills where id = @id", 
                 "select id, applicant, skill, skill_level, start_month, start_year, end_month, end_year, time_stamp from applicant_skills", 

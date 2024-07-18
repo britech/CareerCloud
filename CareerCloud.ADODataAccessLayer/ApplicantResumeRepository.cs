@@ -7,7 +7,8 @@ namespace CareerCloud.ADODataAccessLayer
     public class ApplicantResumeRepository : BaseRepositoryImpl<ApplicantResumePoco>
     {
         public ApplicantResumeRepository() :
-            base("insert into applicant_resumes(id, applicant, resume, last_updated) values(@id, @applicant, @resume, @last_updated)",
+            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
+                "insert into applicant_resumes(id, applicant, resume, last_updated) values(@id, @applicant, @resume, @last_updated)",
                 "update applicant_resumes set applicant = @applicant, resume = @resume, last_updated = @last_updated where id = @id",
                 "delete from applicant_resumes where id = @id",
                 "select id, applicant, resume, last_updated from applicant_resumes",

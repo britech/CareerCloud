@@ -7,7 +7,8 @@ namespace CareerCloud.ADODataAccessLayer
     public class ApplicantProfileRepository : BaseRepositoryImpl<ApplicantProfilePoco>
     {
         public ApplicantProfileRepository():
-            base("insert into applicant_profiles(id, login, current_salary, current_rate, currency, country_code, state_province_code, street_address, city_town, zip_postal_code) values(@id, @login, @current_salary, @current_rate, @currency, @country_code, @state_province_code, @street_address, @city_town, @zip_postal_code)",
+            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
+                "insert into applicant_profiles(id, login, current_salary, current_rate, currency, country_code, state_province_code, street_address, city_town, zip_postal_code) values(@id, @login, @current_salary, @current_rate, @currency, @country_code, @state_province_code, @street_address, @city_town, @zip_postal_code)",
                 "update applicant_profiles set login = @login, current_salary = @current_salary, current_rate = @current_rate, currency = @currency, country_code = @country_code, state_province_code = @state_province_code, street_address = @street_address, city_town = @city_town, zip_postal_code = @zip_postal_code where id = @id",
                 "delete from applicant_profiles where id = @id",
                 "select id, login, current_salary, current_rate, currency, country_code, state_province_code, street_address, city_town, zip_postal_code, time_stamp from applicant_profiles",

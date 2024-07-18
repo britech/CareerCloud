@@ -7,7 +7,8 @@ namespace CareerCloud.ADODataAccessLayer
     public class ApplicantWorkHistoryRepository : BaseRepositoryImpl<ApplicantWorkHistoryPoco>
     {
         public ApplicantWorkHistoryRepository() : 
-            base("insert into applicant_work_history(id, applicant, company_name, country_code, location, job_title, job_description, start_month, start_year, end_month, end_year) values(@id, @applicant, @company_name, @country_code, @location, @job_title, @job_description, @start_month, @start_year, @end_month, @end_year)", 
+            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
+                "insert into applicant_work_history(id, applicant, company_name, country_code, location, job_title, job_description, start_month, start_year, end_month, end_year) values(@id, @applicant, @company_name, @country_code, @location, @job_title, @job_description, @start_month, @start_year, @end_month, @end_year)", 
                 "update applicant_work_history set applicant = @applicant, company_name = @company_name, country_code = @country_code, location = @location, job_title = @job_title, job_description = @job_description, start_month = @start_month, start_year = @start_year, end_month = @end_month, end_year = @end_year where id = @id", 
                 "delete from applicant_work_history where id = @id", 
                 "select id, applicant, company_name, country_code, location, job_title, job_description, start_month, start_year, end_month, end_year, time_stamp from applicant_work_history", 

@@ -7,7 +7,8 @@ namespace CareerCloud.ADODataAccessLayer
     public class ApplicantEducationRepository : BaseRepositoryImpl<ApplicantEducationPoco>
     {
         public ApplicantEducationRepository() :
-            base("insert into applicant_educations(id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent) values(@id, @applicant, @major, @certificate_diploma, @start_date, @completion_date, @completion_Percent)",
+            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
+                "insert into applicant_educations(id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent) values(@id, @applicant, @major, @certificate_diploma, @start_date, @completion_date, @completion_Percent)",
                 "update applicant_educations set applicant = @applicant, major = @major, certificate_diploma = @certificate_diploma, start_date = @start_date, completion_date = @completion_date, completion_percent = @completion_percent where id = @id",
                 "delete from applicant_educations where id = @id",
                 "select id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent, time_stamp from applicant_educations",
@@ -15,7 +16,7 @@ namespace CareerCloud.ADODataAccessLayer
                 new DeleteCmdParamterSetterImpl(),
                 new RowMapperImpl())
         {
-
+            
         }
 
         private class UpdateCmdParameterSetterImpl : IDbCommandParameterSetter<ApplicantEducationPoco>
