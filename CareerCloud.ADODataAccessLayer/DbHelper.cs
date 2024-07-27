@@ -13,50 +13,8 @@ namespace CareerCloud.ADODataAccessLayer
             _connectionString = connectionString;
         }
 
-        public void Update<T>(string query, IDbCommandParameterSetter<T> setter, T[] items) where T : class
-        {
-            using (TransactionScope scope = new TransactionScope())
-            {
-                using (DbConnection connection = new SqlConnection(_connectionString))
-                {
-                    connection.Open();
-                    foreach (var item in items)
-                    {
-                        using (DbCommand cmd = connection.CreateCommand())
-                        {
-                            cmd.CommandText = query;
-                            setter.SetValues(cmd, item);
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    scope.Complete();
-                }
-            }
-        }
-
-        public IList<T> Query<T>(string query, IDbRowMapper<T> mapper) where T : class
-        {
-            IList<T> items = new List<T>();
-            using(DbConnection connection = new SqlConnection(_connectionString))
-            {
-                using (DbCommand cmd = connection.CreateCommand())
-                {
-                    cmd.CommandText = query;
-                    connection.Open();
-                    using (DbDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            items.Add(mapper.MapRow(reader));
-                        }
-                    }
-                }
-            }
-            return items;
-        }
-
-        public void Update<T>(string query, Action<DbCommand, T> parameterSetterAction, T[] items) 
-            where T : class
+        public void Update<T>(string query, Action<DbCommand, T> parameterSetterAction, T[] items)
+             where T : class
         {
             using (TransactionScope scope = new TransactionScope())
             {
@@ -77,8 +35,8 @@ namespace CareerCloud.ADODataAccessLayer
             }
         }
 
-        public IList<T> Query<T>(string query, Func<DbDataReader, T> rowMapperFunc) 
-            where T : class 
+        public IList<T> Query<T>(string query, Func<DbDataReader, T> rowMapperFunc)
+            where T : class
         {
             IList<T> items = new List<T>();
             using (DbConnection connection = new SqlConnection(_connectionString))
