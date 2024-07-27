@@ -1,54 +1,78 @@
-﻿using CareerCloud.Pocos;
+﻿using CareerCloud.DataAccessLayer;
+using CareerCloud.Pocos;
 using Microsoft.Data.SqlClient;
-using System.Data.Common;
+using System.Linq.Expressions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class SecurityLoginsRoleRepository : BaseRepositoryImpl<SecurityLoginsRolePoco>
+    public class SecurityLoginsRoleRepository : IDataRepository<SecurityLoginsRolePoco>
     {
-        public SecurityLoginsRoleRepository() :
-            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
-                "insert into security_logins_roles(id, login, role) values(@id, @login, @role)",
-                "update security_logins_roles set login = @login, role = @role where id = @id",
-                "delete from security_logins_roles where id = @id",
-                "select id, login, role, time_stamp from security_logins_roles",
-                new UpdateCmdParameterSetterImpl(),
-                new DeleteCmdParameterSetterImpl(),
-                new RowMapperImpl())
-        {
+        private readonly DbHelper _dbHelper;
 
+        public SecurityLoginsRoleRepository()
+        {
+            _dbHelper = new DbHelper(ApplicationConstants.CONNECTION_STRING);
         }
 
-        private class UpdateCmdParameterSetterImpl : IDbCommandParameterSetter<SecurityLoginsRolePoco>
+        public void Add(params SecurityLoginsRolePoco[] items)
         {
-            public void SetValues(DbCommand cmd, SecurityLoginsRolePoco item)
-            {
-                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
-                cmd.Parameters.Add(new SqlParameter("@login", item.Login));
-                cmd.Parameters.Add(new SqlParameter("@role", item.Role));
-            }
-        }
-
-        private class DeleteCmdParameterSetterImpl : IDbCommandParameterSetter<SecurityLoginsRolePoco>
-        {
-            public void SetValues(DbCommand cmd, SecurityLoginsRolePoco item)
-            {
-                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
-            }
-        }
-
-        private class RowMapperImpl : IDbRowMapper<SecurityLoginsRolePoco>
-        {
-            public SecurityLoginsRolePoco MapRow(DbDataReader reader)
-            {
-                return new SecurityLoginsRolePoco()
+            _dbHelper.Update("insert into security_logins_roles(id, login, role) values(@id, @login, @role)",
+                (cmd, item) =>
                 {
-                    Id = reader.GetGuid(0),
-                    Login = reader.GetGuid(1),
-                    Role = reader.GetGuid(2),
-                    TimeStamp = reader.GetValue(3) as byte[] ?? null
-                };
-            }
+                    cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                    cmd.Parameters.Add(new SqlParameter("@login", item.Login));
+                    cmd.Parameters.Add(new SqlParameter("@role", item.Role));
+                }, items);
+        }
+
+        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<SecurityLoginsRolePoco> GetAll(params Expression<Func<SecurityLoginsRolePoco, object>>[] navigationProperties)
+        {
+            return _dbHelper.Query("select id, login, role, time_stamp from security_logins_roles",
+                reader =>
+                {
+                    return new SecurityLoginsRolePoco()
+                    {
+                        Id = reader.GetGuid(0),
+                        Login = reader.GetGuid(1),
+                        Role = reader.GetGuid(2),
+                        TimeStamp = reader.GetValue(3) as byte[] ?? null
+                    };
+                });
+        }
+
+        public IList<SecurityLoginsRolePoco> GetList(Expression<Func<SecurityLoginsRolePoco, bool>> where, params Expression<Func<SecurityLoginsRolePoco, object>>[] navigationProperties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SecurityLoginsRolePoco GetSingle(Expression<Func<SecurityLoginsRolePoco, bool>> where, params Expression<Func<SecurityLoginsRolePoco, object>>[] navigationProperties)
+        {
+            return GetAll().AsQueryable().Where(where).FirstOrDefault(null as SecurityLoginsRolePoco)!;
+        }
+
+        public void Remove(params SecurityLoginsRolePoco[] items)
+        {
+            _dbHelper.Update("delete from security_logins_roles where id = @id",
+                (cmd, item) =>
+                {
+                    cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                }, items);
+        }
+
+        public void Update(params SecurityLoginsRolePoco[] items)
+        {
+            _dbHelper.Update("update security_logins_roles set login = @login, role = @role where id = @id",
+                (cmd, item) =>
+                {
+                    cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                    cmd.Parameters.Add(new SqlParameter("@login", item.Login));
+                    cmd.Parameters.Add(new SqlParameter("@role", item.Role));
+                }, items);
         }
     }
 }

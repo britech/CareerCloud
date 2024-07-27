@@ -1,57 +1,83 @@
-﻿using CareerCloud.Pocos;
+﻿using CareerCloud.DataAccessLayer;
+using CareerCloud.Pocos;
 using Microsoft.Data.SqlClient;
-using System.Data.Common;
+using System.Linq.Expressions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class SecurityLoginsLogRepository : BaseRepositoryImpl<SecurityLoginsLogPoco>
+    public class SecurityLoginsLogRepository : IDataRepository<SecurityLoginsLogPoco>
     {
-        public SecurityLoginsLogRepository() : 
-            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
-                "insert into security_logins_log(id, login, source_ip, logon_date, is_succesful) values(@id, @login, @source_ip, @logon_date, @is_succesful)",
-                "update security_logins_log set login = @login, source_ip = @source_ip, logon_date = @logon_date, is_succesful = @is_succesful where id = @id",
-                "delete from security_logins_log where id = @id",
-                "select id, login, source_ip, logon_date, is_succesful from security_logins_log",
-                new UpdateCmdParameterSetterImpl(),
-                new DeleteCmdParameterSetterImpl(),
-                new RowMapperImpl())
-        {
+        private readonly DbHelper _dbHelper;
 
+        public SecurityLoginsLogRepository()
+        {
+            _dbHelper = new DbHelper(ApplicationConstants.CONNECTION_STRING);
         }
 
-        private class UpdateCmdParameterSetterImpl : IDbCommandParameterSetter<SecurityLoginsLogPoco>
+        public void Add(params SecurityLoginsLogPoco[] items)
         {
-            public void SetValues(DbCommand cmd, SecurityLoginsLogPoco item)
-            {
-                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
-                cmd.Parameters.Add(new SqlParameter("@login", item.Login));
-                cmd.Parameters.Add(new SqlParameter("@source_ip", item.SourceIP));
-                cmd.Parameters.Add(new SqlParameter("@logon_date", item.LogonDate));
-                cmd.Parameters.Add(new SqlParameter("@is_succesful", item.IsSuccesful));
-            }
-        }
-
-        private class DeleteCmdParameterSetterImpl : IDbCommandParameterSetter<SecurityLoginsLogPoco>
-        {
-            public void SetValues(DbCommand cmd, SecurityLoginsLogPoco item)
-            {
-                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
-            }
-        }
-
-        private class RowMapperImpl : IDbRowMapper<SecurityLoginsLogPoco>
-        {
-            public SecurityLoginsLogPoco MapRow(DbDataReader reader)
-            {
-                return new SecurityLoginsLogPoco()
+            _dbHelper.Update("insert into security_logins_log(id, login, source_ip, logon_date, is_succesful) values(@id, @login, @source_ip, @logon_date, @is_succesful)",
+                (cmd, item) =>
                 {
-                    Id = reader.GetGuid(0),
-                    Login = reader.GetGuid(1),
-                    SourceIP = reader.GetString(2),
-                    LogonDate = reader.GetDateTime(3),
-                    IsSuccesful = reader.GetBoolean(4)
-                };
-            }
+                    cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                    cmd.Parameters.Add(new SqlParameter("@login", item.Login));
+                    cmd.Parameters.Add(new SqlParameter("@source_ip", item.SourceIP));
+                    cmd.Parameters.Add(new SqlParameter("@logon_date", item.LogonDate));
+                    cmd.Parameters.Add(new SqlParameter("@is_succesful", item.IsSuccesful));
+                }, items);
+        }
+
+        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<SecurityLoginsLogPoco> GetAll(params Expression<Func<SecurityLoginsLogPoco, object>>[] navigationProperties)
+        {
+            return _dbHelper.Query("select id, login, source_ip, logon_date, is_succesful from security_logins_log",
+                reader =>
+                {
+                    return new SecurityLoginsLogPoco()
+                    {
+                        Id = reader.GetGuid(0),
+                        Login = reader.GetGuid(1),
+                        SourceIP = reader.GetString(2),
+                        LogonDate = reader.GetDateTime(3),
+                        IsSuccesful = reader.GetBoolean(4)
+                    };
+                });
+        }
+
+        public IList<SecurityLoginsLogPoco> GetList(Expression<Func<SecurityLoginsLogPoco, bool>> where, params Expression<Func<SecurityLoginsLogPoco, object>>[] navigationProperties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SecurityLoginsLogPoco GetSingle(Expression<Func<SecurityLoginsLogPoco, bool>> where, params Expression<Func<SecurityLoginsLogPoco, object>>[] navigationProperties)
+        {
+            return GetAll().AsQueryable().Where(where).FirstOrDefault(null as SecurityLoginsLogPoco)!;
+        }
+
+        public void Remove(params SecurityLoginsLogPoco[] items)
+        {
+            _dbHelper.Update("delete from security_logins_log where id = @id",
+                (cmd, item) =>
+                {
+                    cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                }, items);
+        }
+
+        public void Update(params SecurityLoginsLogPoco[] items)
+        {
+            _dbHelper.Update("update security_logins_log set login = @login, source_ip = @source_ip, logon_date = @logon_date, is_succesful = @is_succesful where id = @id",
+                (cmd, item) =>
+                {
+                    cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                    cmd.Parameters.Add(new SqlParameter("@login", item.Login));
+                    cmd.Parameters.Add(new SqlParameter("@source_ip", item.SourceIP));
+                    cmd.Parameters.Add(new SqlParameter("@logon_date", item.LogonDate));
+                    cmd.Parameters.Add(new SqlParameter("@is_succesful", item.IsSuccesful));
+                }, items);
         }
     }
 }

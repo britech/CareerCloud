@@ -1,62 +1,90 @@
-﻿using CareerCloud.Pocos;
+﻿using CareerCloud.DataAccessLayer;
+using CareerCloud.Pocos;
 using Microsoft.Data.SqlClient;
-using System.Data.Common;
+using System.Linq.Expressions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class CompanyLocationRepository : BaseRepositoryImpl<CompanyLocationPoco>
+    public class CompanyLocationRepository : IDataRepository<CompanyLocationPoco>
     {
-        public CompanyLocationRepository() :
-            base(new DbHelper(ApplicationConstants.CONNECTION_STRING),
-                "insert into company_locations(id, company, country_code, state_province_code, street_address, city_town, zip_postal_code) values(@id, @company, @country_code, @state_province_code, @street_address, @city_town, @zip_postal_code)",
-                "update company_locations set company = @company, country_code = @country_code, state_province_code = @state_province_code, street_address = @street_address, city_town = @city_town, zip_postal_code = @zip_postal_code where id = @id",
-                "delete from company_locations where id = @id",
-                "select id, company, country_code, state_province_code, street_address, city_town, zip_postal_code, time_stamp from company_locations",
-                new UpdateCmdParameterSetterImpl(),
-                new DeleteCmdParameterSetterImpl(),
-                new RowMapperImpl())
-        {
+        private readonly DbHelper _dbHelper;
 
+        public CompanyLocationRepository()
+        {
+            _dbHelper = new DbHelper(ApplicationConstants.CONNECTION_STRING);
         }
 
-        private class UpdateCmdParameterSetterImpl : IDbCommandParameterSetter<CompanyLocationPoco>
+        public void Add(params CompanyLocationPoco[] items)
         {
-            public void SetValues(DbCommand cmd, CompanyLocationPoco item)
-            {
-                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
-                cmd.Parameters.Add(new SqlParameter("@company", item.Company));
-                cmd.Parameters.Add(new SqlParameter("@country_code", item.CountryCode));
-                cmd.Parameters.Add(new SqlParameter("@state_province_code", item.Province));
-                cmd.Parameters.Add(new SqlParameter("@street_address", item.Street));
-                cmd.Parameters.Add(new SqlParameter("@city_town", item.City));
-                cmd.Parameters.Add(new SqlParameter("@zip_postal_code", item.PostalCode));
-            }
-        }
-
-        private class DeleteCmdParameterSetterImpl : IDbCommandParameterSetter<CompanyLocationPoco>
-        {
-            public void SetValues(DbCommand cmd, CompanyLocationPoco item)
-            {
-                cmd.Parameters.Add(new SqlParameter("@id", item.Id));
-            }
-        }
-
-        private class RowMapperImpl : IDbRowMapper<CompanyLocationPoco>
-        {
-            public CompanyLocationPoco MapRow(DbDataReader reader)
-            {
-                return new CompanyLocationPoco()
+            _dbHelper.Update("insert into company_locations(id, company, country_code, state_province_code, street_address, city_town, zip_postal_code) values(@id, @company, @country_code, @state_province_code, @street_address, @city_town, @zip_postal_code)",
+                (cmd, item) =>
                 {
-                    Id = reader.GetGuid(0),
-                    Company = reader.GetGuid(1),
-                    CountryCode = reader.GetString(2),
-                    Province = reader.GetValue(3) as string ?? null,
-                    Street = reader.GetValue(4) as string ?? null,
-                    City = reader.GetValue(5) as string ?? null,
-                    PostalCode = reader.GetValue(6) as string ?? null,
-                    TimeStamp = reader.GetValue(7) as byte[] ?? []
-                };
-            }
+                    cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                    cmd.Parameters.Add(new SqlParameter("@company", item.Company));
+                    cmd.Parameters.Add(new SqlParameter("@country_code", item.CountryCode));
+                    cmd.Parameters.Add(new SqlParameter("@state_province_code", item.Province));
+                    cmd.Parameters.Add(new SqlParameter("@street_address", item.Street));
+                    cmd.Parameters.Add(new SqlParameter("@city_town", item.City));
+                    cmd.Parameters.Add(new SqlParameter("@zip_postal_code", item.PostalCode));
+                }, items);
+        }
+
+        public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<CompanyLocationPoco> GetAll(params Expression<Func<CompanyLocationPoco, object>>[] navigationProperties)
+        {
+            return _dbHelper.Query("select id, company, country_code, state_province_code, street_address, city_town, zip_postal_code, time_stamp from company_locations",
+                reader =>
+                {
+                    return new CompanyLocationPoco()
+                    {
+                        Id = reader.GetGuid(0),
+                        Company = reader.GetGuid(1),
+                        CountryCode = reader.GetString(2),
+                        Province = reader.GetValue(3) as string ?? null,
+                        Street = reader.GetValue(4) as string ?? null,
+                        City = reader.GetValue(5) as string ?? null,
+                        PostalCode = reader.GetValue(6) as string ?? null,
+                        TimeStamp = reader.GetValue(7) as byte[] ?? []
+                    };
+                });
+        }
+
+        public IList<CompanyLocationPoco> GetList(Expression<Func<CompanyLocationPoco, bool>> where, params Expression<Func<CompanyLocationPoco, object>>[] navigationProperties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CompanyLocationPoco GetSingle(Expression<Func<CompanyLocationPoco, bool>> where, params Expression<Func<CompanyLocationPoco, object>>[] navigationProperties)
+        {
+            return GetAll().AsQueryable().Where(where).FirstOrDefault(null as CompanyLocationPoco)!;
+        }
+
+        public void Remove(params CompanyLocationPoco[] items)
+        {
+            _dbHelper.Update("delete from company_locations where id = @id",
+                (cmd, item) =>
+                {
+                    cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                }, items);
+        }
+
+        public void Update(params CompanyLocationPoco[] items)
+        {
+            _dbHelper.Update("update company_locations set company = @company, country_code = @country_code, state_province_code = @state_province_code, street_address = @street_address, city_town = @city_town, zip_postal_code = @zip_postal_code where id = @id",
+                (cmd, item) =>
+                {
+                    cmd.Parameters.Add(new SqlParameter("@id", item.Id));
+                    cmd.Parameters.Add(new SqlParameter("@company", item.Company));
+                    cmd.Parameters.Add(new SqlParameter("@country_code", item.CountryCode));
+                    cmd.Parameters.Add(new SqlParameter("@state_province_code", item.Province));
+                    cmd.Parameters.Add(new SqlParameter("@street_address", item.Street));
+                    cmd.Parameters.Add(new SqlParameter("@city_town", item.City));
+                    cmd.Parameters.Add(new SqlParameter("@zip_postal_code", item.PostalCode));
+                }, items);
         }
     }
 }
