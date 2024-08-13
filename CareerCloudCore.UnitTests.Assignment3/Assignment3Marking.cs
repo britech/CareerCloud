@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using CareerCloud.DataAccessLayer;
@@ -7,11 +7,10 @@ using CareerCloud.BusinessLogicLayer;
 using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace CareerCloud.UnitTests.Assignment3
 {
-    [TestCategory("Assignment 3 Marking")]
+    [TestCategory("Assignment 3 Marking") ]
     [TestClass]
     public class Assignment3Marking
     {
@@ -635,7 +634,7 @@ namespace CareerCloud.UnitTests.Assignment3
             CompanyJobEducationLogic logic = new CompanyJobEducationLogic(moqRepo.Object);
             try
             {
-                logic.Add(new CompanyJobEducationPoco[] { new CompanyJobEducationPoco() { Importance = -1 } });
+                logic.Add(new CompanyJobEducationPoco[] { new CompanyJobEducationPoco() { Importance = -1} });
                 Assert.Fail("No validaton exception generated");
             }
             catch (AggregateException e)
@@ -665,7 +664,7 @@ namespace CareerCloud.UnitTests.Assignment3
         #endregion CompanyJobEducation_Tests
 
         #region CompanyJobDescription_Tests()
-
+        
         [TestMethod]
         public void CompanyJobDescription_JobName_CannotBeEmpty_Add_Test()
         {
@@ -673,7 +672,7 @@ namespace CareerCloud.UnitTests.Assignment3
             CompanyJobDescriptionLogic logic = new CompanyJobDescriptionLogic(moqRepo.Object);
             try
             {
-                logic.Add(new CompanyJobDescriptionPoco[] { new CompanyJobDescriptionPoco() });
+                logic.Add(new CompanyJobDescriptionPoco[] { new CompanyJobDescriptionPoco()});
                 Assert.Fail("No validaton exception generated");
             }
             catch (AggregateException e)
@@ -744,7 +743,7 @@ namespace CareerCloud.UnitTests.Assignment3
             CompanyJobSkillLogic logic = new CompanyJobSkillLogic(moqRepo.Object);
             try
             {
-                logic.Add(new CompanyJobSkillPoco[] { new CompanyJobSkillPoco() { Importance = -1 } });
+                logic.Add(new CompanyJobSkillPoco[] { new CompanyJobSkillPoco() {Importance = -1 } });
                 Assert.Fail("No validaton exception generated");
             }
             catch (AggregateException e)
@@ -781,7 +780,7 @@ namespace CareerCloud.UnitTests.Assignment3
             CompanyLocationLogic logic = new CompanyLocationLogic(moqRepo.Object);
             try
             {
-                logic.Add(new CompanyLocationPoco[] { new CompanyLocationPoco() });
+                logic.Add(new CompanyLocationPoco[] { new CompanyLocationPoco()  });
                 Assert.Fail("No validaton exception generated");
             }
             catch (AggregateException e)
@@ -957,7 +956,7 @@ namespace CareerCloud.UnitTests.Assignment3
                 logic.Add(new CompanyProfilePoco[] { new CompanyProfilePoco() { CompanyWebsite = "www.something.edu" } });
                 Assert.Fail("No validaton exception generated");
             }
-            catch (AggregateException e)
+            catch (AggregateException e )
             {
                 IEnumerable<ValidationException> exceptions = e.InnerExceptions.Cast<ValidationException>();
                 Assert.IsTrue(exceptions.Any(ex => ex.Code == 600));
@@ -1076,7 +1075,7 @@ namespace CareerCloud.UnitTests.Assignment3
             SecurityLoginLogic logic = new SecurityLoginLogic(moqRepo.Object);
             try
             {
-                logic.Add(new SecurityLoginPoco[] { new SecurityLoginPoco() { } });
+                logic.Add(new SecurityLoginPoco[] { new SecurityLoginPoco() {  } });
                 Assert.Fail("No validaton exception generated");
             }
             catch (AggregateException e)
@@ -1127,7 +1126,7 @@ namespace CareerCloud.UnitTests.Assignment3
             SecurityLoginLogic logic = new SecurityLoginLogic(moqRepo.Object);
             try
             {
-                logic.Add(new SecurityLoginPoco[] { new SecurityLoginPoco() { } });
+                logic.Add(new SecurityLoginPoco[] { new SecurityLoginPoco() {} });
                 Assert.Fail("No validaton exception generated");
             }
             catch (AggregateException e)
