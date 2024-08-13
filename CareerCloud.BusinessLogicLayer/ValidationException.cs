@@ -1,11 +1,6 @@
 ﻿namespace CareerCloud.BusinessLogicLayer;
 
-public class ValidationException : Exception
+public class ValidationException(string message, int code) : Exception(message)
 {
-    public int Code { get; init; }
-
-    public ValidationException(string message, int code) : base(message)
-    { 
-        this.Code = code;
-    }
+    public int Code { get; init; } = code;
 }
