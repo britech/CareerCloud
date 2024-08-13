@@ -6,7 +6,21 @@ public abstract class AbstractBaseLogic<TPoco, TPocoId>(IDataRepository<TPoco> r
 {
     protected IDataRepository<TPoco> Repository { get; init; } = repository;
 
-    protected abstract void Verify(TPoco[] items);
+    protected virtual void Verify(TPoco[] items)
+    {
+        List<ValidationException> validationErrors = new List<ValidationException>();
+        foreach(TPoco item in items)
+        {
+            Verify(item, validationErrors);
+        }
+
+        if (validationErrors.Count > 0)
+        {
+            throw new AggregateException(validationErrors);
+        }
+    }
+
+    protected abstract void Verify(TPoco item, List<ValidationException> validationErrors);
 
     public abstract TPoco Get(TPocoId id);
 
