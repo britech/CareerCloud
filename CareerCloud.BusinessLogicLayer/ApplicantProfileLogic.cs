@@ -9,7 +9,7 @@ public class ApplicantProfileLogic : BaseLogic<ApplicantProfilePoco>
     {
     }
 
-    protected override void Verify(ApplicantProfilePoco[] pocos)
+    protected override void Verify(ApplicantProfilePoco item, List<ValidationException> validationErrors)
     {
         throw new NotImplementedException();
     }

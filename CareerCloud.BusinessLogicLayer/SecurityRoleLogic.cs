@@ -9,8 +9,8 @@ public class SecurityRoleLogic : BaseLogic<SecurityRolePoco>
     {
     }
 
-    protected override void Verify(SecurityRolePoco[] items)
+    protected override void Verify(SecurityRolePoco item, List<ValidationException> validationErrors)
     {
-        throw new NotImplementedException();
+        
     }
 }

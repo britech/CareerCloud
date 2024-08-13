@@ -9,7 +9,7 @@ public class CompanyProfileLogic : BaseLogic<CompanyProfilePoco>
     {
     }
 
-    protected override void Verify(CompanyProfilePoco[] items)
+    protected override void Verify(CompanyProfilePoco item, List<ValidationException> validationErrors)
     {
         throw new NotImplementedException();
     }

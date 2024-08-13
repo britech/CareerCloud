@@ -14,7 +14,7 @@ public class SystemLanguageCodeLogic : AbstractBaseLogic<SystemLanguageCodePoco,
         throw new NotImplementedException();
     }
 
-    protected override void Verify(SystemLanguageCodePoco[] items)
+    protected override void Verify(SystemLanguageCodePoco item, List<ValidationException> validationErrors)
     {
         throw new NotImplementedException();
     }

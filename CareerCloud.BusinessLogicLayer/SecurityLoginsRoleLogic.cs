@@ -9,7 +9,7 @@ public class SecurityLoginsRoleLogic : BaseLogic<SecurityLoginsRolePoco>
     {
     }
 
-    protected override void Verify(SecurityLoginsRolePoco[] items)
+    protected override void Verify(SecurityLoginsRolePoco item, List<ValidationException> validationErrors)
     {
         throw new NotImplementedException();
     }

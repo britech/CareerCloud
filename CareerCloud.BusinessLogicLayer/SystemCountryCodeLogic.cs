@@ -14,7 +14,7 @@ public class SystemCountryCodeLogic : AbstractBaseLogic<SystemCountryCodePoco, s
         throw new NotImplementedException();
     }
 
-    protected override void Verify(SystemCountryCodePoco[] items)
+    protected override void Verify(SystemCountryCodePoco item, List<ValidationException> validationErrors)
     {
         throw new NotImplementedException();
     }

@@ -9,7 +9,7 @@ public class CompanyJobSkillLogic : BaseLogic<CompanyJobSkillPoco>
     {
     }
 
-    protected override void Verify(CompanyJobSkillPoco[] items)
+    protected override void Verify(CompanyJobSkillPoco item, List<ValidationException> validationErrors)
     {
         throw new NotImplementedException();
     }

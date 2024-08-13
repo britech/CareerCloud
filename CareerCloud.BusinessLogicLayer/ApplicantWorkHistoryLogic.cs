@@ -9,7 +9,7 @@ public class ApplicantWorkHistoryLogic : BaseLogic<ApplicantWorkHistoryPoco>
     {
     }
 
-    protected override void Verify(ApplicantWorkHistoryPoco[] items)
+    protected override void Verify(ApplicantWorkHistoryPoco item, List<ValidationException> validationErrors)
     {
         throw new NotImplementedException();
     }

@@ -10,7 +10,7 @@ public class ApplicantEducationLogic : BaseLogic<ApplicantEducationPoco>
     
     }
     
-    protected override void Verify(ApplicantEducationPoco[] pocos)
+    protected override void Verify(ApplicantEducationPoco item, List<ValidationException> validationErrors)
     {
         throw new NotImplementedException();
     }
