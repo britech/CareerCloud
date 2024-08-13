@@ -3,31 +3,26 @@ using CareerCloud.Pocos;
 
 namespace CareerCloud.BusinessLogicLayer;
 
-public abstract class BaseLogic<TPoco>
+public abstract class BaseLogic<TPoco> : AbstractBaseLogic<TPoco, Guid>
     where TPoco : IPoco
 {
     protected IDataRepository<TPoco> _repository;
-    public BaseLogic(IDataRepository<TPoco> repository)
+    public BaseLogic(IDataRepository<TPoco> repository) : base(repository)
     {
         _repository = repository;
     }
 
-    protected virtual void Verify(TPoco[] pocos)
+    protected override void Verify(TPoco[] pocos)
     {
         return;
     }
 
-    public virtual TPoco Get(Guid id)
+    public override TPoco Get(Guid id)
     {
         return _repository.GetSingle(c => c.Id == id);
     }
 
-    public virtual List<TPoco> GetAll()
-    {
-        return _repository.GetAll().ToList();
-    }
-
-    public virtual void Add(TPoco[] pocos)
+    public override void Add(TPoco[] pocos)
     {
         foreach (TPoco poco in pocos)
         {
@@ -37,16 +32,6 @@ public abstract class BaseLogic<TPoco>
             }
         }
 
-        _repository.Add(pocos);
-    }
-
-    public virtual void Update(TPoco[] pocos)
-    {
-        _repository.Update(pocos);
-    }
-
-    public void Delete(TPoco[] pocos)
-    {
-        _repository.Remove(pocos);
+        base.Add(pocos);
     }
 }
