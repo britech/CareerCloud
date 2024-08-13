@@ -12,11 +12,6 @@ public abstract class BaseLogic<TPoco> : AbstractBaseLogic<TPoco, Guid>
         _repository = repository;
     }
 
-    protected override void Verify(TPoco[] pocos)
-    {
-        return;
-    }
-
     public override TPoco Get(Guid id)
     {
         return _repository.GetSingle(c => c.Id == id);
