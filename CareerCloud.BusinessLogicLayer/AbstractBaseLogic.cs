@@ -4,7 +4,7 @@ namespace CareerCloud.BusinessLogicLayer;
 
 public abstract class AbstractBaseLogic<TPoco, TPocoId>(IDataRepository<TPoco> repository)
 {
-    private readonly IDataRepository<TPoco> _repository = repository;
+    protected IDataRepository<TPoco> Repository { get; init; } = repository;
 
     protected abstract void Verify(TPoco[] items);
 
@@ -12,23 +12,23 @@ public abstract class AbstractBaseLogic<TPoco, TPocoId>(IDataRepository<TPoco> r
 
     public virtual List<TPoco> GetAll()
     {
-        return _repository.GetAll().ToList();
+        return Repository.GetAll().ToList();
     }
 
     public virtual void Add(TPoco[] items)
     {
         Verify(items);
-        _repository.Add(items);
+        Repository.Add(items);
     }
 
     public virtual void Update(TPoco[] items)
     {
         Verify(items);
-        _repository.Update(items);
+        Repository.Update(items);
     }
 
     public virtual void Delete(TPoco[] items)
     {
-        _repository.Remove(items);
+        Repository.Remove(items);
     }
 }
