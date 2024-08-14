@@ -3,7 +3,7 @@ using CareerCloud.Pocos;
 
 namespace CareerCloud.BusinessLogicLayer;
 
-public class SystemLanguageCodeLogic : AbstractBaseLogic<SystemLanguageCodePoco, string>
+public class SystemLanguageCodeLogic : AbstractValidatedPocoCRUDService<SystemLanguageCodePoco, string>
 {
     public SystemLanguageCodeLogic(IDataRepository<SystemLanguageCodePoco> repository) : base(repository)
     {
@@ -14,7 +14,7 @@ public class SystemLanguageCodeLogic : AbstractBaseLogic<SystemLanguageCodePoco,
         throw new NotImplementedException();
     }
 
-    protected override void Verify(SystemLanguageCodePoco item, List<ValidationException> validationErrors)
+    protected override void Verify(SystemLanguageCodePoco[] items)
     {
         throw new NotImplementedException();
     }

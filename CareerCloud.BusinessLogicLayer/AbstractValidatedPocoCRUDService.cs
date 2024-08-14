@@ -2,25 +2,11 @@
 
 namespace CareerCloud.BusinessLogicLayer;
 
-public abstract class AbstractBaseLogic<TPoco, TPocoId>(IDataRepository<TPoco> repository)
+public abstract class AbstractValidatedPocoCRUDService<TPoco, TPocoId>(IDataRepository<TPoco> repository)
 {
     protected IDataRepository<TPoco> Repository { get; init; } = repository;
 
-    protected virtual void Verify(TPoco[] items)
-    {
-        List<ValidationException> validationErrors = new List<ValidationException>();
-        foreach(TPoco item in items)
-        {
-            Verify(item, validationErrors);
-        }
-
-        if (validationErrors.Count > 0)
-        {
-            throw new AggregateException(validationErrors);
-        }
-    }
-
-    protected abstract void Verify(TPoco item, List<ValidationException> validationErrors);
+    protected abstract void Verify(TPoco[] items);
 
     public abstract TPoco Get(TPocoId id);
 
