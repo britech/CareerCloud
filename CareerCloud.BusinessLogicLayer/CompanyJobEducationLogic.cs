@@ -7,7 +7,22 @@ public class CompanyJobEducationLogic(IDataRepository<CompanyJobEducationPoco> r
 {
     protected override void Verify(CompanyJobEducationPoco[] pocos)
     {
-        throw new NotImplementedException();
+        PocoValidationHelper.Verify(poco =>
+        {
+            List<ValidationException> errors = [];
+
+            if(poco?.Major?.Length < 2)
+            {
+                errors.Add(ValidationException.JOB_REQUIRED_EDUCATION_MAJOR_MIN_LEN);
+            }
+
+            if (poco?.Importance < 0)
+            {
+                errors.Add(ValidationException.JOB_REQUIRED_EDUCATION_IMPORTANCE_MIN_LEVEL);
+            }
+
+            return errors;
+        }, pocos);
     }
 
     public override void Add(CompanyJobEducationPoco[] pocos)
