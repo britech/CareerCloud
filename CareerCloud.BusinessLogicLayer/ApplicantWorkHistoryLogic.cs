@@ -7,7 +7,14 @@ public class ApplicantWorkHistoryLogic(IDataRepository<ApplicantWorkHistoryPoco>
 {
     protected override void Verify(ApplicantWorkHistoryPoco[] pocos)
     {
-        throw new NotImplementedException();
+        PocoValidationHelper.Verify(poco =>
+        {
+            if (poco?.CompanyName?.Length < 3)
+            {
+                return [ValidationException.WORK_HISTORY_COMPANY_NAME_REQUIRED];
+            }
+            return null!;
+        }, pocos);
     }
 
     public override void Add(ApplicantWorkHistoryPoco[] pocos)
