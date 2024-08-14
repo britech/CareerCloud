@@ -3,14 +3,22 @@ using CareerCloud.Pocos;
 
 namespace CareerCloud.BusinessLogicLayer;
 
-public class ApplicantWorkHistoryLogic : BaseLogic<ApplicantWorkHistoryPoco>
+public class ApplicantWorkHistoryLogic(IDataRepository<ApplicantWorkHistoryPoco> repository) : BaseLogic<ApplicantWorkHistoryPoco>(repository)
 {
-    public ApplicantWorkHistoryLogic(IDataRepository<ApplicantWorkHistoryPoco> repository) : base(repository)
-    {
-    }
-
-    protected override void Verify(ApplicantWorkHistoryPoco item, List<ValidationException> validationErrors)
+    protected override void Verify(ApplicantWorkHistoryPoco[] pocos)
     {
         throw new NotImplementedException();
+    }
+
+    public override void Add(ApplicantWorkHistoryPoco[] pocos)
+    {
+        Verify(pocos);
+        base.Add(pocos);
+    }
+
+    public override void Update(ApplicantWorkHistoryPoco[] pocos)
+    {
+        Verify(pocos);
+        base.Update(pocos);
     }
 }

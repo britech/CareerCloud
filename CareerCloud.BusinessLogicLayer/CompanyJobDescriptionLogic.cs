@@ -9,8 +9,20 @@ public class CompanyJobDescriptionLogic : BaseLogic<CompanyJobDescriptionPoco>
     {
     }
 
-    protected override void Verify(CompanyJobDescriptionPoco item, List<ValidationException> validationErrors)
+    protected override void Verify(CompanyJobDescriptionPoco[] pocos)
     {
         throw new NotImplementedException();
+    }
+
+    public override void Add(CompanyJobDescriptionPoco[] pocos)
+    {
+        Verify(pocos);
+        base.Add(pocos);
+    }
+
+    public override void Update(CompanyJobDescriptionPoco[] pocos)
+    {
+        Verify(pocos);
+        base.Update(pocos);
     }
 }

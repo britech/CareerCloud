@@ -3,14 +3,22 @@ using CareerCloud.Pocos;
 
 namespace CareerCloud.BusinessLogicLayer;
 
-public class SecurityRoleLogic : BaseLogic<SecurityRolePoco>
+public class SecurityRoleLogic(IDataRepository<SecurityRolePoco> repository) : BaseLogic<SecurityRolePoco>(repository)
 {
-    public SecurityRoleLogic(IDataRepository<SecurityRolePoco> repository) : base(repository)
+    protected override void Verify(SecurityRolePoco[] pocos)
     {
+        throw new NotImplementedException();
     }
 
-    protected override void Verify(SecurityRolePoco item, List<ValidationException> validationErrors)
+    public override void Add(SecurityRolePoco[] pocos)
     {
-        
+        Verify(pocos);
+        base.Add(pocos);
+    }
+
+    public override void Update(SecurityRolePoco[] pocos)
+    {
+        Verify(pocos);
+        base.Update(pocos);
     }
 }

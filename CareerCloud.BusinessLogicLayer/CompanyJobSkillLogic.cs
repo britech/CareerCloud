@@ -3,14 +3,22 @@ using CareerCloud.Pocos;
 
 namespace CareerCloud.BusinessLogicLayer;
 
-public class CompanyJobSkillLogic : BaseLogic<CompanyJobSkillPoco>
+public class CompanyJobSkillLogic(IDataRepository<CompanyJobSkillPoco> repository) : BaseLogic<CompanyJobSkillPoco>(repository)
 {
-    public CompanyJobSkillLogic(IDataRepository<CompanyJobSkillPoco> repository) : base(repository)
-    {
-    }
-
-    protected override void Verify(CompanyJobSkillPoco item, List<ValidationException> validationErrors)
+    protected override void Verify(CompanyJobSkillPoco[] pocos)
     {
         throw new NotImplementedException();
+    }
+
+    public override void Add(CompanyJobSkillPoco[] pocos)
+    {
+        Verify(pocos);
+        base.Add(pocos);
+    }
+
+    public override void Update(CompanyJobSkillPoco[] pocos)
+    {
+        Verify(pocos);
+        base.Update(pocos);
     }
 }
