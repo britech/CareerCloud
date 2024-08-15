@@ -9,10 +9,10 @@ public class ValidationException(int code, string message) : Exception(message)
     public static readonly ValidationException CURRENT_SALARY_IS_NEGATIVE = new(111, "CurrentSalary cannot be negative.");
     public static readonly ValidationException CURRENT_RATE_IS_NEGATIVE = new(112, "CurrentRate cannot be negative");
     public static readonly ValidationException RESUME_REQUIRED = new(113, "Resume cannot be empty");
-    public static readonly ValidationException SKILL_STARTMONTH_INVALID = new(101, "Cannot be greater than 12");
-    public static readonly ValidationException SKILL_ENDMONTH_INVALID = new(102, "Cannot be greater than 12");
-    public static readonly ValidationException SKILL_STARTYEAR_INVALID = new(103, "Cannot be less than 1900");
-    public static readonly ValidationException SKILL_ENDYEAR_LESSTHAN_STARTYEAR = new(104, "EndYear cannot be less than StartYear");
+    public static readonly ValidationException SKILL_START_MONTH_INVALID = new(101, "Cannot be greater than 12");
+    public static readonly ValidationException SKILL_END_MONTH_INVALID = new(102, "Cannot be greater than 12");
+    public static readonly ValidationException SKILL_START_YEAR_INVALID = new(103, "Cannot be less than 1900");
+    public static readonly ValidationException SKILL_END_YEAR_LESS_THAN_START_YEAR = new(104, "EndYear cannot be less than StartYear");
     public static readonly ValidationException WORK_HISTORY_COMPANY_NAME_REQUIRED = new(105, "CompanyName should be included in the work history.");
     public static readonly ValidationException COMPANY_DESCRIPTION_MIN_LEN = new(107, "CompanyDescription should be greater than 2 characters.");
     public static readonly ValidationException COMPANY_NAME_MIN_LEN = new(106, "CompanyName should be greater than least 2 characters.");
