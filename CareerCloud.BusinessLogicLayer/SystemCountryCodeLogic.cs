@@ -11,11 +11,26 @@ public class SystemCountryCodeLogic : AbstractValidatedPocoCRUDService<SystemCou
 
     public override SystemCountryCodePoco Get(string id)
     {
-        throw new NotImplementedException();
+        return Repository.GetSingle(_countryCode => _countryCode.Code == id);
     }
 
     protected override void Verify(SystemCountryCodePoco[] items)
     {
-        throw new NotImplementedException();
+        PocoValidationHelper.Verify(item =>
+        {
+            List<ValidationException> errors = [];
+
+            if (string.IsNullOrEmpty(item?.Code))
+            {
+                errors.Add(ValidationException.SYSTEM_COUNTRY_CODE_REQUIRED);
+            }
+
+            if (string.IsNullOrEmpty(item?.Name))
+            {
+                errors.Add(ValidationException.SYSTEM_COUNTRY_NAME_REQUIRED);
+            }
+
+            return errors;
+        }, items);
     }
 }
