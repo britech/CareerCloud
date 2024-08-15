@@ -32,8 +32,8 @@ public class ValidationException(int code, string message) : Exception(message)
     public static readonly ValidationException SYSTEM_COUNTRY_NAME_REQUIRED = new(900, "System - Country Code is required.");
     public static readonly ValidationException SYSTEM_COUNTRY_CODE_REQUIRED = new(901, "System - Country Name is required.");
     public static readonly ValidationException SYSTEM_LANGUAGE_ID_REQUIRED = new(1000, "System - LanguageID is required.");
-    public static readonly ValidationException SYSTEM_LANGUAGE_NAME_REQUIRED = new(1000, "System - Language Name is required.");
-    public static readonly ValidationException SYSTEM_LANGUAGE_CODE_REQUIRED = new(1000, "System - Language Code is required.");
+    public static readonly ValidationException SYSTEM_LANGUAGE_NAME_REQUIRED = new(1001, "System - Language Name is required.");
+    public static readonly ValidationException SYSTEM_LANGUAGE_NATIVE_NAME_REQUIRED = new(1002, "System - Language Native Name is required.");
 
     public int Code { get; init; } = code;
 }
