@@ -7,7 +7,14 @@ public class SecurityRoleLogic(IDataRepository<SecurityRolePoco> repository) : B
 {
     protected override void Verify(SecurityRolePoco[] pocos)
     {
-        throw new NotImplementedException();
+        PocoValidationHelper.Verify(poco =>
+        {
+            if (string.IsNullOrEmpty(poco?.Role))
+            {
+                return [ValidationException.SECURITY_ROLE_REQUIRED];
+            }
+            return null!;
+        }, pocos);
     }
 
     public override void Add(SecurityRolePoco[] pocos)
