@@ -11,11 +11,31 @@ public class SystemLanguageCodeLogic : AbstractValidatedPocoCRUDService<SystemLa
 
     public override SystemLanguageCodePoco Get(string id)
     {
-        throw new NotImplementedException();
+        return Repository.GetSingle(_language => _language.LanguageID == id);
     }
 
     protected override void Verify(SystemLanguageCodePoco[] items)
     {
-        throw new NotImplementedException();
+        PocoValidationHelper.Verify(item =>
+        {
+            List<ValidationException> errors = new List<ValidationException>();
+            
+            if (string.IsNullOrEmpty(item?.LanguageID))
+            {
+                errors.Add(ValidationException.SYSTEM_LANGUAGE_ID_REQUIRED);
+            }
+
+            if (string.IsNullOrEmpty(item?.Name))
+            {
+                errors.Add(ValidationException.SYSTEM_LANGUAGE_NAME_REQUIRED);
+            }
+
+            if (string.IsNullOrEmpty(item?.NativeName))
+            {
+                errors.Add(ValidationException.SYSTEM_LANGUAGE_NATIVE_NAME_REQUIRED);
+            }
+
+            return errors;
+        }, items);
     }
 }
