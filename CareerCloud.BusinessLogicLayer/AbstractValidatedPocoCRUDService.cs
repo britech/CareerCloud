@@ -2,11 +2,15 @@
 
 namespace CareerCloud.BusinessLogicLayer;
 
-public abstract class AbstractValidatedPocoCRUDService<TPoco, TPocoId>(IDataRepository<TPoco> repository)
+public abstract class AbstractValidatedPocoCRUDService<TPoco, TPocoId>(IDataRepository<TPoco> repository, PocoValidationRule<TPoco>[] rules)
 {
     protected IDataRepository<TPoco> Repository { get; init; } = repository;
+    protected PocoValidationRule<TPoco>[] Rules { get; init; } = rules;
 
-    protected abstract void Verify(TPoco[] items);
+    protected virtual void Verify(TPoco[] items)
+    {
+        PocoValidationHelper.Validate(Rules, items);
+    }
 
     public abstract TPoco Get(TPocoId id);
 
