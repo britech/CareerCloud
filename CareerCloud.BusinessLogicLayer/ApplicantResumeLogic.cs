@@ -7,14 +7,11 @@ public class ApplicantResumeLogic(IDataRepository<ApplicantResumePoco> repositor
 {
     protected override void Verify(ApplicantResumePoco[] pocos)
     {
-        PocoValidationHelper.Verify(poco =>
-        {
-            if (string.IsNullOrEmpty(poco?.Resume))
-            {
-                return [ValidationException.RESUME_REQUIRED];
-            }
-            return null!;
-        }, pocos);
+       PocoValidationHelper.Validate([
+           new PocoValidationRule<ApplicantResumePoco>(
+               poco => !string.IsNullOrEmpty(poco?.Resume), 
+               ValidationException.RESUME_REQUIRED)
+           ], pocos);
     }
 
     public override void Add(ApplicantResumePoco[] pocos)

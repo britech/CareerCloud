@@ -7,14 +7,12 @@ public class ApplicantJobApplicationLogic(IDataRepository<ApplicantJobApplicatio
 {
     protected override void Verify(ApplicantJobApplicationPoco[] pocos)
     {
-        PocoValidationHelper.Verify(poco =>
-        {
-            if (poco?.ApplicationDate > DateTime.Now)
-            {
-                return [ValidationException.JOB_APPLICATION_DATE_GREATER_THAN_TODAY];
-            }
-            return null!;
-        }, pocos);
+        PocoValidationHelper.Validate([
+            new PocoValidationRule<ApplicantJobApplicationPoco>(
+                poco => poco?.ApplicationDate <= DateTime.Now,
+                ValidationException.JOB_APPLICATION_DATE_GREATER_THAN_TODAY
+                )
+            ], pocos);
     }
 
     public override void Add(ApplicantJobApplicationPoco[] pocos)

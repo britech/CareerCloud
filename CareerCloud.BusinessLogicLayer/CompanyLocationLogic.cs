@@ -7,36 +7,23 @@ public class CompanyLocationLogic(IDataRepository<CompanyLocationPoco> repositor
 {
     protected override void Verify(CompanyLocationPoco[] pocos)
     {
-        PocoValidationHelper.Verify(poco =>
-        {
-            List<ValidationException> errors = new List<ValidationException>();
-            if (string.IsNullOrEmpty(poco?.CountryCode))
-            {
-                errors.Add(ValidationException.COMPANY_LOCATION_COUNTRY_REQUIRED);
-            }
-
-            if (string.IsNullOrEmpty(poco?.Province))
-            {
-                errors.Add(ValidationException.COMPANY_LOCATION_PROVINCE_REQUIRED);
-            }
-
-            if (string.IsNullOrEmpty(poco?.City))
-            {
-                errors.Add(ValidationException.COMPANY_LOCATION_CITY_REQUIRED);
-            }
-
-            if (string.IsNullOrEmpty(poco?.Street))
-            {
-                errors.Add(ValidationException.COMPANY_LOCATION_STREET_REQUIRED);
-            }
-
-            if (string.IsNullOrEmpty(poco?.PostalCode))
-            {
-                errors.Add(ValidationException.COMPANY_LOCATION_POSTALCODE_REQUIRED);
-            }
-
-            return errors;
-        }, pocos);
+        PocoValidationHelper.Validate([
+            new PocoValidationRule<CompanyLocationPoco>(
+                poco => !string.IsNullOrEmpty(poco?.CountryCode),
+                ValidationException.COMPANY_LOCATION_COUNTRY_REQUIRED),
+            new PocoValidationRule<CompanyLocationPoco>(
+                poco => !string.IsNullOrEmpty(poco?.Province),
+                ValidationException.COMPANY_LOCATION_PROVINCE_REQUIRED),
+            new PocoValidationRule<CompanyLocationPoco>(
+                poco => !string.IsNullOrEmpty(poco?.City),
+                ValidationException.COMPANY_LOCATION_CITY_REQUIRED),
+            new PocoValidationRule<CompanyLocationPoco>(
+                poco => !string.IsNullOrEmpty(poco?.Street),
+                ValidationException.COMPANY_LOCATION_STREET_REQUIRED),
+            new PocoValidationRule<CompanyLocationPoco>(
+                poco => !string.IsNullOrEmpty(poco?.PostalCode),
+                ValidationException.COMPANY_LOCATION_POSTALCODE_REQUIRED)
+            ], pocos);
     }
 
     public override void Add(CompanyLocationPoco[] pocos)

@@ -11,21 +11,15 @@ public class CompanyDescriptionLogic : BaseLogic<CompanyDescriptionPoco>
 
     protected override void Verify(CompanyDescriptionPoco[] pocos)
     {
-        PocoValidationHelper.Verify(poco =>
-        {
-            List<ValidationException> errors = new List<ValidationException>();
-            if (poco?.CompanyDescription?.Length < 3)
-            {
-                errors.Add(ValidationException.COMPANY_DESCRIPTION_MIN_LEN);
-            }
-
-            if (poco?.CompanyName?.Length < 3)
-            {
-                errors.Add(ValidationException.COMPANY_NAME_MIN_LEN);
-            }
-
-            return errors;
-        }, pocos);
+        PocoValidationHelper.Validate([
+            new PocoValidationRule<CompanyDescriptionPoco>(
+                poco => poco?.CompanyDescription?.Length >= ValidationConstants.COMPANY_DESCRIPTION_MIN_LEN,
+                ValidationException.COMPANY_DESCRIPTION_MIN_LEN
+                ),
+            new PocoValidationRule<CompanyDescriptionPoco>(
+                poco => poco?.CompanyName?.Length >= ValidationConstants.COMPANY_NAME_MIN_LEN,
+                ValidationException.COMPANY_NAME_MIN_LEN)
+            ], pocos);
     }
 
     public override void Add(CompanyDescriptionPoco[] pocos)

@@ -11,21 +11,14 @@ public class CompanyJobDescriptionLogic : BaseLogic<CompanyJobDescriptionPoco>
 
     protected override void Verify(CompanyJobDescriptionPoco[] pocos)
     {
-        PocoValidationHelper.Verify(poco =>
-        {
-            List<ValidationException> errors = [];
-            if (string.IsNullOrEmpty(poco?.JobName))
-            {
-                errors.Add(ValidationException.JOB_NAME_REQUIRED);
-            }
-
-            if (string.IsNullOrEmpty(poco?.JobDescriptions))
-            {
-                errors.Add(ValidationException.JOB_DESCRIPTION_REQUIRED);
-            }
-
-            return errors;
-        }, pocos);
+        PocoValidationHelper.Validate([
+            new PocoValidationRule<CompanyJobDescriptionPoco>(
+                poco => !string.IsNullOrEmpty(poco?.JobName),
+                ValidationException.JOB_NAME_REQUIRED),
+            new PocoValidationRule<CompanyJobDescriptionPoco>(
+                poco => !string.IsNullOrEmpty(poco?.JobDescriptions),
+                ValidationException.JOB_DESCRIPTION_REQUIRED)
+            ], pocos);
     }
 
     public override void Add(CompanyJobDescriptionPoco[] pocos)

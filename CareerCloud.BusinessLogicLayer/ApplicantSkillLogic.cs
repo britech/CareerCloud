@@ -7,31 +7,20 @@ public class ApplicantSkillLogic(IDataRepository<ApplicantSkillPoco> repository)
 {
     protected override void Verify(ApplicantSkillPoco[] pocos)
     {
-        PocoValidationHelper.Verify(poco =>
-        {
-            List<ValidationException> errors = [];
-            if (poco?.StartMonth > 12)
-            {
-                errors.Add(ValidationException.SKILL_STARTMONTH_INVALID);
-            }
-
-            if (poco?.StartYear < 1900)
-            {
-                errors.Add(ValidationException.SKILL_STARTYEAR_INVALID);
-            }
-
-            if (poco?.EndMonth > 12)
-            {
-                errors.Add(ValidationException.SKILL_ENDMONTH_INVALID);
-            }
-
-            if (poco?.EndYear < poco?.StartYear)
-            {
-                errors.Add(ValidationException.SKILL_ENDYEAR_LESSTHAN_STARTYEAR);
-            }
-
-            return errors;
-        }, pocos);
+        PocoValidationHelper.Validate([
+            new PocoValidationRule<ApplicantSkillPoco>(
+                poco => poco?.StartMonth <= ValidationConstants.MAX_MONTHS, 
+                ValidationException.SKILL_START_MONTH_INVALID),
+            new PocoValidationRule<ApplicantSkillPoco>(
+                poco => poco?.StartYear >= ValidationConstants.MIN_YEAR,
+                ValidationException.SKILL_START_YEAR_INVALID),
+            new PocoValidationRule<ApplicantSkillPoco>(
+                poco => poco?.EndMonth <= ValidationConstants.MAX_MONTHS,
+                ValidationException.SKILL_END_MONTH_INVALID),
+            new PocoValidationRule<ApplicantSkillPoco>(
+                poco => poco?.EndYear >= poco?.StartYear,
+                ValidationException.SKILL_END_YEAR_LESS_THAN_START_YEAR)
+            ], pocos);
     }
 
     public override void Add(ApplicantSkillPoco[] pocos)

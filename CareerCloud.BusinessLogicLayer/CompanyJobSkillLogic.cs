@@ -7,14 +7,11 @@ public class CompanyJobSkillLogic(IDataRepository<CompanyJobSkillPoco> repositor
 {
     protected override void Verify(CompanyJobSkillPoco[] pocos)
     {
-        PocoValidationHelper.Verify(poco =>
-        {
-            if (poco?.Importance < 0)
-            {
-                return [ValidationException.JOB_REQUIRED_SKILL_IMPORTANCE_LEVEL_MIN_LEVEL];
-            }
-            return null!;
-        }, pocos);
+        PocoValidationHelper.Validate([
+            new PocoValidationRule<CompanyJobSkillPoco>(
+                poco => poco?.Importance >= ValidationConstants.JOB_REQUIRED_SKILL_IMPORTANCE_LEVEL_MIN_LEVEL,
+                ValidationException.JOB_REQUIRED_SKILL_IMPORTANCE_LEVEL_MIN_LEVEL)
+            ], pocos);
     }
 
     public override void Add(CompanyJobSkillPoco[] pocos)

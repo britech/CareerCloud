@@ -7,21 +7,14 @@ public class ApplicantProfileLogic(IDataRepository<ApplicantProfilePoco> reposit
 {
     protected override void Verify(ApplicantProfilePoco[] pocos)
     {
-        PocoValidationHelper.Verify(poco =>
-        {
-            List<ValidationException> errors = [];
-            if (poco?.CurrentSalary < decimal.Zero)
-            {
-                errors.Add(ValidationException.CURRENT_SALARY_IS_NEGATIVE);
-            }
-
-            if (poco?.CurrentRate < decimal.Zero)
-            {
-                errors.Add(ValidationException.CURRENT_RATE_IS_NEGATIVE);
-            }
-
-            return errors;
-        }, pocos);
+        PocoValidationHelper.Validate([
+            new PocoValidationRule<ApplicantProfilePoco>(
+                poco => poco?.CurrentSalary >= ValidationConstants.CURRENT_SALARY_MIN_VALUE, 
+                ValidationException.CURRENT_SALARY_IS_NEGATIVE),
+            new PocoValidationRule<ApplicantProfilePoco>(
+                poco => poco?.CurrentRate >= ValidationConstants.CURRENT_RATE_MIN_VALUE, 
+                ValidationException.CURRENT_RATE_IS_NEGATIVE)
+            ], pocos);
     }
 
     public override void Add(ApplicantProfilePoco[] pocos)
