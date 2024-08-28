@@ -1,4 +1,5 @@
-﻿using CareerCloud.DataAccessLayer;
+﻿using CareerCloud.Configurations;
+using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using Microsoft.Data.SqlClient;
 using System.Linq.Expressions;
@@ -11,7 +12,7 @@ namespace CareerCloud.ADODataAccessLayer
         
         public CompanyJobEducationRepository()
         {
-            _dbHelper = new DbHelper(ApplicationConstants.CONNECTION_STRING);
+            _dbHelper = new DbHelper(CareerCloudConfigurationLoader.Instance.GetConnectionString());
         }
 
         public IList<CompanyJobEducationPoco> GetAll(params Expression<Func<CompanyJobEducationPoco, object>>[] navigationProperties)
