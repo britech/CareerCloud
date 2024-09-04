@@ -49,10 +49,15 @@ namespace CareerCloud.EntityFrameworkDataAccess
                 .WithOne(e => e.CompanyProfile)
                 .HasForeignKey(e => e.Company)
                 .IsRequired();
-            builder.Entity<SystemLanguageCodePoco>()
-                .HasOne<CompanyDescriptionPoco>()
+            builder.Entity<CompanyDescriptionPoco>()
+                .HasOne(e => e.SystemLanguageCode)
                 .WithOne()
                 .HasForeignKey<CompanyDescriptionPoco>(e => e.LanguageId)
+                .IsRequired();
+            builder.Entity<CompanyLocationPoco>()
+                .HasOne(e => e.SystemCountryCode)
+                .WithOne()
+                .HasForeignKey<CompanyLocationPoco>(e => e.CountryCode)
                 .IsRequired();
             #endregion
 
@@ -101,7 +106,7 @@ namespace CareerCloud.EntityFrameworkDataAccess
                 .HasForeignKey(e => e.Applicant)
                 .IsRequired(false);
             builder.Entity<ApplicantProfilePoco>()
-                .HasMany(e => e.ApplicantWorkHistory)
+                .HasMany(e => e.ApplicantWorkHistorys)
                 .WithOne(e => e.ApplicantProfile)
                 .HasForeignKey(e => e.Applicant)
                 .IsRequired(false);
@@ -110,18 +115,13 @@ namespace CareerCloud.EntityFrameworkDataAccess
                 .WithOne()
                 .HasForeignKey<ApplicantJobApplicationPoco>(e => e.Job)
                 .IsRequired();
-            builder.Entity<SystemCountryCodePoco>()
-                .HasOne<ApplicantProfilePoco>()
-                .WithOne()
-                .HasForeignKey<ApplicantProfilePoco>(e => e.Country)
-                .IsRequired(false);
             builder.Entity<ApplicantProfilePoco>()
-                .HasOne(e => e.SecurityLogin)
-                .WithOne()
-                .HasForeignKey<ApplicantProfilePoco>(e => e.Login)
-                .IsRequired();
-            builder.Entity<SystemCountryCodePoco>()
-                .HasOne<ApplicantWorkHistoryPoco>()
+                 .HasOne(e => e.SystemCountryCode)
+                 .WithOne()
+                 .HasForeignKey<ApplicantProfilePoco>(e => e.Country)
+                 .IsRequired(false);
+            builder.Entity<ApplicantWorkHistoryPoco>()
+                .HasOne(e => e.SystemCountryCode)
                 .WithOne()
                 .HasForeignKey<ApplicantWorkHistoryPoco>(e => e.CountryCode)
                 .IsRequired(false);
@@ -136,6 +136,11 @@ namespace CareerCloud.EntityFrameworkDataAccess
             builder.Entity<SecurityLoginPoco>()
                 .HasMany(e => e.SecurityLoginsRoles)
                 .WithOne(e => e.SecurityLogin)
+                .HasForeignKey(e => e.Login)
+                .IsRequired();
+            builder.Entity<SecurityLoginPoco>()
+                .HasMany(e => e.ApplicantProfiles)
+                .WithOne()
                 .HasForeignKey(e => e.Login)
                 .IsRequired();
             #endregion
