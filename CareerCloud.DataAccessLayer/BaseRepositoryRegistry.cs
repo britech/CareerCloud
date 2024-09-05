@@ -1,6 +1,6 @@
 ﻿namespace CareerCloud.DataAccessLayer
 {
-    public class BaseRepositoryRegistry : RepositoryFactory<Type>
+    public class BaseRepositoryRegistry : IRepositoryFactory<Type>
     {
         private readonly IDictionary<Type, IRepository> _repositories;
 
@@ -19,9 +19,9 @@
             _repositories.Add(type, repository);
         }
 
-        public override IRepository GetRepository(Type type)
+        public IRepository GetRepository(Type id)
         {
-            return _repositories.TryGetValue(type, out IRepository? value) ? value : null!;
+            return _repositories.ContainsKey(id) ? _repositories[id] : null!;
         }
     }
 }
