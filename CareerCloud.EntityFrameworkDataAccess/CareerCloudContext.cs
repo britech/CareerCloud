@@ -28,7 +28,8 @@ namespace CareerCloud.EntityFrameworkDataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(CareerCloudConfigurationLoader.Instance.GetConnectionString());
+            builder.UseSqlServer(CareerCloudConfigurationLoader.Instance.GetConnectionString())
+                .LogTo(Console.WriteLine);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
