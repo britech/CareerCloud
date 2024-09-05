@@ -151,6 +151,11 @@ namespace CareerCloud.EntityFrameworkDataAccess
                 .WithOne()
                 .HasForeignKey<SecurityLoginsRolePoco>(e => e.Role)
                 .IsRequired();
+            builder.Entity<SecurityRolePoco>()
+                .HasMany(e => e.SecurityLoginsRoles)
+                .WithOne(e => e.SecurityRole)
+                .HasForeignKey(e => e.Role)
+                .IsRequired();
             #endregion
         }
     }
