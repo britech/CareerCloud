@@ -157,6 +157,51 @@ namespace CareerCloud.EntityFrameworkDataAccess
                 .HasForeignKey(e => e.Role)
                 .IsRequired();
             #endregion
+
+            #region Timestamp Fields
+            builder.Entity<ApplicantEducationPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<ApplicantJobApplicationPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<ApplicantProfilePoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<ApplicantSkillPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<ApplicantWorkHistoryPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<CompanyDescriptionPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<CompanyJobDescriptionPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<CompanyJobEducationPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<CompanyJobPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<CompanyJobSkillPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<CompanyLocationPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<CompanyProfilePoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<SecurityLoginPoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            builder.Entity<SecurityLoginsRolePoco>()
+                .Property(e => e.TimeStamp)
+                .IsRowVersion();
+            #endregion
         }
     }
 }
