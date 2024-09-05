@@ -24,6 +24,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.BusinessLogicLa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloudCore.UnitTests.Assignment3", "CareerCloudCore.UnitTests.Assignment3\CareerCloudCore.UnitTests.Assignment3.csproj", "{680579BA-EDA0-4A8F-9858-25EAC3C6C92C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.EntityFrameworkDataAccess", "CareerCloud.EntityFrameworkDataAccess\CareerCloud.EntityFrameworkDataAccess.csproj", "{574A472D-D73E-4325-B551-24319FCCB12E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.Configurations", "CareerCloud.Configurations\CareerCloud.Configurations.csproj", "{8EEBE689-3938-43E8-A377-B00027C5213A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloudCore.UnitTests.Assignment4", "CareerCloudCore.UnitTests.Assignment4\CareerCloudCore.UnitTests.Assignment4.csproj", "{5F8357A8-95E8-4E35-9F8A-A53B3273E5FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +64,18 @@ Global
 		{680579BA-EDA0-4A8F-9858-25EAC3C6C92C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{680579BA-EDA0-4A8F-9858-25EAC3C6C92C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{680579BA-EDA0-4A8F-9858-25EAC3C6C92C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{574A472D-D73E-4325-B551-24319FCCB12E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{574A472D-D73E-4325-B551-24319FCCB12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{574A472D-D73E-4325-B551-24319FCCB12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{574A472D-D73E-4325-B551-24319FCCB12E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EEBE689-3938-43E8-A377-B00027C5213A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EEBE689-3938-43E8-A377-B00027C5213A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EEBE689-3938-43E8-A377-B00027C5213A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EEBE689-3938-43E8-A377-B00027C5213A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F8357A8-95E8-4E35-9F8A-A53B3273E5FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F8357A8-95E8-4E35-9F8A-A53B3273E5FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F8357A8-95E8-4E35-9F8A-A53B3273E5FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F8357A8-95E8-4E35-9F8A-A53B3273E5FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
