@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params ApplicantProfilePoco[] items)
         {
-            _dbHelper.Update("insert into applicant_profiles(id, login, current_salary, current_rate, currency, country_code, state_province_code, street_address, city_town, zip_postal_code) values(@id, @login, @current_salary, @current_rate, @currency, @country_code, @state_province_code, @street_address, @city_town, @zip_postal_code)",
+            _dbHelper.Update("insert into dbo.applicant_profiles(id, login, current_salary, current_rate, currency, country_code, state_province_code, street_address, city_town, zip_postal_code) values(@id, @login, @current_salary, @current_rate, @currency, @country_code, @state_province_code, @street_address, @city_town, @zip_postal_code)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -40,7 +40,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<ApplicantProfilePoco> GetAll(params Expression<Func<ApplicantProfilePoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, login, current_salary, current_rate, currency, country_code, state_province_code, street_address, city_town, zip_postal_code, time_stamp from applicant_profiles",
+            return _dbHelper.Query("select id, login, current_salary, current_rate, currency, country_code, state_province_code, street_address, city_town, zip_postal_code, time_stamp from dbo.applicant_profiles",
                 (reader) =>
                 {
                     return new ApplicantProfilePoco()
@@ -72,7 +72,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params ApplicantProfilePoco[] items)
         {
-            _dbHelper.Update("delete from applicant_profiles where id = @id",
+            _dbHelper.Update("delete from dbo.applicant_profiles where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -81,7 +81,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params ApplicantProfilePoco[] items)
         {
-            _dbHelper.Update("update applicant_profiles set login = @login, current_salary = @current_salary, current_rate = @current_rate, currency = @currency, country_code = @country_code, state_province_code = @state_province_code, street_address = @street_address, city_town = @city_town, zip_postal_code = @zip_postal_code where id = @id",
+            _dbHelper.Update("update dbo.applicant_profiles set login = @login, current_salary = @current_salary, current_rate = @current_rate, currency = @currency, country_code = @country_code, state_province_code = @state_province_code, street_address = @street_address, city_town = @city_town, zip_postal_code = @zip_postal_code where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

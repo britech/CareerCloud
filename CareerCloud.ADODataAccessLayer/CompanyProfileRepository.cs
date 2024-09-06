@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params CompanyProfilePoco[] items)
         {
-            _dbHelper.Update("insert into company_profiles(id, registration_date, company_website, contact_phone, contact_name, company_logo) values(@id, @registration_date, @company_website, @contact_phone, @contact_name, @company_logo)",
+            _dbHelper.Update("insert into dbo.company_profiles(id, registration_date, company_website, contact_phone, contact_name, company_logo) values(@id, @registration_date, @company_website, @contact_phone, @contact_name, @company_logo)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -37,7 +37,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<CompanyProfilePoco> GetAll(params Expression<Func<CompanyProfilePoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, registration_date, company_website, contact_phone, contact_name, company_logo, time_stamp from company_profiles",
+            return _dbHelper.Query("select id, registration_date, company_website, contact_phone, contact_name, company_logo, time_stamp from dbo.company_profiles",
                 reader =>
                 {
                     return new CompanyProfilePoco()
@@ -65,7 +65,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params CompanyProfilePoco[] items)
         {
-            _dbHelper.Update("delete from company_profiles where id = @id",
+            _dbHelper.Update("delete from dbo.company_profiles where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -74,7 +74,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params CompanyProfilePoco[] items)
         {
-            _dbHelper.Update("update company_profiles set registration_date = @registration_date, company_website = @company_website, contact_phone = @contact_phone, contact_name = @contact_name, company_logo = @company_logo where id = @id",
+            _dbHelper.Update("update dbo.company_profiles set registration_date = @registration_date, company_website = @company_website, contact_phone = @contact_phone, contact_name = @contact_name, company_logo = @company_logo where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

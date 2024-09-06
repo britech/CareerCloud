@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params ApplicantSkillPoco[] items)
         {
-            _dbHelper.Update("insert into applicant_skills(id, applicant, skill, skill_level, start_month, start_year, end_month, end_year) values(@id, @applicant, @skill, @skill_level, @start_month, @start_year, @end_month, @end_year)",
+            _dbHelper.Update("insert into dbo.applicant_skills(id, applicant, skill, skill_level, start_month, start_year, end_month, end_year) values(@id, @applicant, @skill, @skill_level, @start_month, @start_year, @end_month, @end_year)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -38,7 +38,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<ApplicantSkillPoco> GetAll(params Expression<Func<ApplicantSkillPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, applicant, skill, skill_level, start_month, start_year, end_month, end_year, time_stamp from applicant_skills",
+            return _dbHelper.Query("select id, applicant, skill, skill_level, start_month, start_year, end_month, end_year, time_stamp from dbo.applicant_skills",
                 (reader) =>
                 {
                     return new ApplicantSkillPoco()
@@ -68,7 +68,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params ApplicantSkillPoco[] items)
         {
-            _dbHelper.Update("delete from applicant_skills where id = @id",
+            _dbHelper.Update("delete from dbo.applicant_skills where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -77,7 +77,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params ApplicantSkillPoco[] items)
         {
-            _dbHelper.Update("update applicant_skills set applicant = @applicant, skill = @skill, skill_level = @skill_level, start_month = @start_month, start_year = @start_year, end_month = @end_month, end_year = @end_year where id = @id",
+            _dbHelper.Update("update dbo.applicant_skills set applicant = @applicant, skill = @skill, skill_level = @skill_level, start_month = @start_month, start_year = @start_year, end_month = @end_month, end_year = @end_year where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

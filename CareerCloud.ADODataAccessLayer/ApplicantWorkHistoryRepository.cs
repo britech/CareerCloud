@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params ApplicantWorkHistoryPoco[] items)
         {
-            _dbHelper.Update("insert into applicant_work_history(id, applicant, company_name, country_code, location, job_title, job_description, start_month, start_year, end_month, end_year) values(@id, @applicant, @company_name, @country_code, @location, @job_title, @job_description, @start_month, @start_year, @end_month, @end_year)",
+            _dbHelper.Update("insert into dbo.applicant_work_history(id, applicant, company_name, country_code, location, job_title, job_description, start_month, start_year, end_month, end_year) values(@id, @applicant, @company_name, @country_code, @location, @job_title, @job_description, @start_month, @start_year, @end_month, @end_year)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -41,7 +41,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<ApplicantWorkHistoryPoco> GetAll(params Expression<Func<ApplicantWorkHistoryPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, applicant, company_name, country_code, location, job_title, job_description, start_month, start_year, end_month, end_year, time_stamp from applicant_work_history", 
+            return _dbHelper.Query("select id, applicant, company_name, country_code, location, job_title, job_description, start_month, start_year, end_month, end_year, time_stamp from dbo.applicant_work_history", 
                 (reader) =>
                 {
                     return new ApplicantWorkHistoryPoco()
@@ -74,7 +74,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params ApplicantWorkHistoryPoco[] items)
         {
-            _dbHelper.Update("delete from applicant_work_history where id = @id",
+            _dbHelper.Update("delete from dbo.applicant_work_history where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -83,7 +83,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params ApplicantWorkHistoryPoco[] items)
         {
-            _dbHelper.Update("update applicant_work_history set applicant = @applicant, company_name = @company_name, country_code = @country_code, location = @location, job_title = @job_title, job_description = @job_description, start_month = @start_month, start_year = @start_year, end_month = @end_month, end_year = @end_year where id = @id",
+            _dbHelper.Update("update dbo.applicant_work_history set applicant = @applicant, company_name = @company_name, country_code = @country_code, location = @location, job_title = @job_title, job_description = @job_description, start_month = @start_month, start_year = @start_year, end_month = @end_month, end_year = @end_year where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

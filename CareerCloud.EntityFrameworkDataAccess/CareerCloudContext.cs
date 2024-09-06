@@ -34,6 +34,8 @@ namespace CareerCloud.EntityFrameworkDataAccess
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.HasDefaultSchema("dbo");
+
             #region Company
             builder.Entity<CompanyProfilePoco>()
                 .HasMany(e => e.CompanyJobs)

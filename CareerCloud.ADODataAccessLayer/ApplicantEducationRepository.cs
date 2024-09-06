@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params ApplicantEducationPoco[] items)
         {
-            _dbHelper.Update("insert into applicant_educations(id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent) values(@id, @applicant, @major, @certificate_diploma, @start_date, @completion_date, @completion_Percent)",
+            _dbHelper.Update("insert into dbo.applicant_educations(id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent) values(@id, @applicant, @major, @certificate_diploma, @start_date, @completion_date, @completion_Percent)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter(parameterName: "@id", value: item.Id));
@@ -37,7 +37,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<ApplicantEducationPoco> GetAll(params Expression<Func<ApplicantEducationPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent, time_stamp from applicant_educations", (reader) =>
+            return _dbHelper.Query("select id, applicant, major, certificate_diploma, start_date, completion_date, completion_percent, time_stamp from dbo.applicant_educations", (reader) =>
             {
                 return new ApplicantEducationPoco
                 {
@@ -65,7 +65,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params ApplicantEducationPoco[] items)
         {
-            _dbHelper.Update("delete from applicant_educations where id = @id",
+            _dbHelper.Update("delete from dbo.applicant_educations where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -74,7 +74,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params ApplicantEducationPoco[] items)
         {
-            _dbHelper.Update("update applicant_educations set applicant = @applicant, major = @major, certificate_diploma = @certificate_diploma, start_date = @start_date, completion_date = @completion_date, completion_percent = @completion_percent where id = @id",
+            _dbHelper.Update("update dbo.applicant_educations set applicant = @applicant, major = @major, certificate_diploma = @certificate_diploma, start_date = @start_date, completion_date = @completion_date, completion_percent = @completion_percent where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter(parameterName: "@id", value: item.Id));

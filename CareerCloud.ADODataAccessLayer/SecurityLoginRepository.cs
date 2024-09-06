@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params SecurityLoginPoco[] items)
         {
-            _dbHelper.Update("insert into security_logins(id, login, password, created_date, password_update_date, agreement_accepted_date, is_locked, is_inactive, email_address, phone_number, full_name, force_change_password, prefferred_language) values(@id, @login, @password, @created_date, @password_update_date, @agreement_accepted_date, @is_locked, @is_inactive, @email_address, @phone_number, @full_name, @force_change_password, @prefferred_language)",
+            _dbHelper.Update("insert into dbo.security_logins(id, login, password, created_date, password_update_date, agreement_accepted_date, is_locked, is_inactive, email_address, phone_number, full_name, force_change_password, prefferred_language) values(@id, @login, @password, @created_date, @password_update_date, @agreement_accepted_date, @is_locked, @is_inactive, @email_address, @phone_number, @full_name, @force_change_password, @prefferred_language)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -43,7 +43,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<SecurityLoginPoco> GetAll(params Expression<Func<SecurityLoginPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, login, password, created_date, password_update_date, agreement_accepted_date, is_locked, is_inactive, email_address, phone_number, full_name, force_change_password, prefferred_language, time_stamp from security_logins",
+            return _dbHelper.Query("select id, login, password, created_date, password_update_date, agreement_accepted_date, is_locked, is_inactive, email_address, phone_number, full_name, force_change_password, prefferred_language, time_stamp from dbo.security_logins",
                 reader =>
                 {
                     return new SecurityLoginPoco()
@@ -78,7 +78,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params SecurityLoginPoco[] items)
         {
-            _dbHelper.Update("delete from security_logins where id = @id",
+            _dbHelper.Update("delete from dbo.security_logins where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -87,7 +87,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params SecurityLoginPoco[] items)
         {
-            _dbHelper.Update("update security_logins set login = @login, password = @password, created_date = @created_date, password_update_date = @password_update_date, agreement_accepted_date = @agreement_accepted_date, is_locked = @is_locked, is_inactive = @is_inactive, email_address = @email_address, phone_number = @phone_number, full_name = @full_name, force_change_password = @force_change_password, prefferred_language = @prefferred_language where id = @id",
+            _dbHelper.Update("update dbo.security_logins set login = @login, password = @password, created_date = @created_date, password_update_date = @password_update_date, agreement_accepted_date = @agreement_accepted_date, is_locked = @is_locked, is_inactive = @is_inactive, email_address = @email_address, phone_number = @phone_number, full_name = @full_name, force_change_password = @force_change_password, prefferred_language = @prefferred_language where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

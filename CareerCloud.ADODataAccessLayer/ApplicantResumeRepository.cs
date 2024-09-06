@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params ApplicantResumePoco[] items)
         {
-            _dbHelper.Update("insert into applicant_resumes(id, applicant, resume, last_updated) values(@id, @applicant, @resume, @last_updated)",
+            _dbHelper.Update("insert into dbo.applicant_resumes(id, applicant, resume, last_updated) values(@id, @applicant, @resume, @last_updated)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -34,7 +34,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<ApplicantResumePoco> GetAll(params Expression<Func<ApplicantResumePoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, applicant, resume, last_updated from applicant_resumes", (reader) =>
+            return _dbHelper.Query("select id, applicant, resume, last_updated from dbo.applicant_resumes", (reader) =>
             {
                 return new ApplicantResumePoco()
                 {
@@ -58,7 +58,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params ApplicantResumePoco[] items)
         {
-            _dbHelper.Update("delete from applicant_resumes where id = @id",
+            _dbHelper.Update("delete from dbo.applicant_resumes where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -67,7 +67,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params ApplicantResumePoco[] items)
         {
-            _dbHelper.Update("update applicant_resumes set applicant = @applicant, resume = @resume, last_updated = @last_updated where id = @id",
+            _dbHelper.Update("update dbo.applicant_resumes set applicant = @applicant, resume = @resume, last_updated = @last_updated where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

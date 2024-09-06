@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<CompanyJobEducationPoco> GetAll(params Expression<Func<CompanyJobEducationPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, job, major, importance, time_stamp from company_job_educations",
+            return _dbHelper.Query("select id, job, major, importance, time_stamp from dbo.company_job_educations",
                 reader =>
                 {
                     return new CompanyJobEducationPoco()
@@ -43,7 +43,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params CompanyJobEducationPoco[] items)
         {
-            _dbHelper.Update("insert into company_job_educations(id, job, major, importance) values(@id, @job, @major, @importance)",
+            _dbHelper.Update("insert into dbo.company_job_educations(id, job, major, importance) values(@id, @job, @major, @importance)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -55,7 +55,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params CompanyJobEducationPoco[] items)
         {
-            _dbHelper.Update("update company_job_educations set job = @job, major = @major, importance = @importance where id = @id",
+            _dbHelper.Update("update dbo.company_job_educations set job = @job, major = @major, importance = @importance where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -67,7 +67,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params CompanyJobEducationPoco[] items)
         {
-            _dbHelper.Update("delete from company_job_educations where id = @id",
+            _dbHelper.Update("delete from dbo.company_job_educations where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
