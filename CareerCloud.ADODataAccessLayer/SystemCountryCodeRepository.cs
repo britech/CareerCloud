@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params SystemCountryCodePoco[] items)
         {
-            _dbHelper.Update("insert into system_country_codes(code, name) values(@code, @name)",
+            _dbHelper.Update("insert into dbo.system_country_codes(code, name) values(@code, @name)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter(parameterName: "@code", value: item.Code));
@@ -32,7 +32,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<SystemCountryCodePoco> GetAll(params Expression<Func<SystemCountryCodePoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select code, name from system_country_codes",
+            return _dbHelper.Query("select code, name from dbo.system_country_codes",
                 reader =>
                 {
                     return new SystemCountryCodePoco()
@@ -55,7 +55,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params SystemCountryCodePoco[] items)
         {
-            _dbHelper.Update("delete from system_country_codes where code = @code",
+            _dbHelper.Update("delete from dbo.system_country_codes where code = @code",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter(parameterName: "@code", value: item.Code));
@@ -64,7 +64,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params SystemCountryCodePoco[] items)
         {
-            _dbHelper.Update("update system_country_codes set name = @name where code = @code",
+            _dbHelper.Update("update dbo.system_country_codes set name = @name where code = @code",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter(parameterName: "@code", value: item.Code));

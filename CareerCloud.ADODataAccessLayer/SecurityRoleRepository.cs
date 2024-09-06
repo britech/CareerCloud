@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params SecurityRolePoco[] items)
         {
-            _dbHelper.Update("insert into security_roles(id, role, is_inactive) values(@id, @role, @is_inactive)",
+            _dbHelper.Update("insert into dbo.security_roles(id, role, is_inactive) values(@id, @role, @is_inactive)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -33,7 +33,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<SecurityRolePoco> GetAll(params Expression<Func<SecurityRolePoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, role, is_inactive from security_roles",
+            return _dbHelper.Query("select id, role, is_inactive from dbo.security_roles",
                 reader =>
                 {
                     return new SecurityRolePoco()
@@ -57,7 +57,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params SecurityRolePoco[] items)
         {
-            _dbHelper.Update("delete from security_roles where id = @id",
+            _dbHelper.Update("delete from dbo.security_roles where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -66,7 +66,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params SecurityRolePoco[] items)
         {
-            _dbHelper.Update("update security_roles set role = @role, is_inactive = @is_inactive where id = @id",
+            _dbHelper.Update("update dbo.security_roles set role = @role, is_inactive = @is_inactive where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params SecurityLoginsRolePoco[] items)
         {
-            _dbHelper.Update("insert into security_logins_roles(id, login, role) values(@id, @login, @role)",
+            _dbHelper.Update("insert into dbo.security_logins_roles(id, login, role) values(@id, @login, @role)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -33,7 +33,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<SecurityLoginsRolePoco> GetAll(params Expression<Func<SecurityLoginsRolePoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, login, role, time_stamp from security_logins_roles",
+            return _dbHelper.Query("select id, login, role, time_stamp from dbo.security_logins_roles",
                 reader =>
                 {
                     return new SecurityLoginsRolePoco()
@@ -58,7 +58,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params SecurityLoginsRolePoco[] items)
         {
-            _dbHelper.Update("delete from security_logins_roles where id = @id",
+            _dbHelper.Update("delete from dbo.security_logins_roles where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -67,7 +67,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params SecurityLoginsRolePoco[] items)
         {
-            _dbHelper.Update("update security_logins_roles set login = @login, role = @role where id = @id",
+            _dbHelper.Update("update dbo.security_logins_roles set login = @login, role = @role where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

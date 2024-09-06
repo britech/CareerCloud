@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params CompanyLocationPoco[] items)
         {
-            _dbHelper.Update("insert into company_locations(id, company, country_code, state_province_code, street_address, city_town, zip_postal_code) values(@id, @company, @country_code, @state_province_code, @street_address, @city_town, @zip_postal_code)",
+            _dbHelper.Update("insert into dbo.company_locations(id, company, country_code, state_province_code, street_address, city_town, zip_postal_code) values(@id, @company, @country_code, @state_province_code, @street_address, @city_town, @zip_postal_code)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -37,7 +37,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<CompanyLocationPoco> GetAll(params Expression<Func<CompanyLocationPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, company, country_code, state_province_code, street_address, city_town, zip_postal_code, time_stamp from company_locations",
+            return _dbHelper.Query("select id, company, country_code, state_province_code, street_address, city_town, zip_postal_code, time_stamp from dbo.company_locations",
                 reader =>
                 {
                     return new CompanyLocationPoco()
@@ -66,7 +66,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params CompanyLocationPoco[] items)
         {
-            _dbHelper.Update("delete from company_locations where id = @id",
+            _dbHelper.Update("delete from dbo.company_locations where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -75,7 +75,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params CompanyLocationPoco[] items)
         {
-            _dbHelper.Update("update company_locations set company = @company, country_code = @country_code, state_province_code = @state_province_code, street_address = @street_address, city_town = @city_town, zip_postal_code = @zip_postal_code where id = @id",
+            _dbHelper.Update("update dbo.company_locations set company = @company, country_code = @country_code, state_province_code = @state_province_code, street_address = @street_address, city_town = @city_town, zip_postal_code = @zip_postal_code where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

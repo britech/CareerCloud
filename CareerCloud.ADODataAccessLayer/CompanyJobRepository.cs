@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params CompanyJobPoco[] items)
         {
-            _dbHelper.Update("insert into company_jobs(id, company, profile_created, is_inactive, is_company_hidden) values(@id, @company, @profile_created, @is_inactive, @is_company_hidden)",
+            _dbHelper.Update("insert into dbo.company_jobs(id, company, profile_created, is_inactive, is_company_hidden) values(@id, @company, @profile_created, @is_inactive, @is_company_hidden)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -35,7 +35,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<CompanyJobPoco> GetAll(params Expression<Func<CompanyJobPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, company, profile_created, is_inactive, is_company_hidden, time_stamp from company_jobs",
+            return _dbHelper.Query("select id, company, profile_created, is_inactive, is_company_hidden, time_stamp from dbo.company_jobs",
                 reader =>
                 {
                     return new CompanyJobPoco()
@@ -62,7 +62,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params CompanyJobPoco[] items)
         {
-            _dbHelper.Update("delete from company_jobs where id = @id",
+            _dbHelper.Update("delete from dbo.company_jobs where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -71,7 +71,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params CompanyJobPoco[] items)
         {
-            _dbHelper.Update("update company_jobs set company = @company, profile_created = @profile_created, is_inactive = @is_inactive, is_company_hidden = @is_company_hidden where id = @id",
+            _dbHelper.Update("update dbo.company_jobs set company = @company, profile_created = @profile_created, is_inactive = @is_inactive, is_company_hidden = @is_company_hidden where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

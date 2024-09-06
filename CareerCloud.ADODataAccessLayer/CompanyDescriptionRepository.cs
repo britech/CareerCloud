@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params CompanyDescriptionPoco[] items)
         {
-            _dbHelper.Update("insert into company_descriptions(id, company, languageid, company_name, company_description) values(@id, @company, @languageId, @company_name, @company_description)",
+            _dbHelper.Update("insert into dbo.company_descriptions(id, company, languageid, company_name, company_description) values(@id, @company, @languageId, @company_name, @company_description)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -35,7 +35,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<CompanyDescriptionPoco> GetAll(params Expression<Func<CompanyDescriptionPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, company, languageid, company_name, company_description, time_stamp from company_descriptions",
+            return _dbHelper.Query("select id, company, languageid, company_name, company_description, time_stamp from dbo.company_descriptions",
                 (reader) =>
                 {
                     return new CompanyDescriptionPoco()
@@ -62,7 +62,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params CompanyDescriptionPoco[] items)
         {
-            _dbHelper.Update("delete from company_descriptions where id = @id",
+            _dbHelper.Update("delete from dbo.company_descriptions where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -71,7 +71,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params CompanyDescriptionPoco[] items)
         {
-            _dbHelper.Update("update company_descriptions set company = @company, languageid = @languageId, company_name = @company_name, company_description = @company_description where id = @id",
+            _dbHelper.Update("update dbo.company_descriptions set company = @company, languageid = @languageId, company_name = @company_name, company_description = @company_description where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params CompanyJobSkillPoco[] items)
         {
-            _dbHelper.Update("insert into company_job_skills(id, job, skill, skill_level, importance) values(@id, @job, @skill, @skill_level, @importance)",
+            _dbHelper.Update("insert into dbo.company_job_skills(id, job, skill, skill_level, importance) values(@id, @job, @skill, @skill_level, @importance)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -35,7 +35,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<CompanyJobSkillPoco> GetAll(params Expression<Func<CompanyJobSkillPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, job, skill, skill_level, importance, time_stamp from company_job_skills",
+            return _dbHelper.Query("select id, job, skill, skill_level, importance, time_stamp from dbo.company_job_skills",
                 reader =>
                 {
                     return new CompanyJobSkillPoco()
@@ -62,7 +62,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params CompanyJobSkillPoco[] items)
         {
-            _dbHelper.Update("delete from company_job_skills where id = @id",
+            _dbHelper.Update("delete from dbo.company_job_skills where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -71,7 +71,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params CompanyJobSkillPoco[] items)
         {
-            _dbHelper.Update("update company_job_skills set job = @job, skill = @skill, skill_level = @skill_level, importance = @importance where id = @id",
+            _dbHelper.Update("update dbo.company_job_skills set job = @job, skill = @skill, skill_level = @skill_level, importance = @importance where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

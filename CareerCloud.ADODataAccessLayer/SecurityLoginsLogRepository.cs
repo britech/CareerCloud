@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params SecurityLoginsLogPoco[] items)
         {
-            _dbHelper.Update("insert into security_logins_log(id, login, source_ip, logon_date, is_succesful) values(@id, @login, @source_ip, @logon_date, @is_succesful)",
+            _dbHelper.Update("insert into dbo.security_logins_log(id, login, source_ip, logon_date, is_succesful) values(@id, @login, @source_ip, @logon_date, @is_succesful)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -35,7 +35,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<SecurityLoginsLogPoco> GetAll(params Expression<Func<SecurityLoginsLogPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, login, source_ip, logon_date, is_succesful from security_logins_log",
+            return _dbHelper.Query("select id, login, source_ip, logon_date, is_succesful from dbo.security_logins_log",
                 reader =>
                 {
                     return new SecurityLoginsLogPoco()
@@ -61,7 +61,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params SecurityLoginsLogPoco[] items)
         {
-            _dbHelper.Update("delete from security_logins_log where id = @id",
+            _dbHelper.Update("delete from dbo.security_logins_log where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -70,7 +70,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params SecurityLoginsLogPoco[] items)
         {
-            _dbHelper.Update("update security_logins_log set login = @login, source_ip = @source_ip, logon_date = @logon_date, is_succesful = @is_succesful where id = @id",
+            _dbHelper.Update("update dbo.security_logins_log set login = @login, source_ip = @source_ip, logon_date = @logon_date, is_succesful = @is_succesful where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));

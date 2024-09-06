@@ -17,7 +17,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Add(params CompanyJobDescriptionPoco[] items)
         {
-            _dbHelper.Update("insert into company_jobs_descriptions(id, job, job_name, job_descriptions) values(@id, @job, @job_name, @job_descriptions)",
+            _dbHelper.Update("insert into dbo.company_jobs_descriptions(id, job, job_name, job_descriptions) values(@id, @job, @job_name, @job_descriptions)",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -34,7 +34,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public IList<CompanyJobDescriptionPoco> GetAll(params Expression<Func<CompanyJobDescriptionPoco, object>>[] navigationProperties)
         {
-            return _dbHelper.Query("select id, job, job_name, job_descriptions, time_stamp from company_jobs_descriptions",
+            return _dbHelper.Query("select id, job, job_name, job_descriptions, time_stamp from dbo.company_jobs_descriptions",
                 reader =>
                 {
                     return new CompanyJobDescriptionPoco()
@@ -60,7 +60,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Remove(params CompanyJobDescriptionPoco[] items)
         {
-            _dbHelper.Update("delete from company_jobs_descriptions where id = @id",
+            _dbHelper.Update("delete from dbo.company_jobs_descriptions where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
@@ -69,7 +69,7 @@ namespace CareerCloud.ADODataAccessLayer
 
         public void Update(params CompanyJobDescriptionPoco[] items)
         {
-            _dbHelper.Update("update company_jobs_descriptions set id = @id, job = @job, job_name = @job_name, job_descriptions = @job_descriptions where id = @id",
+            _dbHelper.Update("update dbo.company_jobs_descriptions set id = @id, job = @job, job_name = @job_name, job_descriptions = @job_descriptions where id = @id",
                 (cmd, item) =>
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", item.Id));
