@@ -6,12 +6,17 @@ namespace CareerCloud.EntityFrameworkDataAccess
     public class EFGenericRepository<T> : IDataRepository<T>
         where T : class
     {
-        private readonly EFRepositoryRegistry factory = EFRepositoryRegistry.Instance;
         private readonly ICrudRepository<T> _repository;
 
-        public EFGenericRepository()
+        public EFGenericRepository() 
+            : this(new TypeAwareRepositoryFactory<T>(new EFRepositoryRegistry()))
         {
-            _repository = (factory.GetRepository(typeof(T)) as ICrudRepository<T>)!;   
+
+        }
+
+        public EFGenericRepository(IRepositoryFactory factory)
+        {
+            _repository = (factory.GetRepository() as ICrudRepository<T>)!;
         }
 
         public void Add(params T[] items)
