@@ -5,21 +5,10 @@ using System.Transactions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class DbHelper
+    public class DbHelper(ICareerCloudConfigResolver configResolver)
     {
-        private readonly ICareerCloudConfigResolver _configResolver;
+        private readonly ICareerCloudConfigResolver _configResolver = configResolver;
         
-        public DbHelper()
-            : this(CareerCloudConfigResolver.Instance)
-        {
-
-        }
-
-        public DbHelper(ICareerCloudConfigResolver configResolver)
-        {
-            _configResolver = configResolver;
-        }
-
         public void Update<T>(string query, Action<DbCommand, T> parameterSetterAction, T[] items)
              where T : class
         {
