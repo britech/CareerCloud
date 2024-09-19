@@ -1,7 +1,7 @@
 ﻿namespace CareerCloud.DataAccessLayer
 {
-    public interface IRepositoryFactory<TId>
+    public interface IRepositoryFactory
     {
-        IRepository GetRepository(TId id);
+        IRepository GetRepository();
     }
 }
