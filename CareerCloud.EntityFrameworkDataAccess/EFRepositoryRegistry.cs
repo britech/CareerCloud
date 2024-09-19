@@ -3,13 +3,9 @@ using CareerCloud.Pocos;
 
 namespace CareerCloud.EntityFrameworkDataAccess
 {
-    public class EFRepositoryRegistry : BaseRepositoryRegistry, IRepositoryFactory<Type>
+    public class EFRepositoryRegistry : TypeAwareRepositoryRegistry
     {
-        private static readonly Lazy<EFRepositoryRegistry> _instance = new(() => new EFRepositoryRegistry());
-
-        public static EFRepositoryRegistry Instance {  get { return _instance.Value; } }
-
-        private EFRepositoryRegistry() : base() {
+        public EFRepositoryRegistry() : base() {
             base.RegisterRepository(typeof(ApplicantEducationPoco), new ApplicantEducationRepository());
             base.RegisterRepository(typeof(ApplicantJobApplicationPoco), new ApplicantJobApplicationRepository());
             base.RegisterRepository(typeof(ApplicantProfilePoco), new ApplicantProfileRepository());
@@ -29,11 +25,6 @@ namespace CareerCloud.EntityFrameworkDataAccess
             base.RegisterRepository(typeof(SecurityRolePoco), new SecurityRoleRepository());
             base.RegisterRepository(typeof(SystemCountryCodePoco), new SystemCountryCodeRepository());
             base.RegisterRepository(typeof(SystemLanguageCodePoco), new SystemLanguageCodeRepository());
-        }
-
-        public IRepository GetRepository(Type id)
-        {
-            return base.GetRepository(id) ?? throw new ArgumentException($"No suitable repository for {id.Name}");
         }
     }
 }
