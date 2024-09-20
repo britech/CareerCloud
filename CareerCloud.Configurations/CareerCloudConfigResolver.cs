@@ -2,14 +2,14 @@
 
 namespace CareerCloud.Configurations
 {
-    public class CareerCloudConfigurationLoader
+    public class CareerCloudConfigResolver : ICareerCloudConfigResolver
     {
-        private static readonly Lazy<CareerCloudConfigurationLoader> _instance = new(() => new CareerCloudConfigurationLoader());
+        private static readonly Lazy<CareerCloudConfigResolver> _instance = new(() => new CareerCloudConfigResolver());
         private readonly IConfiguration _configRoot;
 
-        public static CareerCloudConfigurationLoader Instance {  get { return _instance.Value; } }
+        public static CareerCloudConfigResolver Instance => _instance.Value;
 
-        private CareerCloudConfigurationLoader()
+        private CareerCloudConfigResolver()
         {
             _configRoot = new ConfigurationBuilder()
                 .AddIniFile("CareerCloud.ini")

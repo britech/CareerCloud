@@ -1,24 +1,20 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using CareerCloud.Configurations;
+using Microsoft.Data.SqlClient;
 using System.Data.Common;
 using System.Transactions;
 
 namespace CareerCloud.ADODataAccessLayer
 {
-    public class DbHelper
+    public class DbHelper(ICareerCloudConfigResolver configResolver)
     {
-        private readonly string _connectionString;
-
-        public DbHelper(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
+        private readonly ICareerCloudConfigResolver _configResolver = configResolver;
+        
         public void Update<T>(string query, Action<DbCommand, T> parameterSetterAction, T[] items)
              where T : class
         {
             using (TransactionScope scope = new TransactionScope())
             {
-                using (DbConnection connection = new SqlConnection(_connectionString))
+                using (DbConnection connection = new SqlConnection(_configResolver.GetConnectionString()))
                 {
                     connection.Open();
                     foreach (var item in items)
@@ -39,7 +35,7 @@ namespace CareerCloud.ADODataAccessLayer
             where T : class
         {
             IList<T> items = new List<T>();
-            using (DbConnection connection = new SqlConnection(_connectionString))
+            using (DbConnection connection = new SqlConnection(_configResolver.GetConnectionString()))
             {
                 using (DbCommand cmd = connection.CreateCommand())
                 {

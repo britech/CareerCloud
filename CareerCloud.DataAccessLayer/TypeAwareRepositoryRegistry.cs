@@ -1,15 +1,15 @@
 ﻿namespace CareerCloud.DataAccessLayer
 {
-    public class BaseRepositoryRegistry : IRepositoryFactory<Type>
+    public class TypeAwareRepositoryRegistry : IRepositoryRegistry<Type>
     {
         private readonly IDictionary<Type, IRepository> _repositories;
 
-        public BaseRepositoryRegistry()
+        public TypeAwareRepositoryRegistry()
         {
             _repositories = new Dictionary<Type, IRepository>();
         }
 
-        public BaseRepositoryRegistry(IDictionary<Type, IRepository> repositories)
+        public TypeAwareRepositoryRegistry(IDictionary<Type, IRepository> repositories)
         {
             _repositories = repositories;
         }

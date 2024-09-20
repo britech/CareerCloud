@@ -26,9 +26,22 @@ namespace CareerCloud.EntityFrameworkDataAccess
         public DbSet<SystemCountryCodePoco> SystemCountryCodes { get; set; }
         public DbSet<SystemLanguageCodePoco> SystemLanguageCodes { get; set; }
 
+        private readonly ICareerCloudConfigResolver _configResolver;
+
+        public CareerCloudContext()
+            : this(CareerCloudConfigResolver.Instance)
+        {
+
+        }
+
+        public CareerCloudContext(ICareerCloudConfigResolver configResolver)
+        {
+            _configResolver = configResolver;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(CareerCloudConfigurationLoader.Instance.GetConnectionString())
+            builder.UseSqlServer(_configResolver.GetConnectionString())
                 .LogTo(Console.WriteLine);
         }
 
