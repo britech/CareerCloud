@@ -29,7 +29,7 @@ namespace CareerCloud.EntityFrameworkDataAccess
         private readonly ICareerCloudConfigResolver _configResolver;
 
         public CareerCloudContext()
-            : this(CareerCloudConfigResolver.Instance)
+            : this(new CareerCloudConfigResolver(CareerCloudIniLoader.LoadConfiguration()))
         {
 
         }
