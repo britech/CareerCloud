@@ -11,7 +11,7 @@ public class SystemLanguageCodeRepository : IDataRepository<SystemLanguageCodePo
     private readonly DbHelper _dbHelper;
 
     public SystemLanguageCodeRepository()
-        : this(new DbHelper(CareerCloudConfigResolver.Instance))
+        : this(new DbHelper(new CareerCloudConfigResolver(CareerCloudIniLoader.LoadConfiguration())))
     {
         
     }
