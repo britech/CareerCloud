@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CareerCloud.EntityFrameworkDataAccess
 {
-    public class CareerCloudContext : DbContext
+    public class CareerCloudContext(ICareerCloudConfigResolver configResolver) : DbContext
     {
         public DbSet<ApplicantEducationPoco> ApplicantEducations { get; set; }
         public DbSet<ApplicantJobApplicationPoco> ApplicantJobApplications { get; set; }
@@ -26,18 +26,7 @@ namespace CareerCloud.EntityFrameworkDataAccess
         public DbSet<SystemCountryCodePoco> SystemCountryCodes { get; set; }
         public DbSet<SystemLanguageCodePoco> SystemLanguageCodes { get; set; }
 
-        private readonly ICareerCloudConfigResolver _configResolver;
-
-        public CareerCloudContext()
-            : this(new CareerCloudConfigResolver(CareerCloudIniLoader.LoadConfiguration()))
-        {
-
-        }
-
-        public CareerCloudContext(ICareerCloudConfigResolver configResolver)
-        {
-            _configResolver = configResolver;
-        }
+        private readonly ICareerCloudConfigResolver _configResolver = configResolver;
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
