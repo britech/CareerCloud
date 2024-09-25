@@ -11,7 +11,7 @@ public class SecurityLoginsRoleRepository : IDataRepository<SecurityLoginsRolePo
     private readonly DbHelper _dbHelper;
 
     public SecurityLoginsRoleRepository()
-        : this(new DbHelper(new CareerCloudConfigResolver(CareerCloudIniLoader.LoadConfiguration())))
+        : this(new DbHelper(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration)))
     {
 
     }

@@ -11,7 +11,7 @@ public class ApplicantEducationRepository : IDataRepository<ApplicantEducationPo
     private readonly DbHelper _dbHelper;
     
     public ApplicantEducationRepository()
-        : this(new DbHelper(new CareerCloudConfigResolver(CareerCloudIniLoader.LoadConfiguration())))
+        : this(new DbHelper(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration)))
     {
         
     }

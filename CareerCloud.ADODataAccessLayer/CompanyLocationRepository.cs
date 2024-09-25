@@ -11,7 +11,7 @@ public class CompanyLocationRepository : IDataRepository<CompanyLocationPoco>
     private readonly DbHelper _dbHelper;
 
     public CompanyLocationRepository()
-        : this(new DbHelper(new CareerCloudConfigResolver(CareerCloudIniLoader.LoadConfiguration())))
+        : this(new DbHelper(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration)))
     {
         
     }

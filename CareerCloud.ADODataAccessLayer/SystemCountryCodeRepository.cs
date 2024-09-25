@@ -11,7 +11,7 @@ public class SystemCountryCodeRepository : IDataRepository<SystemCountryCodePoco
     private readonly DbHelper _dbHelper;
     
     public SystemCountryCodeRepository()
-        : this(new DbHelper(new CareerCloudConfigResolver(CareerCloudIniLoader.LoadConfiguration())))
+        : this(new DbHelper(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration)))
     {
         
     }
