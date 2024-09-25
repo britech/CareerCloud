@@ -1,44 +1,38 @@
 ﻿using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace CareerCloud.EntityFrameworkDataAccess
+namespace CareerCloud.EntityFrameworkDataAccess;
+
+public class CompanyJobSkillRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : ICrudRepository<CompanyJobSkillPoco>
 {
-    public class CompanyJobSkillRepository : ICrudRepository<CompanyJobSkillPoco>
+    private readonly IDbContextFactory<CareerCloudContext> _dbContextFactory = dbContextFactory;
+
+    public void AddAll(CompanyJobSkillPoco[] items)
     {
-        public void AddAll(CompanyJobSkillPoco[] items)
-        {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                ctx.CompanyJobSkills.AddRange(items);
-                ctx.SaveChanges();
-            }
-        }
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        ctx.CompanyJobSkills.AddRange(items);
+        ctx.SaveChanges();
+    }
 
-        public CompanyJobSkillPoco FindOne(Expression<Func<CompanyJobSkillPoco, bool>> expression)
-        {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                return ctx.CompanyJobSkills.Where(expression).FirstOrDefault()!;
-            }
-        }
+    public CompanyJobSkillPoco FindOne(Expression<Func<CompanyJobSkillPoco, bool>> expression)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.CompanyJobSkills.Where(expression).FirstOrDefault()!;
+    }
 
-        public void RemoveAll(CompanyJobSkillPoco[] items)
-        {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                ctx.CompanyJobSkills.RemoveRange(items);
-                ctx.SaveChanges();
-            }
-        }
+    public void RemoveAll(CompanyJobSkillPoco[] items)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        ctx.CompanyJobSkills.RemoveRange(items);
+        ctx.SaveChanges();
+    }
 
-        public void UpdateAll(CompanyJobSkillPoco[] items)
-        {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                ctx.CompanyJobSkills.UpdateRange(items);
-                ctx.SaveChanges();
-            }
-        }
+    public void UpdateAll(CompanyJobSkillPoco[] items)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        ctx.CompanyJobSkills.UpdateRange(items);
+        ctx.SaveChanges();
     }
 }
