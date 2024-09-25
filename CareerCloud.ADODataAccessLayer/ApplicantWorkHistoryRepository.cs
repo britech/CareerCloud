@@ -11,7 +11,7 @@ public class ApplicantWorkHistoryRepository : IDataRepository<ApplicantWorkHisto
     private readonly DbHelper _dbHelper;
 
     public ApplicantWorkHistoryRepository()
-        : this(new DbHelper(CareerCloudConfigResolver.Instance))
+        : this(new DbHelper(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration)))
     {
 
     }

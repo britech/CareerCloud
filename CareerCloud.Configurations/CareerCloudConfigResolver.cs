@@ -2,23 +2,13 @@
 
 namespace CareerCloud.Configurations
 {
-    public class CareerCloudConfigResolver : ICareerCloudConfigResolver
+    public class CareerCloudConfigResolver(IConfiguration configuration) : ICareerCloudConfigResolver
     {
-        private static readonly Lazy<CareerCloudConfigResolver> _instance = new(() => new CareerCloudConfigResolver());
-        private readonly IConfiguration _configRoot;
-
-        public static CareerCloudConfigResolver Instance => _instance.Value;
-
-        private CareerCloudConfigResolver()
-        {
-            _configRoot = new ConfigurationBuilder()
-                .AddIniFile("CareerCloud.ini")
-                .Build();
-        }
+        private readonly IConfiguration _configuration = configuration;
 
         public string GetConnectionString()
         {
-            return _configRoot.GetConnectionString("JOB_PORTAL")!;
+            return _configuration.GetConnectionString("JOB_PORTAL")!;
         }
     }
 }

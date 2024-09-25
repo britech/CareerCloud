@@ -1,44 +1,38 @@
 ﻿using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace CareerCloud.EntityFrameworkDataAccess
+namespace CareerCloud.EntityFrameworkDataAccess;
+
+public class SecurityLoginsLogRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : ICrudRepository<SecurityLoginsLogPoco>
 {
-    public class SecurityLoginsLogRepository : ICrudRepository<SecurityLoginsLogPoco>
+    private readonly IDbContextFactory<CareerCloudContext> _dbContextFactory = dbContextFactory;
+
+    public void AddAll(SecurityLoginsLogPoco[] items)
     {
-        public void AddAll(SecurityLoginsLogPoco[] items)
-        {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                ctx.SecurityLoginsLogs.AddRange(items);
-                ctx.SaveChanges();
-            }
-        }
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        ctx.SecurityLoginsLogs.AddRange(items);
+        ctx.SaveChanges();
+    }
 
-        public SecurityLoginsLogPoco FindOne(Expression<Func<SecurityLoginsLogPoco, bool>> expression)
-        {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                return ctx.SecurityLoginsLogs.Where(expression).FirstOrDefault()!;
-            }
-        }
+    public SecurityLoginsLogPoco FindOne(Expression<Func<SecurityLoginsLogPoco, bool>> expression)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.SecurityLoginsLogs.Where(expression).FirstOrDefault()!;
+    }
 
-        public void RemoveAll(SecurityLoginsLogPoco[] items)
-        {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                ctx.SecurityLoginsLogs.RemoveRange(items);
-                ctx.SaveChanges();
-            }
-        }
+    public void RemoveAll(SecurityLoginsLogPoco[] items)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        ctx.SecurityLoginsLogs.RemoveRange(items);
+        ctx.SaveChanges();
+    }
 
-        public void UpdateAll(SecurityLoginsLogPoco[] items)
-        {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                ctx.SecurityLoginsLogs.UpdateRange(items);
-                ctx.SaveChanges();
-            }
-        }
+    public void UpdateAll(SecurityLoginsLogPoco[] items)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        ctx.SecurityLoginsLogs.UpdateRange(items);
+        ctx.SaveChanges();
     }
 }

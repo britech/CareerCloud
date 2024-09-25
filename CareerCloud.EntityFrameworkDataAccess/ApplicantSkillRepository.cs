@@ -1,44 +1,46 @@
 ﻿using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace CareerCloud.EntityFrameworkDataAccess
+namespace CareerCloud.EntityFrameworkDataAccess;
+
+public class ApplicantSkillRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : ICrudRepository<ApplicantSkillPoco>
 {
-    public class ApplicantSkillRepository : ICrudRepository<ApplicantSkillPoco>
+    private readonly IDbContextFactory<CareerCloudContext> _dbContextFactory = dbContextFactory;
+
+    public void AddAll(ApplicantSkillPoco[] items)
     {
-        public void AddAll(ApplicantSkillPoco[] items)
+        using (CareerCloudContext ctx = _dbContextFactory.CreateDbContext())
         {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                ctx.ApplicantSkills.AddRange(items);
-                ctx.SaveChanges();
-            }
+            ctx.ApplicantSkills.AddRange(items);
+            ctx.SaveChanges();
         }
+    }
 
-        public ApplicantSkillPoco FindOne(Expression<Func<ApplicantSkillPoco, bool>> expression)
+    public ApplicantSkillPoco FindOne(Expression<Func<ApplicantSkillPoco, bool>> expression)
+    {
+        using (CareerCloudContext ctx = _dbContextFactory.CreateDbContext())
         {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                return ctx.ApplicantSkills.Where(expression).FirstOrDefault()!;
-            }
+            return ctx.ApplicantSkills.Where(expression).FirstOrDefault()!;
         }
+    }
 
-        public void RemoveAll(ApplicantSkillPoco[] items)
+    public void RemoveAll(ApplicantSkillPoco[] items)
+    {
+        using (CareerCloudContext ctx = _dbContextFactory.CreateDbContext())
         {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                ctx.ApplicantSkills.RemoveRange(items);
-                ctx.SaveChanges();
-            }
+            ctx.ApplicantSkills.RemoveRange(items);
+            ctx.SaveChanges();
         }
+    }
 
-        public void UpdateAll(ApplicantSkillPoco[] items)
+    public void UpdateAll(ApplicantSkillPoco[] items)
+    {
+        using (CareerCloudContext ctx = _dbContextFactory.CreateDbContext())
         {
-            using (CareerCloudContext ctx = new CareerCloudContext())
-            {
-                ctx.ApplicantSkills.UpdateRange(items);
-                ctx.SaveChanges();
-            }
+            ctx.ApplicantSkills.UpdateRange(items);
+            ctx.SaveChanges();
         }
     }
 }

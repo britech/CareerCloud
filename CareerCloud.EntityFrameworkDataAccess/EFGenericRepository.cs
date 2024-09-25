@@ -1,4 +1,5 @@
-﻿using CareerCloud.DataAccessLayer;
+﻿using CareerCloud.Configurations;
+using CareerCloud.DataAccessLayer;
 using System.Linq.Expressions;
 
 namespace CareerCloud.EntityFrameworkDataAccess
@@ -8,8 +9,8 @@ namespace CareerCloud.EntityFrameworkDataAccess
     {
         private readonly ICrudRepository<T> _repository;
 
-        public EFGenericRepository() 
-            : this(new TypeAwareRepositoryFactory<T>(new EFRepositoryRegistry()))
+        public EFGenericRepository()
+            : this(new TypeAwareRepositoryFactory<T>(new EFRepositoryRegistry(new CareerCloudContextFactory(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration)))))
         {
 
         }
