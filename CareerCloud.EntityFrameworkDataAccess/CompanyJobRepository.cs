@@ -5,31 +5,46 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 
-public class CompanyJobRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : ICrudRepository<CompanyJobPoco>
+public class CompanyJobRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : IDataRepository<CompanyJobPoco>
 {
     private readonly IDbContextFactory<CareerCloudContext> _dbContextFactory = dbContextFactory;
 
-    public void AddAll(CompanyJobPoco[] items)
+    public void Add(params CompanyJobPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.CompanyJobs.AddRange(items);
         ctx.SaveChanges();
     }
 
-    public CompanyJobPoco FindOne(Expression<Func<CompanyJobPoco, bool>> expression)
+    public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
     {
-        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        return ctx.CompanyJobs.Where(expression).FirstOrDefault()!;
+        throw new NotImplementedException();
     }
 
-    public void RemoveAll(CompanyJobPoco[] items)
+    public IList<CompanyJobPoco> GetAll(params Expression<Func<CompanyJobPoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IList<CompanyJobPoco> GetList(Expression<Func<CompanyJobPoco, bool>> where, params Expression<Func<CompanyJobPoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public CompanyJobPoco GetSingle(Expression<Func<CompanyJobPoco, bool>> where, params Expression<Func<CompanyJobPoco, object>>[] navigationProperties)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.CompanyJobs.Where(where).FirstOrDefault()!;
+    }
+
+    public void Remove(params CompanyJobPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.CompanyJobs.RemoveRange(items);
         ctx.SaveChanges();
     }
 
-    public void UpdateAll(CompanyJobPoco[] items)
+    public void Update(params CompanyJobPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.CompanyJobs.UpdateRange(items);

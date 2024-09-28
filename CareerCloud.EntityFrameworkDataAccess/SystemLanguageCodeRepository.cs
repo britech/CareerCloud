@@ -5,31 +5,46 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 
-public class SystemLanguageCodeRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : ICrudRepository<SystemLanguageCodePoco>
+public class SystemLanguageCodeRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : IDataRepository<SystemLanguageCodePoco>
 {
     private readonly IDbContextFactory<CareerCloudContext> _dbContextFactory = dbContextFactory;
 
-    public void AddAll(SystemLanguageCodePoco[] items)
+    public void Add(params SystemLanguageCodePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.SystemLanguageCodes.AddRange(items);
         ctx.SaveChanges();
     }
 
-    public SystemLanguageCodePoco FindOne(Expression<Func<SystemLanguageCodePoco, bool>> expression)
+    public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
     {
-        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        return ctx.SystemLanguageCodes.Where(expression).FirstOrDefault()!;
+        throw new NotImplementedException();
     }
 
-    public void RemoveAll(SystemLanguageCodePoco[] items)
+    public IList<SystemLanguageCodePoco> GetAll(params Expression<Func<SystemLanguageCodePoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IList<SystemLanguageCodePoco> GetList(Expression<Func<SystemLanguageCodePoco, bool>> where, params Expression<Func<SystemLanguageCodePoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public SystemLanguageCodePoco GetSingle(Expression<Func<SystemLanguageCodePoco, bool>> where, params Expression<Func<SystemLanguageCodePoco, object>>[] navigationProperties)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.SystemLanguageCodes.Where(where).FirstOrDefault()!;
+    }
+
+    public void Remove(params SystemLanguageCodePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.SystemLanguageCodes.RemoveRange(items);
         ctx.SaveChanges();
     }
 
-    public void UpdateAll(SystemLanguageCodePoco[] items)
+    public void Update(params SystemLanguageCodePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.SystemLanguageCodes.UpdateRange(items);

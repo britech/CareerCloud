@@ -5,28 +5,39 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 
-public class ApplicantSkillRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : ICrudRepository<ApplicantSkillPoco>
+public class ApplicantSkillRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : IDataRepository<ApplicantSkillPoco>
 {
     private readonly IDbContextFactory<CareerCloudContext> _dbContextFactory = dbContextFactory;
 
-    public void AddAll(ApplicantSkillPoco[] items)
+    public void Add(params ApplicantSkillPoco[] items)
     {
-        using (CareerCloudContext ctx = _dbContextFactory.CreateDbContext())
-        {
-            ctx.ApplicantSkills.AddRange(items);
-            ctx.SaveChanges();
-        }
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        ctx.ApplicantSkills.AddRange(items);
+        ctx.SaveChanges();
     }
 
-    public ApplicantSkillPoco FindOne(Expression<Func<ApplicantSkillPoco, bool>> expression)
+    public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
     {
-        using (CareerCloudContext ctx = _dbContextFactory.CreateDbContext())
-        {
-            return ctx.ApplicantSkills.Where(expression).FirstOrDefault()!;
-        }
+        throw new NotImplementedException();
     }
 
-    public void RemoveAll(ApplicantSkillPoco[] items)
+    public IList<ApplicantSkillPoco> GetAll(params Expression<Func<ApplicantSkillPoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IList<ApplicantSkillPoco> GetList(Expression<Func<ApplicantSkillPoco, bool>> where, params Expression<Func<ApplicantSkillPoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ApplicantSkillPoco GetSingle(Expression<Func<ApplicantSkillPoco, bool>> where, params Expression<Func<ApplicantSkillPoco, object>>[] navigationProperties)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.ApplicantSkills.Where(where).FirstOrDefault()!;
+    }
+
+    public void Remove(params ApplicantSkillPoco[] items)
     {
         using (CareerCloudContext ctx = _dbContextFactory.CreateDbContext())
         {
@@ -35,12 +46,10 @@ public class ApplicantSkillRepository(IDbContextFactory<CareerCloudContext> dbCo
         }
     }
 
-    public void UpdateAll(ApplicantSkillPoco[] items)
+    public void Update(params ApplicantSkillPoco[] items)
     {
-        using (CareerCloudContext ctx = _dbContextFactory.CreateDbContext())
-        {
-            ctx.ApplicantSkills.UpdateRange(items);
-            ctx.SaveChanges();
-        }
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        ctx.ApplicantSkills.UpdateRange(items);
+        ctx.SaveChanges();
     }
 }
