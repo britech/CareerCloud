@@ -9,6 +9,9 @@ public class CareerCloudContextFactory(ICareerCloudConfigResolver careerCloudCon
 
     public CareerCloudContext CreateDbContext()
     {
-        return new CareerCloudContext(_careerCloudConfigResolver);
+        return new CareerCloudContext(new DbContextOptionsBuilder<CareerCloudContext>()
+            .UseSqlServer(_careerCloudConfigResolver.GetConnectionString())
+            .LogTo(Console.WriteLine)
+            .Options);
     }
 }
