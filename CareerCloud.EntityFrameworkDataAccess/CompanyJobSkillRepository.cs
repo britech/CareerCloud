@@ -5,31 +5,46 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 
-public class CompanyJobSkillRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : ICrudRepository<CompanyJobSkillPoco>
+public class CompanyJobSkillRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : IDataRepository<CompanyJobSkillPoco>
 {
     private readonly IDbContextFactory<CareerCloudContext> _dbContextFactory = dbContextFactory;
 
-    public void AddAll(CompanyJobSkillPoco[] items)
+    public void Add(params CompanyJobSkillPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.CompanyJobSkills.AddRange(items);
         ctx.SaveChanges();
     }
 
-    public CompanyJobSkillPoco FindOne(Expression<Func<CompanyJobSkillPoco, bool>> expression)
+    public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
     {
-        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        return ctx.CompanyJobSkills.Where(expression).FirstOrDefault()!;
+        throw new NotImplementedException();
     }
 
-    public void RemoveAll(CompanyJobSkillPoco[] items)
+    public IList<CompanyJobSkillPoco> GetAll(params Expression<Func<CompanyJobSkillPoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IList<CompanyJobSkillPoco> GetList(Expression<Func<CompanyJobSkillPoco, bool>> where, params Expression<Func<CompanyJobSkillPoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public CompanyJobSkillPoco GetSingle(Expression<Func<CompanyJobSkillPoco, bool>> where, params Expression<Func<CompanyJobSkillPoco, object>>[] navigationProperties)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.CompanyJobSkills.Where(where).FirstOrDefault()!;
+    }
+
+    public void Remove(params CompanyJobSkillPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.CompanyJobSkills.RemoveRange(items);
         ctx.SaveChanges();
     }
 
-    public void UpdateAll(CompanyJobSkillPoco[] items)
+    public void Update(params CompanyJobSkillPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.CompanyJobSkills.UpdateRange(items);

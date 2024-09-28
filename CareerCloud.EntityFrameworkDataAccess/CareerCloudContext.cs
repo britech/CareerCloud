@@ -1,10 +1,9 @@
-﻿using CareerCloud.Configurations;
-using CareerCloud.Pocos;
+﻿using CareerCloud.Pocos;
 using Microsoft.EntityFrameworkCore;
 
 namespace CareerCloud.EntityFrameworkDataAccess
 {
-    public class CareerCloudContext(ICareerCloudConfigResolver configResolver) : DbContext
+    public class CareerCloudContext(DbContextOptions<CareerCloudContext> options) : DbContext(options)
     {
         public DbSet<ApplicantEducationPoco> ApplicantEducations { get; set; }
         public DbSet<ApplicantJobApplicationPoco> ApplicantJobApplications { get; set; }
@@ -25,14 +24,6 @@ namespace CareerCloud.EntityFrameworkDataAccess
         public DbSet<SecurityRolePoco> SecurityRoles { get; set; }
         public DbSet<SystemCountryCodePoco> SystemCountryCodes { get; set; }
         public DbSet<SystemLanguageCodePoco> SystemLanguageCodes { get; set; }
-
-        private readonly ICareerCloudConfigResolver _configResolver = configResolver;
-
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
-        {
-            builder.UseSqlServer(_configResolver.GetConnectionString())
-                .LogTo(Console.WriteLine);
-        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

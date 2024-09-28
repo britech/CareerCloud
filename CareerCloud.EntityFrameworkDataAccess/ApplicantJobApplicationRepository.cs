@@ -5,31 +5,46 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 
-public class ApplicantJobApplicationRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : ICrudRepository<ApplicantJobApplicationPoco>
+public class ApplicantJobApplicationRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : IDataRepository<ApplicantJobApplicationPoco>
 {
     private readonly IDbContextFactory<CareerCloudContext> _dbContextFactory = dbContextFactory;
 
-    public void AddAll(ApplicantJobApplicationPoco[] items)
+    public void Add(params ApplicantJobApplicationPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.ApplicantJobApplications.AddRange(items);
         ctx.SaveChanges();
     }
 
-    public ApplicantJobApplicationPoco FindOne(Expression<Func<ApplicantJobApplicationPoco, bool>> expression)
+    public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
     {
-        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        return ctx.ApplicantJobApplications.Where(expression).FirstOrDefault()!;
+        throw new NotImplementedException();
     }
 
-    public void RemoveAll(ApplicantJobApplicationPoco[] items)
+    public IList<ApplicantJobApplicationPoco> GetAll(params Expression<Func<ApplicantJobApplicationPoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IList<ApplicantJobApplicationPoco> GetList(Expression<Func<ApplicantJobApplicationPoco, bool>> where, params Expression<Func<ApplicantJobApplicationPoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ApplicantJobApplicationPoco GetSingle(Expression<Func<ApplicantJobApplicationPoco, bool>> where, params Expression<Func<ApplicantJobApplicationPoco, object>>[] navigationProperties)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.ApplicantJobApplications.Where(where).FirstOrDefault()!;
+    }
+
+    public void Remove(params ApplicantJobApplicationPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.ApplicantJobApplications.RemoveRange(items);
         ctx.SaveChanges();
     }
 
-    public void UpdateAll(ApplicantJobApplicationPoco[] items)
+    public void Update(params ApplicantJobApplicationPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.ApplicantJobApplications.UpdateRange(items);

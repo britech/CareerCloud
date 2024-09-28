@@ -5,31 +5,46 @@ using System.Linq.Expressions;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 
-public class SecurityRoleRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : ICrudRepository<SecurityRolePoco>
+public class SecurityRoleRepository(IDbContextFactory<CareerCloudContext> dbContextFactory) : IDataRepository<SecurityRolePoco>
 {
     private readonly IDbContextFactory<CareerCloudContext> _dbContextFactory = dbContextFactory;
 
-    public void AddAll(SecurityRolePoco[] items)
+    public void Add(params SecurityRolePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.SecurityRoles.AddRange(items);
         ctx.SaveChanges();
     }
 
-    public SecurityRolePoco FindOne(Expression<Func<SecurityRolePoco, bool>> expression)
+    public void CallStoredProc(string name, params Tuple<string, string>[] parameters)
     {
-        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        return ctx.SecurityRoles.Where(expression).FirstOrDefault()!;
+        throw new NotImplementedException();
     }
 
-    public void RemoveAll(SecurityRolePoco[] items)
+    public IList<SecurityRolePoco> GetAll(params Expression<Func<SecurityRolePoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IList<SecurityRolePoco> GetList(Expression<Func<SecurityRolePoco, bool>> where, params Expression<Func<SecurityRolePoco, object>>[] navigationProperties)
+    {
+        throw new NotImplementedException();
+    }
+
+    public SecurityRolePoco GetSingle(Expression<Func<SecurityRolePoco, bool>> where, params Expression<Func<SecurityRolePoco, object>>[] navigationProperties)
+    {
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.SecurityRoles.Where(where).FirstOrDefault()!;
+    }
+
+    public void Remove(params SecurityRolePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.SecurityRoles.RemoveRange(items);
         ctx.SaveChanges();
     }
 
-    public void UpdateAll(SecurityRolePoco[] items)
+    public void Update(params SecurityRolePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         ctx.SecurityRoles.UpdateRange(items);
