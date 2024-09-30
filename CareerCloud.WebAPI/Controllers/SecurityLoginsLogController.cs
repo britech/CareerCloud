@@ -2,30 +2,33 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CareerCloud.WebAPI.Controllers
+namespace CareerCloud.WebAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class SecurityLoginsLogController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SecurityLoginsLogController : ControllerBase
+    [HttpDelete]
+    public ActionResult DeleteSecurityLoginLog(SecurityLoginsLogPoco[] securityLoginsLogPocos)
     {
-        public ActionResult DeleteSecurityLoginLog(SecurityLoginsLogPoco[] securityLoginsLogPocos)
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
+    }
 
-        public OkObjectResult GetSecurityLoginLog(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+    [HttpGet]
+    public OkObjectResult GetSecurityLoginLog(Guid id)
+    {
+        throw new NotImplementedException();
+    }
 
-        public ActionResult PostSecurityLoginLog(SecurityLoginsLogPoco[] securityLoginsLogPocos)
-        {
-            throw new NotImplementedException();
-        }
+    [HttpPost]
+    public ActionResult PostSecurityLoginLog(SecurityLoginsLogPoco[] securityLoginsLogPocos)
+    {
+        throw new NotImplementedException();
+    }
 
-        public ActionResult PutSecurityLoginLog(SecurityLoginsLogPoco[] securityLoginsLogPocos)
-        {
-            throw new NotImplementedException();
-        }
+    [HttpPut]
+    public ActionResult PutSecurityLoginLog(SecurityLoginsLogPoco[] securityLoginsLogPocos)
+    {
+        throw new NotImplementedException();
     }
 }
