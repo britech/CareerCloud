@@ -27,7 +27,7 @@ public class EFGenericRepository<T>(TypeAwareRepositoryFactory factory) : IDataR
 
     public IList<T> GetAll(params Expression<Func<T, object>>[] navigationProperties)
     {
-        throw new NotImplementedException();
+        return Factory.GetRepository<T>().GetAll(navigationProperties);
     }
 
     public IList<T> GetList(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)
