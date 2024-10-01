@@ -4,23 +4,9 @@ public class TypeAwareRepositoryFactory
 {
     private readonly Dictionary<Type, object> _repositories;
 
-    public TypeAwareRepositoryFactory(Dictionary<Type, object> repositories)
+    public TypeAwareRepositoryFactory()
     {
-        if (!repositories.AsEnumerable().All(e =>
-        {
-            var valueType = e.Value.GetType();
-            return typeof(IDataRepository<>) == valueType;
-        }))
-        {
-            throw new ArgumentException("All repositories must extend from IDataRepository.");
-        }
-        
-        _repositories = repositories;
-    }
-
-    public TypeAwareRepositoryFactory() : this([])
-    {
-
+        _repositories = [];
     }
 
     public void RegisterRepository<T>(IDataRepository<T> repository)
