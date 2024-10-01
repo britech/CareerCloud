@@ -6,13 +6,13 @@ using CareerCloud.Pocos;
 
 namespace CareerCloud.WebAPI.Services;
 
-public class CareerCloudServiceFactory : TypeAwareServiceFactory
+public class CareerCloudServiceProvider : BusinessLogicServiceProvider
 {
-    private static readonly Lazy<CareerCloudServiceFactory> _instance = new(() => new CareerCloudServiceFactory(new EFRepositoryFactory(new CareerCloudContextFactory(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration)))));
+    private static readonly Lazy<CareerCloudServiceProvider> _instance = new(() => new CareerCloudServiceProvider(new EFRepositoryFactory(new CareerCloudContextFactory(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration)))));
 
-    public static CareerCloudServiceFactory Instance { get { return _instance.Value; } }
+    public static CareerCloudServiceProvider Instance { get { return _instance.Value; } }
 
-    private CareerCloudServiceFactory(TypeAwareRepositoryFactory factory)
+    private CareerCloudServiceProvider(TypeAwareRepositoryFactory factory)
     {
         RegisterService(new ApplicantEducationLogic(factory.GetRepository<ApplicantEducationPoco>()));
         RegisterService(new ApplicantJobApplicationLogic(factory.GetRepository<ApplicantJobApplicationPoco>()));
