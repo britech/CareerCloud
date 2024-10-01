@@ -6,7 +6,7 @@ namespace CareerCloud.EntityFrameworkDataAccess;
 public class EFGenericRepository<T>(IDataRepositoryFactory factory) : IDataRepository<T>
     where T : class
 {
-    private TypeAwareRepositoryFactory Factory { get; init; } = factory;
+    private IDataRepositoryFactory Factory { get; init; } = factory;
 
     public EFGenericRepository()
         : this(new EFRepositoryFactory(new CareerCloudContextFactory(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration))))
