@@ -2,22 +2,21 @@
 
 public class IDataRepositoryFactory
 {
-    private readonly List<object> _repositories = [];
-
+    private readonly Dictionary<Type, object> _repositories = [];
+    
     public virtual void RegisterRepository<T>(IDataRepository<T> repository)
     {
-        _repositories.Add(repository);
+        _repositories.Add(typeof(T), repository);
     }
 
     public virtual IDataRepository<T> GetRepository<T>()
     {
-        foreach (object item in _repositories)
-        {
-            if (item is IDataRepository<T> repository)
-            {
-                return repository;
-            }
-        }
-        throw new Exception($"No repository available for type {nameof(T)}");
+        Type key = typeof(T);
+        object? value = _repositories[key];
+
+        if (value is IDataRepository<T>)
+            return (value as IDataRepository<T>)!;
+        else
+            throw new Exception($"No repository available for type {nameof(key)}");
     }
 }
