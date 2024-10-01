@@ -26,7 +26,7 @@ public class TypeAwareServiceFactory
         where T : IPoco
     {
         Type type = typeof(T);
-        if (services.TryGetValue(type, out object? value))
+        if (services.TryGetValue(type, out object? value) && value is BaseLogic<T>)
             return (value as BaseLogic<T>)!;
         else
             throw new Exception($"No available service for type {nameof(type)}");
@@ -35,7 +35,7 @@ public class TypeAwareServiceFactory
     public virtual AbstractValidatedPocoCRUDService<T, I> CreateService<T, I>()
     {
         Type type = typeof(T);
-        if (services.TryGetValue(type, out object? value))
+        if (services.TryGetValue(type, out object? value) && value is AbstractValidatedPocoCRUDService<T, I>)
             return (value as AbstractValidatedPocoCRUDService<T, I>)!;
         else
             throw new Exception($"No available service for type {nameof(type)}");
