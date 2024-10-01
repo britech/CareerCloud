@@ -10,8 +10,8 @@ public abstract class AbstractCrudController<T, I> : ControllerBase
     [NonAction]
     protected abstract ActionResult FindById(I id);
 
-    [NonAction]
-    protected abstract ActionResult FindAll();
+    [HttpGet]
+    public abstract ActionResult FindAll();
 
     [NonAction]
     protected abstract ActionResult Add(T[] items);

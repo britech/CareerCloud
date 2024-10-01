@@ -28,7 +28,7 @@ public abstract class BaseCrudController<T, I>(AbstractValidatedPocoCRUDService<
         return FindById(Service.Get, id);
     }
 
-    protected override ActionResult FindAll()
+    public override ActionResult FindAll()
     {
         return FindAll(() => Service.GetAll()?.ToArray()!);
     }
