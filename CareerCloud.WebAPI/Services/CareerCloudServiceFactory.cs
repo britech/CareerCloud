@@ -1,18 +1,13 @@
 ﻿using CareerCloud.BusinessLogicLayer;
-using CareerCloud.Configurations;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 
 namespace CareerCloud.WebAPI.Services;
 
-public class CareerCloudServiceProvider : BusinessLogicServiceProvider
+public class CareerCloudServiceFactory : BusinessLogicFactory
 {
-    private static readonly Lazy<CareerCloudServiceProvider> _instance = new(() => new CareerCloudServiceProvider(new EFRepositoryFactory(new CareerCloudContextFactory(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration)))));
-
-    public static CareerCloudServiceProvider Instance { get { return _instance.Value; } }
-
-    private CareerCloudServiceProvider(TypeAwareRepositoryFactory factory)
+    public CareerCloudServiceFactory(IDataRepositoryFactory factory)
     {
         RegisterService(new ApplicantEducationLogic(factory.GetRepository<ApplicantEducationPoco>()));
         RegisterService(new ApplicantJobApplicationLogic(factory.GetRepository<ApplicantJobApplicationPoco>()));
@@ -33,5 +28,12 @@ public class CareerCloudServiceProvider : BusinessLogicServiceProvider
         RegisterService(new SecurityRoleLogic(factory.GetRepository<SecurityRolePoco>()));
         RegisterService(new SystemCountryCodeLogic(factory.GetRepository<SystemCountryCodePoco>()));
         RegisterService(new SystemLanguageCodeLogic(factory.GetRepository<SystemLanguageCodePoco>()));
+    }
+
+    public static class Default
+    {
+        private static readonly Lazy<CareerCloudServiceFactory> _instance = new(() => new CareerCloudServiceFactory(EFRepositoryFactory.Default.Instance));
+
+        public static CareerCloudServiceFactory Instance { get { return _instance.Value; } }
     }
 }
