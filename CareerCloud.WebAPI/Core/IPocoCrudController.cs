@@ -4,33 +4,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Core;
 
-public abstract class IPocoCrudController<T>(BaseLogic<T> service) : AbstractCrudController<T, Guid>
+public abstract class IPocoCrudController<T>(BusinessLogicFactory factory) : AbstractCrudController<T, Guid>(factory)
     where T : IPoco
 {
-    public BaseLogic<T> Service { get; init; } = service;
-
     protected override ActionResult Add(T[] items)
     {
-        return Save(Service.Add, items);
+        return Save(Factory.CreateIPocoService<T>().Add, items);
     }
 
     protected override ActionResult Update(T[] items)
     {
-        return Save(Service.Update, items);
+        return Save(Factory.CreateIPocoService<T>().Update, items);
     }
 
     protected override ActionResult Delete(T[] items)
     {
-        return Save(Service.Delete, items);
+        return Save(Factory.CreateIPocoService<T>().Delete, items);
     }
 
     protected override ActionResult FindById(Guid id)
     {
-        return FindById(Service.Get, id);
+        return FindById(Factory.CreateIPocoService<T>().Get, id);
     }
 
     public override ActionResult FindAll()
     {
-        return FindAll(() => Service.GetAll()?.ToArray()!);
+        return FindAll(() => Factory.CreateIPocoService<T>().GetAll()?.ToArray()!);
     }
 }

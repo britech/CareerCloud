@@ -5,8 +5,10 @@ namespace CareerCloud.WebAPI.Core;
 
 [Route("api/careercloud/v1/[controller]")]
 [ApiController]
-public abstract class AbstractCrudController<T, I> : ControllerBase
+public abstract class AbstractCrudController<T, I>(BusinessLogicFactory factory) : ControllerBase
 {
+    public BusinessLogicFactory Factory { get; init; } = factory;
+
     [NonAction]
     protected abstract ActionResult FindById(I id);
 
