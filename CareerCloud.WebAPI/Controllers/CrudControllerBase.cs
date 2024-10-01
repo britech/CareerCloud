@@ -1,16 +1,19 @@
 ﻿using CareerCloud.BusinessLogicLayer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CareerCloud.WebAPI.Helpers;
+namespace CareerCloud.WebAPI.Controllers;
 
-public class ControllerHelper
+[Route("api/careercloud/v1/[controller]")]
+[ApiController]
+public class CrudControllerBase<T, I> : ControllerBase
 {
-    public static ActionResult ModifyItems<T>(Action<T> action, T items)
+    [NonAction]
+    public virtual ActionResult Modify(Action<T[]> action, T[] items)
     {
         try
         {
             action.Invoke(items);
-            return new OkResult();
+            return Ok();
         }
         catch (AggregateException ex)
         {
@@ -25,12 +28,13 @@ public class ControllerHelper
         }
     }
 
-    public static ActionResult GetItem<TId, TResult>(Func<TId, TResult> func, TId id)
+    [NonAction]
+    public virtual ActionResult Query(Func<I, T> func, I id)
     {
         try
         {
-            TResult result = func.Invoke(id);
-            return result == null ? new NotFoundResult() : new OkObjectResult(result);
+            T result = func.Invoke(id);
+            return result == null ? NotFound() : Ok(result);
         }
         catch (Exception ex)
         {
