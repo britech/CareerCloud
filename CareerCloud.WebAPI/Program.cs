@@ -2,17 +2,17 @@ using CareerCloud.BusinessLogicLayer;
 using CareerCloud.Configurations;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.EntityFrameworkDataAccess;
-using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers(options =>
+{
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -41,9 +41,8 @@ builder.Configuration.AddJsonFile("appsettings.json");
 
 builder.Services.AddSingleton<ICareerCloudConfigResolver, CareerCloudConfigResolver>()
     .AddPooledDbContextFactory<CareerCloudContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("JOB_PORTAL")))
-    .AddSingleton<TypeAwareRepositoryFactory, EFRepositoryFactory>()
-    .AddSingleton(typeof(IDataRepository<>), typeof(EFGenericRepository<>))
-    .AddSingleton<AbstractValidatedPocoCRUDService<SystemCountryCodePoco, string>, SystemCountryCodeLogic>();
+    .AddSingleton<IDataRepositoryFactory, EFRepositoryFactory>()
+    .AddSingleton<BusinessLogicFactory, CareerCloudServiceFactory>();
 
 var app = builder.Build();
 
