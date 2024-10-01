@@ -1,10 +1,9 @@
-﻿using CareerCloud.Configurations;
-using CareerCloud.DataAccessLayer;
+﻿using CareerCloud.DataAccessLayer;
 using System.Linq.Expressions;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 
-public class EFGenericRepository<T>(TypeAwareRepositoryFactory factory) : IDataRepository<T>
+public class EFGenericRepository<T>(IDataRepositoryFactory factory) : IDataRepository<T>
     where T : class
 {
     private TypeAwareRepositoryFactory Factory { get; init; } = factory;

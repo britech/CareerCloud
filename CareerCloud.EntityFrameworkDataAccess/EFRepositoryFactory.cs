@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 
-public class EFRepositoryFactory : TypeAwareRepositoryFactory
+public class EFRepositoryFactory : IDataRepositoryFactory
 {
     public EFRepositoryFactory(IDbContextFactory<CareerCloudContext> dbContextFactory)
     {
