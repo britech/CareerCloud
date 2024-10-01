@@ -17,7 +17,7 @@ public class TypeAwareRepositoryFactory
     public IDataRepository<T> GetRepository<T>()
     {
         Type type = typeof(T);
-        if (_repositories.TryGetValue(type, out object? value))
+        if (_repositories.TryGetValue(type, out object? value) && value is IDataRepository<T>)
             return (value as IDataRepository<T>)!;
         else
             throw new Exception($"No available repository for type {nameof(type)}");
