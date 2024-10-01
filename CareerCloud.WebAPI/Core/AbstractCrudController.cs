@@ -1,14 +1,29 @@
 ﻿using CareerCloud.BusinessLogicLayer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CareerCloud.WebAPI.Controllers;
+namespace CareerCloud.WebAPI.Core;
 
 [Route("api/careercloud/v1/[controller]")]
 [ApiController]
-public class CrudControllerBase<T, I> : ControllerBase
+public abstract class AbstractCrudController<T, I> : ControllerBase
 {
     [NonAction]
-    public virtual ActionResult Modify(Action<T[]> action, T[] items)
+    protected abstract ActionResult FindById(I id);
+
+    [NonAction]
+    protected abstract ActionResult FindAll();
+
+    [NonAction]
+    protected abstract ActionResult Add(T[] items);
+
+    [NonAction]
+    protected abstract ActionResult Update(T[] items);
+
+    [NonAction]
+    protected abstract ActionResult Delete(T[] items);
+
+    [NonAction]
+    protected virtual ActionResult Save(Action<T[]> action, T[] items)
     {
         try
         {
@@ -29,7 +44,7 @@ public class CrudControllerBase<T, I> : ControllerBase
     }
 
     [NonAction]
-    public virtual ActionResult Query(Func<I, T> func, I id)
+    protected virtual ActionResult FindById(Func<I, T> func, I id)
     {
         try
         {
@@ -42,7 +57,21 @@ public class CrudControllerBase<T, I> : ControllerBase
         }
     }
 
-    private static ObjectResult BuildGeneralFault(Exception ex)
+    [NonAction]
+    protected virtual ActionResult FindAll(Func<T[]> func)
+    {
+        try
+        {
+            T[] results = func.Invoke();
+            return results == null || results.Length == 0 ? NoContent() : Ok(results);
+        }
+        catch (Exception ex)
+        {
+            return BuildGeneralFault(ex);
+        }
+    }
+
+    protected virtual ObjectResult BuildGeneralFault(Exception ex)
     {
         return BuildApiFault(new ProblemDetails()
         {
@@ -57,7 +86,7 @@ public class CrudControllerBase<T, I> : ControllerBase
         });
     }
 
-    private static ObjectResult BuildValidationFault(AggregateException ex)
+    protected virtual ObjectResult BuildValidationFault(AggregateException ex)
     {
         Dictionary<int, string> violatedRules = [];
         foreach (var entry in ex.InnerExceptions)
@@ -78,7 +107,7 @@ public class CrudControllerBase<T, I> : ControllerBase
         });
     }
 
-    private static ObjectResult BuildApiFault(ProblemDetails problem)
+    protected virtual ObjectResult BuildApiFault(ProblemDetails problem)
     {
         return new ObjectResult(problem)
         {
