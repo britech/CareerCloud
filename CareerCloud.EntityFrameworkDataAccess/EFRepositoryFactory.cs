@@ -1,4 +1,5 @@
-﻿using CareerCloud.DataAccessLayer;
+﻿using CareerCloud.Configurations;
+using CareerCloud.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
@@ -26,5 +27,12 @@ public class EFRepositoryFactory : IDataRepositoryFactory
         RegisterRepository(new SecurityRoleRepository(dbContextFactory));
         RegisterRepository(new SystemCountryCodeRepository(dbContextFactory));
         RegisterRepository(new SystemLanguageCodeRepository(dbContextFactory));
+    }
+
+    public static class Default
+    {
+        private static readonly Lazy<EFRepositoryFactory> _instance = new(() => new EFRepositoryFactory(new CareerCloudContextFactory(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration))));
+
+        public static EFRepositoryFactory Instance { get { return _instance.Value; } }
     }
 }

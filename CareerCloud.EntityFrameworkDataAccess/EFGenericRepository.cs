@@ -9,7 +9,7 @@ public class EFGenericRepository<T>(IDataRepositoryFactory factory) : IDataRepos
     private IDataRepositoryFactory Factory { get; init; } = factory;
 
     public EFGenericRepository()
-        : this(new EFRepositoryFactory(new CareerCloudContextFactory(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration))))
+        : this(EFRepositoryFactory.Default.Instance)
     {
 
     }
