@@ -1,34 +1,46 @@
-﻿using CareerCloud.Pocos;
-using Microsoft.AspNetCore.Http;
+﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Core;
+using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class SecurityLoginController : ControllerBase
+public class SecurityLoginController : IPocoCrudController<SecurityLoginPoco>
 {
-    [HttpDelete]
-    public ActionResult DeleteSecurityLogin(SecurityLoginPoco[] securityLoginPocos)
+    [ActivatorUtilitiesConstructor]
+    public SecurityLoginController(BusinessLogicFactory factory) : base(factory)
     {
-        throw new NotImplementedException();
+    }
+
+    public SecurityLoginController()
+        : this(CareerCloudServiceFactory.Default.Instance)
+    {
+
+    }
+
+    [HttpDelete]
+    public ActionResult DeleteSecurityLogin(SecurityLoginPoco[] users)
+    {
+        return Delete(users);
     }
 
     [HttpGet]
-    public OkObjectResult GetSecurityLogin(Guid id)
+    [Route("{id}")]
+    public ActionResult GetSecurityLogin(Guid id)
     {
-        throw new NotImplementedException();
+        return FindById(id);
     }
 
     [HttpPost]
-    public ActionResult PostSecurityLogin(SecurityLoginPoco[] securityLoginPocos)
+    public ActionResult PostSecurityLogin(SecurityLoginPoco[] users)
     {
-        throw new NotImplementedException();
+        return Add(users);
     }
 
     [HttpPut]
-    public ActionResult PutSecurityLogin(SecurityLoginPoco[] securityLoginPocos)
+    public ActionResult PutSecurityLogin(SecurityLoginPoco[] users)
     {
-        throw new NotImplementedException();
+        return Update(users);
     }
 }

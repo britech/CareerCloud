@@ -1,34 +1,46 @@
-﻿using CareerCloud.Pocos;
-using Microsoft.AspNetCore.Http;
+﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Core;
+using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class CompanyDescriptionController : ControllerBase
+public class CompanyDescriptionController : IPocoCrudController<CompanyDescriptionPoco>
 {
+    [ActivatorUtilitiesConstructor]
+    public CompanyDescriptionController(BusinessLogicFactory factory) : base(factory)
+    {
+    }
+
+    public CompanyDescriptionController()
+        : this(CareerCloudServiceFactory.Default.Instance)
+    {
+
+    }
+
     [HttpDelete]
     public ActionResult DeleteCompanyDescription(CompanyDescriptionPoco[] companyDescriptionPocos)
     {
-        throw new NotImplementedException();
+        return Delete(companyDescriptionPocos);
     }
 
     [HttpGet]
+    [Route("{id}")]
     public ActionResult GetCompanyDescription(Guid id)
     {
-        throw new NotImplementedException();
+        return FindById(id);
     }
 
     [HttpPost]
-    public ActionResult PostCompanyDescription(CompanyDescriptionPoco[] companyDescriptionPocos)
+    public ActionResult PostCompanyDescription(CompanyDescriptionPoco[] descriptions)
     {
-        throw new NotImplementedException();
+        return Add(descriptions);
     }
 
     [HttpPut]
-    public ActionResult PutCompanyDescription(CompanyDescriptionPoco[] companyDescriptionPocos)
+    public ActionResult PutCompanyDescription(CompanyDescriptionPoco[] descriptions)
     {
-        throw new NotImplementedException();
+        return Update(descriptions);
     }
 }

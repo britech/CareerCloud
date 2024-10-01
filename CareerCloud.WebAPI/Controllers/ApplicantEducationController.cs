@@ -1,55 +1,47 @@
 ﻿using CareerCloud.BusinessLogicLayer;
-using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Core;
+using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Controllers;
 
-[Route("api/careercloud/v1/[controller]")]
-[ApiController]
-public class ApplicantEducationController : ControllerBase
+public class ApplicantEducationController : IPocoCrudController<ApplicantEducationPoco>
 {
-    private readonly BaseLogic<ApplicantEducationPoco> _logic;
-
     [ActivatorUtilitiesConstructor]
-    public ApplicantEducationController(BaseLogic<ApplicantEducationPoco> logic)
+    public ApplicantEducationController(BusinessLogicFactory factory) : base(factory)
     {
-        _logic = logic;
+
     }
 
     public ApplicantEducationController()
-        : this(new ApplicantEducationLogic(new EFGenericRepository<ApplicantEducationPoco>()))
+        : this(CareerCloudServiceFactory.Default.Instance)
     {
 
     }
 
-    /// <summary>
-    ///     Adds the 
-    /// </summary>
-    /// <param name="applicantEducationPocos"></param>
-    /// <returns></returns>
     [HttpPost]
-    public ActionResult PostApplicantEducation([FromBody] ApplicantEducationPoco[] applicantEducationPocos)
+    public ActionResult PostApplicantEducation(ApplicantEducationPoco[] educations)
     {
-        return Ok();
+        return Add(educations);
     }
 
     [HttpGet]
     [Route("{id}")]
     public ActionResult GetApplicantEducation(Guid id)
     {
-        throw new NotImplementedException();
+        return FindById(id);
     }
 
     [HttpPut]
-    public ActionResult PutApplicantEducation(ApplicantEducationPoco[] applicantEducationPocos)
+    public ActionResult PutApplicantEducation(ApplicantEducationPoco[] educations)
     {
-        throw new NotImplementedException();
+        return Update(educations);
     }
 
     [HttpDelete]
-    public ActionResult DeleteApplicantEducation(ApplicantEducationPoco[] applicantEducationPocos)
+    public ActionResult DeleteApplicantEducation(ApplicantEducationPoco[] educations)
     {
-        throw new NotImplementedException();
+        return Delete(educations);
     }
 }

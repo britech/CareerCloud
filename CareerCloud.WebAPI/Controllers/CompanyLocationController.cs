@@ -1,34 +1,48 @@
-﻿using CareerCloud.Pocos;
-using Microsoft.AspNetCore.Http;
+﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Core;
+using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CompanyLocationController : ControllerBase
+public class CompanyLocationController : IPocoCrudController<CompanyLocationPoco>
 {
-    [HttpDelete]
-    public OkObjectResult DeleteCompanyLocation(CompanyLocationPoco[] companyLocationPocos)
+    [ActivatorUtilitiesConstructor]
+    public CompanyLocationController(BusinessLogicFactory factory) : base(factory)
     {
-        throw new NotImplementedException();
+    }
+
+    public CompanyLocationController()
+        : this(CareerCloudServiceFactory.Default.Instance)
+    {
+
+    }
+
+    [HttpDelete]
+    public ActionResult DeleteCompanyLocation(CompanyLocationPoco[] locations)
+    {
+        return Delete(locations);
     }
 
     [HttpGet]
-    public OkObjectResult GetCompanyLocation(Guid id)
+    [Route("{id}")]
+    public ActionResult GetCompanyLocation(Guid id)
     {
-        throw new NotImplementedException();
+        return FindById(id);
     }
 
     [HttpPost]
-    public ActionResult PostCompanyLocation(CompanyLocationPoco[] companyLocationPocos)
+    public ActionResult PostCompanyLocation(CompanyLocationPoco[] locations)
     {
-        throw new NotImplementedException();
+        return Add(locations);
     }
 
     [HttpPut]
-    public ActionResult PutCompanyLocation(CompanyLocationPoco[] companyLocationPocos)
+    public ActionResult PutCompanyLocation(CompanyLocationPoco[] locations)
     {
-        throw new NotImplementedException();
+        return Update(locations);
     }
 }

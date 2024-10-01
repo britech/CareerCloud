@@ -1,34 +1,47 @@
-﻿using CareerCloud.Pocos;
-using Microsoft.AspNetCore.Http;
+﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Core;
+using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class ApplicantJobApplicationController : ControllerBase
+public class ApplicantJobApplicationController : IPocoCrudController<ApplicantJobApplicationPoco>
 {
-    [HttpDelete]
-    public ActionResult DeleteApplicantJobApplication(ApplicantJobApplicationPoco[] applicantJobApplicationPocos)
+    [ActivatorUtilitiesConstructor]
+    public ApplicantJobApplicationController(BusinessLogicFactory factory) : base(factory)
     {
-        throw new NotImplementedException();
+
+    }
+
+    public ApplicantJobApplicationController()
+        : this(CareerCloudServiceFactory.Default.Instance)
+    {
+
+    }
+
+    [HttpDelete]
+    public ActionResult DeleteApplicantJobApplication(ApplicantJobApplicationPoco[] jobApplications)
+    {
+        return Delete(jobApplications);
     }
 
     [HttpGet]
-    public OkObjectResult GetApplicantJobApplication(Guid id)
+    [Route("{id}")]
+    public ActionResult GetApplicantJobApplication(Guid id)
     {
-        throw new NotImplementedException();
+        return FindById(id);
     }
 
     [HttpPost]
-    public ActionResult PostApplicantJobApplication(ApplicantJobApplicationPoco[] applicantJobApplicationPocos)
+    public ActionResult PostApplicantJobApplication(ApplicantJobApplicationPoco[] jobApplications)
     {
-        throw new NotImplementedException();
+        return Add(jobApplications);
     }
 
     [HttpPut]
-    public ActionResult PutApplicantJobApplication(ApplicantJobApplicationPoco[] applicantJobApplicationPocos)
+    public ActionResult PutApplicantJobApplication(ApplicantJobApplicationPoco[] jobApplications)
     {
-        throw new NotImplementedException();
+        return Update(jobApplications);
     }
 }

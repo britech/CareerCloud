@@ -1,34 +1,47 @@
-﻿using CareerCloud.Pocos;
-using Microsoft.AspNetCore.Http;
+﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Core;
+using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class ApplicantResumeController : ControllerBase
+public class ApplicantResumeController : IPocoCrudController<ApplicantResumePoco>
 {
-    [HttpDelete]
-    public ActionResult DeleteApplicantResume(ApplicantResumePoco[] applicantResumePocos)
+    [ActivatorUtilitiesConstructor]
+    public ApplicantResumeController(BusinessLogicFactory factory) : base(factory)
     {
-        throw new NotImplementedException();
+
+    }
+
+    public ApplicantResumeController()
+        : this(CareerCloudServiceFactory.Default.Instance)
+    {
+
+    }
+
+    [HttpDelete]
+    public ActionResult DeleteApplicantResume(ApplicantResumePoco[] resumes)
+    {
+        return Delete(resumes);
     }
 
     [HttpGet]
-    public OkObjectResult GetApplicantResume(Guid id)
+    [Route("{id}")]
+    public ActionResult GetApplicantResume(Guid id)
     {
-        throw new NotImplementedException();
+        return FindById(id);
     }
 
     [HttpPost]
-    public ActionResult PostApplicantResume(ApplicantResumePoco[] applicantResumePocos)
+    public ActionResult PostApplicantResume(ApplicantResumePoco[] resumes)
     {
-        throw new NotImplementedException();
+        return Add(resumes);
     }
 
     [HttpPut]
-    public ActionResult PutApplicantResume(ApplicantResumePoco[] applicantResumePocos)
+    public ActionResult PutApplicantResume(ApplicantResumePoco[] resumes)
     {
-        throw new NotImplementedException();
+        return Update(resumes);
     }
 }

@@ -1,50 +1,47 @@
 ﻿using CareerCloud.BusinessLogicLayer;
-using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
-using CareerCloud.WebAPI.Helpers;
+using CareerCloud.WebAPI.Core;
+using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Controllers;
 
-[Route("api/careercloud/v1/[controller]")]
-[ApiController]
-public class SystemCountryCodeController : ControllerBase
+public class SystemCountryCodeController : BaseCrudController<SystemCountryCodePoco, string>
 {
-    private readonly AbstractValidatedPocoCRUDService<SystemCountryCodePoco, string> _service;
-
     [ActivatorUtilitiesConstructor]
-    public SystemCountryCodeController(AbstractValidatedPocoCRUDService<SystemCountryCodePoco, string> service)
+    public SystemCountryCodeController(BusinessLogicFactory factory) : base(factory)
     {
-        _service = service;
+
     }
 
     public SystemCountryCodeController()
-        : this(new SystemCountryCodeLogic(new EFGenericRepository<SystemCountryCodePoco>()))
+        : this(CareerCloudServiceFactory.Default.Instance)
     {
 
     }
 
     [HttpPost]
-    public ActionResult PostSystemCountryCode(SystemCountryCodePoco[] systemCountryCodePocos)
+    public ActionResult PostSystemCountryCode(SystemCountryCodePoco[] items)
     {
-        return ControllerHelper.ModifyItems<SystemCountryCodePoco[]>(_service.Add, systemCountryCodePocos);
+        return Add(items);
     }
 
     [HttpGet]
+    [Route("{code}")]
     public ActionResult GetSystemCountryCode(string code)
     {
-        return ControllerHelper.GetItem<string, SystemCountryCodePoco>(_service.Get, code);
+        return FindById(code);
     }
 
     [HttpPut]
-    public ActionResult PutSystemCountryCode(SystemCountryCodePoco[] systemCountryCodePocos)
+    public ActionResult PutSystemCountryCode(SystemCountryCodePoco[] items)
     {
-        return ControllerHelper.ModifyItems<SystemCountryCodePoco[]>(_service.Update, systemCountryCodePocos);
+        return Update(items);
     }
 
     [HttpDelete]
-    public ActionResult DeleteSystemCountryCode(SystemCountryCodePoco[] systemCountryCodePocos)
+    public ActionResult DeleteSystemCountryCode(SystemCountryCodePoco[] items)
     {
-        return ControllerHelper.ModifyItems<SystemCountryCodePoco[]>(_service.Delete, systemCountryCodePocos);
+        return Delete(items);
     }
 }

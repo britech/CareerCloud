@@ -1,34 +1,48 @@
-﻿using CareerCloud.Pocos;
-using Microsoft.AspNetCore.Http;
+﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Core;
+using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class SystemLanguageCodeController : ControllerBase
+public class SystemLanguageCodeController : BaseCrudController<SystemLanguageCodePoco, string>
 {
-    [HttpDelete]
-    public ActionResult DeleteSystemLanguageCode(SystemLanguageCodePoco[] systemLanguageCodePocos)
+    [ActivatorUtilitiesConstructor]
+    public SystemLanguageCodeController(BusinessLogicFactory factory)
+        : base(factory)
     {
-        throw new NotImplementedException();
+
+    }
+
+    public SystemLanguageCodeController()
+        : this(CareerCloudServiceFactory.Default.Instance)
+    {
+
+    }
+
+    [HttpDelete]
+    public ActionResult DeleteSystemLanguageCode([FromBody] SystemLanguageCodePoco[] items)
+    {
+        return Delete(items);
     }
 
     [HttpGet]
-    public ActionResult GetSystemLanguageCode(string languageID)
+    [Route("{id}")]
+    public ActionResult GetSystemLanguageCode([FromRoute] string id)
     {
-        throw new NotImplementedException();
+        return FindById(id);
     }
 
     [HttpPost]
-    public ActionResult PostSystemLanguageCode(SystemLanguageCodePoco[] systemLanguageCodePocos)
+    public ActionResult PostSystemLanguageCode([FromBody] SystemLanguageCodePoco[] items)
     {
-        throw new NotImplementedException();
+        return Add(items);
     }
 
     [HttpPut]
-    public ActionResult PutSystemLanguageCode(SystemLanguageCodePoco[] systemLanguageCodePocos)
+    public ActionResult PutSystemLanguageCode([FromBody] SystemLanguageCodePoco[] items)
     {
-        throw new NotImplementedException();
+        return Update(items);
     }
 }

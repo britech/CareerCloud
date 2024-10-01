@@ -1,34 +1,46 @@
-﻿using CareerCloud.Pocos;
-using Microsoft.AspNetCore.Http;
+﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Core;
+using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class ApplicantWorkHistoryController : ControllerBase
+public class ApplicantWorkHistoryController : IPocoCrudController<ApplicantWorkHistoryPoco>
 {
-    [HttpDelete]
-    public ActionResult DeleteApplicantWorkHistory(ApplicantWorkHistoryPoco[] applicantWorkHistoryPocos)
+    [ActivatorUtilitiesConstructor]
+    public ApplicantWorkHistoryController(BusinessLogicFactory factory) : base(factory)
     {
-        throw new NotImplementedException();
+    }
+
+    public ApplicantWorkHistoryController()
+        : this(CareerCloudServiceFactory.Default.Instance)
+    {
+
+    }
+
+    [HttpDelete]
+    public ActionResult DeleteApplicantWorkHistory(ApplicantWorkHistoryPoco[] workHistories)
+    {
+        return Delete(workHistories);
     }
 
     [HttpGet]
+    [Route("{id}")]
     public ActionResult GetApplicantWorkHistory(Guid id)
     {
-        throw new NotImplementedException();
+        return FindById(id);
     }
 
     [HttpPost]
-    public ActionResult PostApplicantWorkHistory(ApplicantWorkHistoryPoco[] applicantWorkHistoryPocos)
+    public ActionResult PostApplicantWorkHistory(ApplicantWorkHistoryPoco[] workHistories)
     {
-        throw new NotImplementedException();
+        return Add(workHistories);
     }
 
     [HttpPut]
-    public ActionResult PutApplicantWorkHistory(ApplicantWorkHistoryPoco[] applicantWorkHistoryPocos)
+    public ActionResult PutApplicantWorkHistory(ApplicantWorkHistoryPoco[] workHistories)
     {
-        throw new NotImplementedException();
+        return Update(workHistories);
     }
 }
