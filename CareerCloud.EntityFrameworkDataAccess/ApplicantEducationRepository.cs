@@ -23,7 +23,8 @@ public class ApplicantEducationRepository(IDbContextFactory<CareerCloudContext> 
 
     public IList<ApplicantEducationPoco> GetAll(params Expression<Func<ApplicantEducationPoco, object>>[] navigationProperties)
     {
-        throw new NotImplementedException();
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.ApplicantEducations.ToList();
     }
 
     public IList<ApplicantEducationPoco> GetList(Expression<Func<ApplicantEducationPoco, bool>> where, params Expression<Func<ApplicantEducationPoco, object>>[] navigationProperties)

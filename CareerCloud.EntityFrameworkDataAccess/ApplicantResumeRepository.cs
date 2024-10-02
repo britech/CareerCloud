@@ -23,7 +23,8 @@ public class ApplicantResumeRepository(IDbContextFactory<CareerCloudContext> dbC
 
     public IList<ApplicantResumePoco> GetAll(params Expression<Func<ApplicantResumePoco, object>>[] navigationProperties)
     {
-        throw new NotImplementedException();
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.ApplicantResumes.ToList();
     }
 
     public IList<ApplicantResumePoco> GetList(Expression<Func<ApplicantResumePoco, bool>> where, params Expression<Func<ApplicantResumePoco, object>>[] navigationProperties)

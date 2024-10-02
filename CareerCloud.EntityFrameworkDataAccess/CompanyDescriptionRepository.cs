@@ -23,7 +23,8 @@ public class CompanyDescriptionRepository(IDbContextFactory<CareerCloudContext> 
 
     public IList<CompanyDescriptionPoco> GetAll(params Expression<Func<CompanyDescriptionPoco, object>>[] navigationProperties)
     {
-        throw new NotImplementedException();
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.CompanyDescriptions.ToList();
     }
 
     public IList<CompanyDescriptionPoco> GetList(Expression<Func<CompanyDescriptionPoco, bool>> where, params Expression<Func<CompanyDescriptionPoco, object>>[] navigationProperties)

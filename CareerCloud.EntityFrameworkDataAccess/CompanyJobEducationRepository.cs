@@ -24,7 +24,8 @@ public class CompanyJobEducationRepository(IDbContextFactory<CareerCloudContext>
 
     public IList<CompanyJobEducationPoco> GetAll(params Expression<Func<CompanyJobEducationPoco, object>>[] navigationProperties)
     {
-        throw new NotImplementedException();
+        using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
+        return ctx.CompanyJobEducations.ToList();
     }
 
     public IList<CompanyJobEducationPoco> GetList(Expression<Func<CompanyJobEducationPoco, bool>> where, params Expression<Func<CompanyJobEducationPoco, object>>[] navigationProperties)

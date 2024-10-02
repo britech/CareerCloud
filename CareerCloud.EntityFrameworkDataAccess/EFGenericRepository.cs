@@ -1,16 +1,15 @@
-﻿using CareerCloud.Configurations;
-using CareerCloud.DataAccessLayer;
+﻿using CareerCloud.DataAccessLayer;
 using System.Linq.Expressions;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 
-public class EFGenericRepository<T>(TypeAwareRepositoryFactory factory) : IDataRepository<T>
+public class EFGenericRepository<T>(IDataRepositoryFactory factory) : IDataRepository<T>
     where T : class
 {
-    private TypeAwareRepositoryFactory Factory { get; init; } = factory;
+    private IDataRepositoryFactory Factory { get; init; } = factory;
 
     public EFGenericRepository()
-        : this(new EFRepositoryFactory(new CareerCloudContextFactory(new CareerCloudConfigResolver(DefaultConfigurationLoader.Instance.Configuration))))
+        : this(EFRepositoryFactory.Default.Instance)
     {
 
     }
@@ -27,7 +26,7 @@ public class EFGenericRepository<T>(TypeAwareRepositoryFactory factory) : IDataR
 
     public IList<T> GetAll(params Expression<Func<T, object>>[] navigationProperties)
     {
-        throw new NotImplementedException();
+        return Factory.GetRepository<T>().GetAll(navigationProperties);
     }
 
     public IList<T> GetList(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)

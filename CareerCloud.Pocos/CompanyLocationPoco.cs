@@ -1,35 +1,39 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
-namespace CareerCloud.Pocos
+namespace CareerCloud.Pocos;
+
+[Table(name: "Company_Locations")]
+public class CompanyLocationPoco : IPoco
 {
-    [Table(name: "Company_Locations")]
-    public class CompanyLocationPoco : IPoco
-    {
-        [Key]
-        public Guid Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
 
-        public Guid Company { get; set; }
+    public Guid Company { get; set; }
 
-        [Column(name: "Country_Code")]
-        public string CountryCode { get; set; }
+    [Column(name: "Country_Code")]
+    public string CountryCode { get; set; }
 
-        [Column(name: "State_Province_Code")]
-        public string? Province { get; set; }
+    [Column(name: "State_Province_Code")]
+    public string? Province { get; set; }
 
-        [Column(name: "Street_Address")]
-        public string? Street { get; set; }
+    [Column(name: "Street_Address")]
+    public string? Street { get; set; }
 
-        [Column(name: "City_Town")]
-        public string? City { get; set; }
+    [Column(name: "City_Town")]
+    public string? City { get; set; }
 
-        [Column(name: "Zip_Postal_Code")]
-        public string? PostalCode { get; set; }
+    [Column(name: "Zip_Postal_Code")]
+    public string? PostalCode { get; set; }
 
-        [Column(name: "Time_Stamp")]
-        public byte[] TimeStamp { get; set; }
+    [JsonIgnore]
+    [Column(name: "Time_Stamp")]
+    public byte[] TimeStamp { get; set; }
 
-        public virtual CompanyProfilePoco CompanyProfile { get; set; }
-        public virtual SystemCountryCodePoco SystemCountryCode { get; set; }
-    }
+    [JsonIgnore]
+    public virtual CompanyProfilePoco CompanyProfile { get; set; }
+
+    [JsonIgnore]
+    public virtual SystemCountryCodePoco SystemCountryCode { get; set; }
 }
