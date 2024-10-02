@@ -28,6 +28,7 @@ public class ApplicantJobApplicationController : IPocoCrudController<ApplicantJo
     [SwaggerResponse(StatusCodes.Status200OK, "Job applications successfully withdrawn.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpDelete]
     public ActionResult DeleteApplicantJobApplication(
         [SwaggerRequestBody(Description = "The job applications to be withdrawn.", Required = true)] ApplicantJobApplicationPoco[] jobApplications) => Delete(jobApplications);
@@ -45,6 +46,7 @@ public class ApplicantJobApplicationController : IPocoCrudController<ApplicantJo
     [SwaggerResponse(StatusCodes.Status200OK, "Job applications successfully recorded.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPost]
     public ActionResult PostApplicantJobApplication(
         [SwaggerRequestBody(Description = "The job applications to record.", Required = true)] ApplicantJobApplicationPoco[] jobApplications) => Add(jobApplications);
@@ -53,6 +55,7 @@ public class ApplicantJobApplicationController : IPocoCrudController<ApplicantJo
     [SwaggerResponse(StatusCodes.Status200OK, "Job applications successfully updated.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPut]
     public ActionResult PutApplicantJobApplication(
         [SwaggerRequestBody(Description = "The job applications to update.", Required = true)] ApplicantJobApplicationPoco[] jobApplications) => Update(jobApplications);

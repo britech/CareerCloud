@@ -27,6 +27,7 @@ public class ApplicantWorkHistoryController : IPocoCrudController<ApplicantWorkH
     [SwaggerResponse(StatusCodes.Status200OK, "Applicant's work histories removed successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpDelete]
     public ActionResult DeleteApplicantWorkHistory(
         [SwaggerRequestBody(Description = "The work histories to remove.", Required = true)] ApplicantWorkHistoryPoco[] workHistories) => Delete(workHistories);
@@ -44,6 +45,7 @@ public class ApplicantWorkHistoryController : IPocoCrudController<ApplicantWorkH
     [SwaggerResponse(StatusCodes.Status200OK, "Applicant's work histories removed successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPost]
     public ActionResult PostApplicantWorkHistory(
         [SwaggerRequestBody(Description = "The work histories to add.")] ApplicantWorkHistoryPoco[] workHistories) => Add(workHistories);
@@ -52,6 +54,7 @@ public class ApplicantWorkHistoryController : IPocoCrudController<ApplicantWorkH
     [SwaggerResponse(StatusCodes.Status200OK, "Applicant's work histories removed successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPut]
     public ActionResult PutApplicantWorkHistory(
         [SwaggerRequestBody(Description = "The work histories to update.", Required = true)] ApplicantWorkHistoryPoco[] workHistories) => Update(workHistories);

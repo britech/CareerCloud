@@ -28,6 +28,7 @@ public class ApplicantResumeController : IPocoCrudController<ApplicantResumePoco
     [SwaggerResponse(StatusCodes.Status200OK, "Resumes removed successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpDelete]
     public ActionResult DeleteApplicantResume(
         [SwaggerRequestBody(Description = "The resumes to remove.", Required = true)] ApplicantResumePoco[] resumes) => Delete(resumes);
@@ -45,6 +46,7 @@ public class ApplicantResumeController : IPocoCrudController<ApplicantResumePoco
     [SwaggerResponse(StatusCodes.Status200OK, "Resumes removed successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPost]
     public ActionResult PostApplicantResume(
         [SwaggerRequestBody(Description = "The resumes to add.", Required = true)] ApplicantResumePoco[] resumes) => Add(resumes);
@@ -53,6 +55,7 @@ public class ApplicantResumeController : IPocoCrudController<ApplicantResumePoco
     [SwaggerResponse(StatusCodes.Status200OK, "Resumes removed successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPut]
     public ActionResult PutApplicantResume(
         [SwaggerRequestBody(Description = "The resumes to update.", Required = true)] ApplicantResumePoco[] resumes) => Update(resumes);

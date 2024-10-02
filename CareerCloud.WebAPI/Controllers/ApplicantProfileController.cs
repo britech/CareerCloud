@@ -28,6 +28,7 @@ public class ApplicantProfileController : IPocoCrudController<ApplicantProfilePo
     [SwaggerResponse(StatusCodes.Status200OK, "Profiles removed successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpDelete]
     public ActionResult DeleteApplicantProfile(
         [SwaggerRequestBody(Description = "The profiles to be removed.", Required = true)] ApplicantProfilePoco[] profiles) => Delete(profiles);
@@ -45,6 +46,7 @@ public class ApplicantProfileController : IPocoCrudController<ApplicantProfilePo
     [SwaggerResponse(StatusCodes.Status200OK, "Profiles created successfully.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPost]
     public ActionResult PostApplicantProfile(
         [SwaggerRequestBody(Description = "The profiles to be added.", Required = true)] ApplicantProfilePoco[] profiles) => Add(profiles);
@@ -53,6 +55,7 @@ public class ApplicantProfileController : IPocoCrudController<ApplicantProfilePo
     [SwaggerResponse(StatusCodes.Status200OK, "Profiles updated successfully.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPut]
     public ActionResult PutApplicantProfile(
         [SwaggerRequestBody(Description = "The applicant profiles to be updated.", Required = true)] ApplicantProfilePoco[] profiles) => Update(profiles);

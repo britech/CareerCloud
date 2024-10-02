@@ -27,6 +27,7 @@ public class ApplicantSkillController : IPocoCrudController<ApplicantSkillPoco>
     [SwaggerResponse(StatusCodes.Status200OK, "Applicant's skills removed successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpDelete]
     public ActionResult DeleteApplicantSkill(
         [SwaggerRequestBody(Description = "The skils to add.", Required = true)] ApplicantSkillPoco[] skills) => Delete(skills);
@@ -44,6 +45,7 @@ public class ApplicantSkillController : IPocoCrudController<ApplicantSkillPoco>
     [SwaggerResponse(StatusCodes.Status200OK, "Applicant's skills added successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPost]
     public ActionResult PostApplicantSkill(
         [SwaggerRequestBody(Description = "The applicant skills to add.", Required = true)] ApplicantSkillPoco[] skills) => Add(skills);
@@ -52,6 +54,7 @@ public class ApplicantSkillController : IPocoCrudController<ApplicantSkillPoco>
     [SwaggerResponse(StatusCodes.Status200OK, "Applicant's skills updated successfully")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPut]
     public ActionResult PutApplicantSkill(
         [SwaggerRequestBody(Description = "The applicant's skills to update", Required = true)] ApplicantSkillPoco[] skills) => Update(skills);

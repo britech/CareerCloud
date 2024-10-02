@@ -28,6 +28,7 @@ public class ApplicantEducationController : IPocoCrudController<ApplicantEducati
     [SwaggerResponse(StatusCodes.Status200OK, "Education History entries are successfully added.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPost]
     public ActionResult PostApplicantEducation(
         [SwaggerRequestBody(Description = "The education history entries to be added.", Required = true)] ApplicantEducationPoco[] educations) => Add(educations);
@@ -45,6 +46,7 @@ public class ApplicantEducationController : IPocoCrudController<ApplicantEducati
     [SwaggerResponse(StatusCodes.Status200OK, "Education History entries are successfully updated.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpPut]
     public ActionResult PutApplicantEducation(
         [SwaggerRequestBody(Description = "The education history entries to be updated.", Required = true)] ApplicantEducationPoco[] educations) => Update(educations);
@@ -53,6 +55,7 @@ public class ApplicantEducationController : IPocoCrudController<ApplicantEducati
     [SwaggerResponse(StatusCodes.Status200OK, "Education History entries are successfully removed.")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Input validation failed, check your entries.", typeof(ExampleValidationFault), [MediaTypeNames.Application.Json])]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
+    [Consumes(MediaTypeNames.Application.Json)]
     [HttpDelete]
     public ActionResult DeleteApplicantEducation(
         [SwaggerRequestBody(Description = "The education history entries to be removed.", Required = true)] ApplicantEducationPoco[] educations) => Delete(educations);
