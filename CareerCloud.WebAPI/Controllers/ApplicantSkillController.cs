@@ -61,7 +61,7 @@ public class ApplicantSkillController : IPocoCrudController<ApplicantSkillPoco>
 
     [SwaggerOperation(Summary = "List all skills of all applicants.", Tags = [TagNames.TAG_APPLICANT_PROFILE])]
     [SwaggerResponse(StatusCodes.Status200OK, "All skills of all applicants", typeof(List<ApplicantSkillPoco>), [MediaTypeNames.Application.Json])]
-    [SwaggerResponse(StatusCodes.Status204NoContent, "Resumes is empty. If expected not empty, try again later or call support.")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "Skills is empty. If expected not empty, try again later or call support.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
     public override ActionResult FindAll() => base.FindAll();
 }

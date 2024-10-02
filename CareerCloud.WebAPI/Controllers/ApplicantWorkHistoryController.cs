@@ -59,9 +59,9 @@ public class ApplicantWorkHistoryController : IPocoCrudController<ApplicantWorkH
     public ActionResult PutApplicantWorkHistory(
         [SwaggerRequestBody(Description = "The work histories to update.", Required = true)] ApplicantWorkHistoryPoco[] workHistories) => Update(workHistories);
 
-    [SwaggerOperation(Summary = "List all skills of all applicants.", Tags = [TagNames.TAG_APPLICANT_PROFILE])]
-    [SwaggerResponse(StatusCodes.Status200OK, "All skills of all applicants", typeof(List<ApplicantSkillPoco>), [MediaTypeNames.Application.Json])]
-    [SwaggerResponse(StatusCodes.Status204NoContent, "Resumes is empty. If expected not empty, try again later or call support.")]
+    [SwaggerOperation(Summary = "List all work history of all applicants.", Tags = [TagNames.TAG_APPLICANT_PROFILE])]
+    [SwaggerResponse(StatusCodes.Status200OK, "All work history of all applicants", typeof(List<ApplicantWorkHistoryPoco>), [MediaTypeNames.Application.Json])]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "Work histories is empty. If expected not empty, try again later or call support.")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "API Fault occured, try again later or call support.", typeof(ExampleGeneralFault), [MediaTypeNames.Application.Json])]
     public override ActionResult FindAll() => base.FindAll();
 }
