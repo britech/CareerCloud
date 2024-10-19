@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Core;
 
-public abstract class IPocoCrudController<T>(BaseLogic<T> service) : AbstractCrudController<T, Guid>(service)
+public abstract class IPocoCrudController<T>(BaseLogic<T> service) : AbstractCrudController<T, Guid>
     where T : IPoco
 {
     protected override ActionResult Add(T[] items)

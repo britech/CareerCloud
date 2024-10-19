@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Core;
 
-public abstract class BaseCrudController<T, I>(AbstractValidatedPocoCRUDService<T, I> service) : AbstractCrudController<T, I>(service)
+public abstract class BaseCrudController<T, I>(AbstractValidatedPocoCRUDService<T, I> service) : AbstractCrudController<T, I>
     where T : class
 {
     protected override ActionResult Add(T[] items)
