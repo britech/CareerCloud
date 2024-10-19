@@ -31,17 +31,10 @@ builder.Services.AddSwaggerGen(options =>
             Name = "PROPRIETARY"
         }
     });
-
-    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-
     options.EnableAnnotations();
 });
 
-builder.Configuration.Sources.Clear();
-builder.Configuration.AddJsonFile("appsettings.json");
-
-builder.Services.AddSingleton<ICareerCloudConfigResolver, CareerCloudConfigResolver>()
+builder.Services
     .AddPooledDbContextFactory<CareerCloudContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("JOB_PORTAL")))
     .AddSingleton<IDataRepositoryFactory, EFRepositoryFactory>()
     .AddSingleton<BusinessLogicFactory, CareerCloudServiceFactory>();
