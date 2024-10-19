@@ -1,9 +1,9 @@
 ﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Constants;
 using CareerCloud.WebAPI.Core;
 using CareerCloud.WebAPI.Examples;
-using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -15,12 +15,12 @@ namespace CareerCloud.WebAPI.Controllers;
 public class CompanyLocationController : IPocoCrudController<CompanyLocationPoco>
 {
     [ActivatorUtilitiesConstructor]
-    public CompanyLocationController(BusinessLogicFactory factory) : base(factory)
+    public CompanyLocationController(BaseLogic<CompanyLocationPoco> service) : base(service)
     {
     }
 
     public CompanyLocationController()
-        : this(CareerCloudServiceFactory.Default.Instance)
+        : this(new CompanyLocationLogic(new EFGenericRepository<CompanyLocationPoco>(EFRepositoryFactory.Default.Instance)))
     {
 
     }

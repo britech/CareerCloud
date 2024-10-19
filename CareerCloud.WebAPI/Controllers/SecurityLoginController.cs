@@ -1,9 +1,9 @@
 ﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Constants;
 using CareerCloud.WebAPI.Core;
 using CareerCloud.WebAPI.Examples;
-using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -13,12 +13,12 @@ namespace CareerCloud.WebAPI.Controllers;
 public class SecurityLoginController : IPocoCrudController<SecurityLoginPoco>
 {
     [ActivatorUtilitiesConstructor]
-    public SecurityLoginController(BusinessLogicFactory factory) : base(factory)
+    public SecurityLoginController(BaseLogic<SecurityLoginPoco> service) : base(service)
     {
     }
 
     public SecurityLoginController()
-        : this(CareerCloudServiceFactory.Default.Instance)
+        : this(new SecurityLoginLogic(new EFGenericRepository<SecurityLoginPoco>(EFRepositoryFactory.Default.Instance)))
     {
 
     }

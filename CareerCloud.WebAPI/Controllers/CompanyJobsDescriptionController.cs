@@ -1,9 +1,9 @@
 ﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Constants;
 using CareerCloud.WebAPI.Core;
 using CareerCloud.WebAPI.Examples;
-using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -13,12 +13,12 @@ namespace CareerCloud.WebAPI.Controllers;
 public class CompanyJobsDescriptionController : IPocoCrudController<CompanyJobDescriptionPoco>
 {
     [ActivatorUtilitiesConstructor]
-    public CompanyJobsDescriptionController(BusinessLogicFactory factory) : base(factory)
+    public CompanyJobsDescriptionController(BaseLogic<CompanyJobDescriptionPoco> service) : base(service)
     {
     }
 
     public CompanyJobsDescriptionController()
-        : this(CareerCloudServiceFactory.Default.Instance)
+        : this(new CompanyJobDescriptionLogic(new EFGenericRepository<CompanyJobDescriptionPoco>(EFRepositoryFactory.Default.Instance)))
     {
 
     }
