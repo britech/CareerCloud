@@ -57,6 +57,7 @@ public class SecurityLoginRepository(IDbContextFactory<CareerCloudContext> dbCon
             SecurityLoginPoco result = ctx.SecurityLogins.Single(e => e.Id == item.Id);
             result.Login = item.Login;
             result.Password = item.Password;
+            result.Created = item.Created;
             result.PasswordUpdate = item.PasswordUpdate ?? result.PasswordUpdate;
             result.AgreementAccepted = item.AgreementAccepted ?? result.AgreementAccepted;
             result.IsLocked = item.IsLocked;
@@ -64,6 +65,7 @@ public class SecurityLoginRepository(IDbContextFactory<CareerCloudContext> dbCon
             result.EmailAddress = item.EmailAddress ?? result.EmailAddress;
             result.PhoneNumber = item.PhoneNumber ?? result.PhoneNumber;
             result.FullName = item.FullName ?? result.FullName;
+            result.ForceChangePassword = item.ForceChangePassword;
             result.PrefferredLanguage = item.PrefferredLanguage ?? result.PrefferredLanguage;
         }
         ctx.SaveChanges();
