@@ -48,7 +48,20 @@ public class SecurityLoginRepository(IDbContextFactory<CareerCloudContext> dbCon
     public void Update(params SecurityLoginPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.SecurityLogins.UpdateRange(items);
+        foreach (SecurityLoginPoco item in items)
+        {
+            SecurityLoginPoco result = ctx.SecurityLogins.Single(e => e.Id == item.Id);
+            result.Login = item.Login;
+            result.Password = item.Password;
+            result.PasswordUpdate = item.PasswordUpdate ?? result.PasswordUpdate;
+            result.AgreementAccepted = item.AgreementAccepted ?? result.AgreementAccepted;
+            result.IsLocked = item.IsLocked;
+            result.IsInactive = item.IsInactive;
+            result.EmailAddress = item.EmailAddress ?? result.EmailAddress;
+            result.PhoneNumber = item.PhoneNumber ?? result.PhoneNumber;
+            result.FullName = item.FullName ?? result.FullName;
+            result.PrefferredLanguage = item.PrefferredLanguage ?? result.PrefferredLanguage;
+        }
         ctx.SaveChanges();
     }
 }
