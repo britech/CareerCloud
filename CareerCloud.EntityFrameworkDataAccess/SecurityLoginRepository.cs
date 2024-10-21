@@ -41,7 +41,11 @@ public class SecurityLoginRepository(IDbContextFactory<CareerCloudContext> dbCon
     public void Remove(params SecurityLoginPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.SecurityLogins.RemoveRange(items);
+        foreach (SecurityLoginPoco item in items)
+        {
+            SecurityLoginPoco result = ctx.SecurityLogins.Single(e => e.Id == item.Id);
+            ctx.SecurityLogins.Remove(result);
+        }
         ctx.SaveChanges();
     }
 
