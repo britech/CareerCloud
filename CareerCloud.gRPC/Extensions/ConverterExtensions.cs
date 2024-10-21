@@ -2,7 +2,7 @@
 using CareerCloud.Pocos;
 using Google.Protobuf.WellKnownTypes;
 
-namespace CareerCloud.gRPC.Converters;
+namespace CareerCloud.gRPC.Extensions;
 
 public static class ConverterExtensions
 {
