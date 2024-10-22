@@ -41,14 +41,22 @@ public class SystemLanguageCodeRepository(IDbContextFactory<CareerCloudContext> 
     public void Remove(params SystemLanguageCodePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.SystemLanguageCodes.RemoveRange(items);
+        foreach (SystemLanguageCodePoco item in items)
+        {
+            ctx.SystemLanguageCodes.Remove(GetSingle(e => e.LanguageID == item.LanguageID));
+        }
         ctx.SaveChanges();
     }
 
     public void Update(params SystemLanguageCodePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.SystemLanguageCodes.UpdateRange(items);
+        foreach (SystemLanguageCodePoco item in items)
+        {
+            SystemLanguageCodePoco row = GetSingle(e => e.LanguageID == item.LanguageID);
+            row.Name = item.Name;
+            row.NativeName = item.NativeName;
+        }
         ctx.SaveChanges();
     }
 }
