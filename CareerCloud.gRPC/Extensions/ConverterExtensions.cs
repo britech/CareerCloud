@@ -67,7 +67,7 @@ public static class ConverterExtensions
         return Guid.Parse(request.Id);
     }
 
-    public static SecurityLoginsLogPoco Convert(this Audit proto)
+    public static SecurityLoginsLogPoco Convert(this SecurityLoginLog proto)
     {
         return new SecurityLoginsLogPoco
         {
@@ -79,9 +79,9 @@ public static class ConverterExtensions
         };
     }
 
-    public static Audit Convert(this SecurityLoginsLogPoco poco)
+    public static SecurityLoginLog Convert(this SecurityLoginsLogPoco poco)
     {
-        return new Audit
+        return new SecurityLoginLog
         {
             Id = poco.Id.ToString(),
             Login = poco.Login.ToString(),
@@ -91,15 +91,15 @@ public static class ConverterExtensions
         };
     }
 
-    public static SecurityLoginsLogPoco[] Convert(this RemoveRecordsRequest request)
+    public static SecurityLoginsLogPoco[] Convert(this RemoveLogsRequest request)
     {
-        return request.Rows.Select(e => new SecurityLoginsLogPoco
+        return request.Ids.Select(e => new SecurityLoginsLogPoco
         {
             Id = Guid.Parse(e)
         }).ToArray();
     }
 
-    public static Guid Convert(this GetRecordRequest request)
+    public static Guid Convert(this GetLogRequest request)
     {
         return Guid.Parse(request.Id);
     }
