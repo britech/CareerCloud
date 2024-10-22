@@ -6,6 +6,7 @@ namespace CareerCloud.gRPC.Extensions;
 
 public static class ConverterExtensions
 {
+    #region SecurityLogin
     public static SecurityLoginPoco Convert(this SecurityLogin proto)
     {
         SecurityLoginPoco poco = new()
@@ -66,7 +67,9 @@ public static class ConverterExtensions
     {
         return Guid.Parse(request.Id);
     }
+    #endregion
 
+    #region SecurityLoginLog
     public static SecurityLoginsLogPoco Convert(this SecurityLoginLog proto)
     {
         return new SecurityLoginsLogPoco
@@ -103,7 +106,9 @@ public static class ConverterExtensions
     {
         return Guid.Parse(request.Id);
     }
+    #endregion
 
+    #region SystemLanguageCode
     public static SystemLanguageCodePoco Convert(this SystemLanguage proto)
     {
         return new SystemLanguageCodePoco
@@ -136,4 +141,5 @@ public static class ConverterExtensions
     {
         return request.LanguageId;
     }
+    #endregion
 }
