@@ -1,7 +1,7 @@
 ﻿namespace CareerCloud.gRPC.Services;
 
 using CareerCloud.BusinessLogicLayer;
-using CareerCloud.gRPC.Converters;
+using CareerCloud.gRPC.Extensions;
 using CareerCloud.gRPC.Protos;
 using CareerCloud.Pocos;
 using Google.Protobuf.WellKnownTypes;
