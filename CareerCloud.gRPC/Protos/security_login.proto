@@ -6,19 +6,19 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
 service SecurityLoginService {
-	rpc AddUsers (Users) returns (Users);
-	rpc EditUsers (Users) returns (Users);
-	rpc RemoveUsers (RemoveUsersRequest) returns (google.protobuf.Empty);
-	rpc GetUser (GetUserRequest) returns (UserLogin);
-	rpc ListUsers (google.protobuf.Empty) returns (Users);
+	rpc Add (SecurityLogins) returns (SecurityLogins);
+	rpc Edit (SecurityLogins) returns (SecurityLogins);
+	rpc Remove (RemoveLoginsRequest) returns (google.protobuf.Empty);
+	rpc Get (GetLoginRequest) returns (SecurityLogin);
+	rpc List (google.protobuf.Empty) returns (SecurityLogins);
 }
 
-message UserLogin {
+message SecurityLogin {
 	string id = 1;
 	string username = 2;
 	string password = 3;
 	google.protobuf.Timestamp dateCreated = 4;
-	optional google.protobuf.Timestamp passwordUpdateDate = 5;
+	optional google.protobuf.Timestamp passwordUpdatedDate = 5;
 	optional google.protobuf.Timestamp agreementAcceptedDate = 6;
 	bool isLocked = 7;
 	bool isInactive = 8;
@@ -29,14 +29,14 @@ message UserLogin {
 	string preferredLanguage = 13;
 }
 
-message Users {
-	repeated UserLogin users = 1;
+message SecurityLogins {
+	repeated SecurityLogin logins = 1;
 }
 
-message RemoveUsersRequest {
-	repeated string users = 1;
+message RemoveLoginsRequest {
+	repeated string ids = 1;
 }
 
-message GetUserRequest {
+message GetLoginRequest {
 	string id = 1;
 }

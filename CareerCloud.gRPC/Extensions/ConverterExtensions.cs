@@ -6,7 +6,7 @@ namespace CareerCloud.gRPC.Extensions;
 
 public static class ConverterExtensions
 {
-    public static SecurityLoginPoco Convert(this UserLogin proto)
+    public static SecurityLoginPoco Convert(this SecurityLogin proto)
     {
         SecurityLoginPoco poco = new()
         {
@@ -25,8 +25,8 @@ public static class ConverterExtensions
         if (proto.DateCreated != null)
             poco.Created = proto.DateCreated.ToDateTime();
 
-        if (proto.PasswordUpdateDate != null)
-            poco.PasswordUpdate = proto.PasswordUpdateDate.ToDateTime();
+        if (proto.PasswordUpdatedDate != null)
+            poco.PasswordUpdate = proto.PasswordUpdatedDate.ToDateTime();
 
         if (proto.AgreementAcceptedDate != null) 
             poco.AgreementAccepted = proto.AgreementAcceptedDate.ToDateTime();
@@ -34,15 +34,15 @@ public static class ConverterExtensions
         return poco;
     }
 
-    public static UserLogin Convert(this SecurityLoginPoco poco)
+    public static SecurityLogin Convert(this SecurityLoginPoco poco)
     {
-        return new UserLogin
+        return new SecurityLogin
         {
             Id = poco.Id.ToString(),
             Username = poco.Login,
             Password = poco.Password,
             DateCreated = Timestamp.FromDateTime(poco.Created.ToUniversalTime()),
-            PasswordUpdateDate = Timestamp.FromDateTime(poco.PasswordUpdate.GetValueOrDefault(DateTime.MinValue).ToUniversalTime()),
+            PasswordUpdatedDate = Timestamp.FromDateTime(poco.PasswordUpdate.GetValueOrDefault(DateTime.MinValue).ToUniversalTime()),
             AgreementAcceptedDate = Timestamp.FromDateTime(poco.AgreementAccepted.GetValueOrDefault(DateTime.MinValue).ToUniversalTime()),
             IsLocked = poco.IsLocked,
             IsInactive = poco.IsInactive,
@@ -54,15 +54,52 @@ public static class ConverterExtensions
         };
     }
 
-    public static SecurityLoginPoco[] Convert(this RemoveUsersRequest request)
+    public static SecurityLoginPoco[] Convert(this RemoveLoginsRequest request)
     {
-        return request.Users.Select(e => new SecurityLoginPoco
+        return request.Ids.Select(e => new SecurityLoginPoco
         {
             Id = Guid.Parse(e)
         }).ToArray();
     }
 
-    public static Guid Convert(this GetUserRequest request)
+    public static Guid Convert(this GetLoginRequest request)
+    {
+        return Guid.Parse(request.Id);
+    }
+
+    public static SecurityLoginsLogPoco Convert(this Audit proto)
+    {
+        return new SecurityLoginsLogPoco
+        {
+            Id = Guid.Parse(proto.Id),
+            Login = Guid.Parse(proto.Login),
+            LogonDate = proto.LogonDate.ToDateTime(),
+            SourceIP = proto.SourceIp,
+            IsSuccesful = proto.IsSucessful
+        };
+    }
+
+    public static Audit Convert(this SecurityLoginsLogPoco poco)
+    {
+        return new Audit
+        {
+            Id = poco.Id.ToString(),
+            Login = poco.Login.ToString(),
+            LogonDate = Timestamp.FromDateTime(poco.LogonDate.ToUniversalTime()),
+            SourceIp = poco.SourceIP,
+            IsSucessful = poco.IsSuccesful
+        };
+    }
+
+    public static SecurityLoginsLogPoco[] Convert(this RemoveRecordsRequest request)
+    {
+        return request.Rows.Select(e => new SecurityLoginsLogPoco
+        {
+            Id = Guid.Parse(e)
+        }).ToArray();
+    }
+
+    public static Guid Convert(this GetRecordRequest request)
     {
         return Guid.Parse(request.Id);
     }
