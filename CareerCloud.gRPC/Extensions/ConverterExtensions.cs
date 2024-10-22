@@ -182,4 +182,45 @@ public static class ConverterExtensions
 
     public static Guid Convert(this GetApplicantEducationRequest request) => Guid.Parse(request.Id.ToString());
     #endregion
+
+    #region ApplicantJobApplication
+    public static ApplicantJobApplicationPoco Convert(this ApplicantJobApplication proto)
+    {
+        ApplicantJobApplicationPoco poco = new()
+        {
+            Id = Guid.Parse(proto.Id),
+            Applicant = Guid.Parse(proto.Applicant),
+            Job = Guid.Parse(proto.Job)
+        };
+
+        if (proto.ApplicationDate != null)
+            poco.ApplicationDate = proto.ApplicationDate.ToDateTime();
+
+        return poco;
+    }
+
+    public static ApplicantJobApplication Convert(this ApplicantJobApplicationPoco poco)
+    {
+        return new ApplicantJobApplication
+        {
+            Id = poco.Id.ToString(),
+            Applicant = poco.Applicant.ToString(),
+            Job = poco.Job.ToString(),
+            ApplicationDate = Timestamp.FromDateTime(poco.ApplicationDate)
+        };
+    }
+
+    public static ApplicantJobApplicationPoco[] Convert(this RemoveApplicantJobApplicationRequest request)
+    {
+        return request.Ids.Select(e => new ApplicantJobApplicationPoco
+        {
+            Id = Guid.Parse(e)
+        }).ToArray();
+    }
+
+    public static Guid Convert(this GetApplicantJobApplicationRequest request)
+    {
+        return Guid.Parse(request.Id);
+    }
+    #endregion
 }

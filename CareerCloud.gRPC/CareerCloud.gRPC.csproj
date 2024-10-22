@@ -11,6 +11,11 @@
 	<Protobuf Include="Protos\security_login_log.proto" GrpcServices="Server" />
 	<Protobuf Include="Protos\system_language_code.proto" GrpcServices="Server" />
 	  <Protobuf Include="Protos\applicant_education.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\applicant_job_application.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\applicant_profile.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\company_job.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\company_job_education.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\company_description.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
