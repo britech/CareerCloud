@@ -43,7 +43,8 @@ public class SecurityLoginsLogRepository(IDbContextFactory<CareerCloudContext> d
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         foreach (SecurityLoginsLogPoco item in items)
         {
-            ctx.Remove(ctx.SecurityLoginsLogs.Single(e => e.Id == item.Id));
+            SecurityLoginsLogPoco row = GetSingle(e => e.Id == item.Id) ?? throw new Exception("Operation not allowed.");
+            ctx.SecurityLoginsLogs.Remove(row);
         }
         ctx.SaveChanges();
     }
@@ -53,11 +54,12 @@ public class SecurityLoginsLogRepository(IDbContextFactory<CareerCloudContext> d
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         foreach (SecurityLoginsLogPoco item in items)
         {
-            SecurityLoginsLogPoco row = ctx.SecurityLoginsLogs.Single(e => e.Id == item.Id);
+            SecurityLoginsLogPoco row = GetSingle(e => e.Id == item.Id) ?? throw new Exception("Operation not allowed.");
             row.Login = item.Login;
             row.SourceIP = item.SourceIP;
             row.IsSuccesful = item.IsSuccesful;
             row.LogonDate = item.LogonDate;
+            ctx.SecurityLoginsLogs.Update(row);
         }
         ctx.SaveChanges();
     }

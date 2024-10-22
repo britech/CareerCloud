@@ -43,7 +43,8 @@ public class SystemLanguageCodeRepository(IDbContextFactory<CareerCloudContext> 
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         foreach (SystemLanguageCodePoco item in items)
         {
-            ctx.SystemLanguageCodes.Remove(GetSingle(e => e.LanguageID == item.LanguageID));
+            SystemLanguageCodePoco row = GetSingle(e => e.LanguageID == item.LanguageID) ?? throw new Exception("Operation not allowed.");
+            ctx.SystemLanguageCodes.Remove(row);
         }
         ctx.SaveChanges();
     }
@@ -53,9 +54,10 @@ public class SystemLanguageCodeRepository(IDbContextFactory<CareerCloudContext> 
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         foreach (SystemLanguageCodePoco item in items)
         {
-            SystemLanguageCodePoco row = GetSingle(e => e.LanguageID == item.LanguageID);
+            SystemLanguageCodePoco row = GetSingle(e => e.LanguageID == item.LanguageID) ?? throw new Exception("Operation not allowed.");
             row.Name = item.Name;
             row.NativeName = item.NativeName;
+            ctx.SystemLanguageCodes.Update(row);
         }
         ctx.SaveChanges();
     }

@@ -43,8 +43,8 @@ public class SecurityLoginRepository(IDbContextFactory<CareerCloudContext> dbCon
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         foreach (SecurityLoginPoco item in items)
         {
-            SecurityLoginPoco result = ctx.SecurityLogins.Single(e => e.Id == item.Id);
-            ctx.SecurityLogins.Remove(result);
+            SecurityLoginPoco row = GetSingle(e => e.Id == item.Id) ?? throw new Exception("Operation not allowed.");
+            ctx.SecurityLogins.Remove(row);
         }
         ctx.SaveChanges();
     }
@@ -54,19 +54,20 @@ public class SecurityLoginRepository(IDbContextFactory<CareerCloudContext> dbCon
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
         foreach (SecurityLoginPoco item in items)
         {
-            SecurityLoginPoco result = ctx.SecurityLogins.Single(e => e.Id == item.Id);
-            result.Login = item.Login;
-            result.Password = item.Password;
-            result.Created = item.Created;
-            result.PasswordUpdate = item.PasswordUpdate ?? result.PasswordUpdate;
-            result.AgreementAccepted = item.AgreementAccepted ?? result.AgreementAccepted;
-            result.IsLocked = item.IsLocked;
-            result.IsInactive = item.IsInactive;
-            result.EmailAddress = item.EmailAddress ?? result.EmailAddress;
-            result.PhoneNumber = item.PhoneNumber ?? result.PhoneNumber;
-            result.FullName = item.FullName ?? result.FullName;
-            result.ForceChangePassword = item.ForceChangePassword;
-            result.PrefferredLanguage = item.PrefferredLanguage ?? result.PrefferredLanguage;
+            SecurityLoginPoco row = GetSingle(e => e.Id == item.Id) ?? throw new Exception("Operation not allowed.");
+            row.Login = item.Login;
+            row.Password = item.Password;
+            row.Created = item.Created;
+            row.PasswordUpdate = item.PasswordUpdate ?? row.PasswordUpdate;
+            row.AgreementAccepted = item.AgreementAccepted ?? row.AgreementAccepted;
+            row.IsLocked = item.IsLocked;
+            row.IsInactive = item.IsInactive;
+            row.EmailAddress = item.EmailAddress ?? row.EmailAddress;
+            row.PhoneNumber = item.PhoneNumber ?? row.PhoneNumber;
+            row.FullName = item.FullName ?? row.FullName;
+            row.ForceChangePassword = item.ForceChangePassword;
+            row.PrefferredLanguage = item.PrefferredLanguage ?? row.PrefferredLanguage;
+            ctx.SecurityLogins.Update(row);
         }
         ctx.SaveChanges();
     }
