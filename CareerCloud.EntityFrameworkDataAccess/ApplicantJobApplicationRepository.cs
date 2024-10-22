@@ -1,4 +1,5 @@
 ﻿using CareerCloud.DataAccessLayer;
+using CareerCloud.EntityFrameworkDataAccess.Exceptions;
 using CareerCloud.Pocos;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -41,14 +42,25 @@ public class ApplicantJobApplicationRepository(IDbContextFactory<CareerCloudCont
     public void Remove(params ApplicantJobApplicationPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.ApplicantJobApplications.RemoveRange(items);
+        foreach (ApplicantJobApplicationPoco item in items)
+        {
+            ApplicantJobApplicationPoco row = GetSingle(e => e.Id == item.Id) ?? throw new EntityNotFoundException(nameof(ApplicantJobApplicationPoco), item.Id);
+            ctx.ApplicantJobApplications.Remove(row);
+        }
         ctx.SaveChanges();
     }
 
     public void Update(params ApplicantJobApplicationPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.ApplicantJobApplications.UpdateRange(items);
+        foreach (ApplicantJobApplicationPoco item in items)
+        {
+            ApplicantJobApplicationPoco row = GetSingle(e => e.Id == item.Id) ?? throw new EntityNotFoundException(nameof(ApplicantJobApplicationPoco), item.Id);
+            row.Applicant = item.Applicant;
+            row.Job = item.Job;
+            row.ApplicationDate = item.ApplicationDate;
+            ctx.ApplicantJobApplications.Update(row);
+        }
         ctx.SaveChanges();
     }
 }
