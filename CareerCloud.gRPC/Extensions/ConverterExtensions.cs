@@ -103,4 +103,37 @@ public static class ConverterExtensions
     {
         return Guid.Parse(request.Id);
     }
+
+    public static SystemLanguageCodePoco Convert(this SystemLanguage proto)
+    {
+        return new SystemLanguageCodePoco
+        {
+            LanguageID = proto.LanguageId,
+            Name = proto.Name,
+            NativeName = proto.NativeName,
+        };
+    } 
+
+    public static SystemLanguage Convert(this SystemLanguageCodePoco poco)
+    {
+        return new SystemLanguage
+        {
+            LanguageId = poco.LanguageID,
+            Name = poco.Name,
+            NativeName = poco.NativeName,
+        };
+    }
+
+    public static SystemLanguageCodePoco[] Convert(this RemoveLanguageRequest request)
+    {
+        return request.LanguageIds.Select(e => new SystemLanguageCodePoco
+        {
+            LanguageID = e
+        }).ToArray();
+    }
+
+    public static string Convert(this GetLanguageRequest request)
+    {
+        return request.LanguageId;
+    }
 }
