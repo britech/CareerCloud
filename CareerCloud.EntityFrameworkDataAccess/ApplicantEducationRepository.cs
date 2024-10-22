@@ -41,14 +41,28 @@ public class ApplicantEducationRepository(IDbContextFactory<CareerCloudContext> 
     public void Remove(params ApplicantEducationPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.ApplicantEducations.RemoveRange(items);
+        foreach (ApplicantEducationPoco item in items)
+        {
+            ApplicantEducationPoco row = GetSingle(e => e.Id == item.Id) ?? throw new Exception("Operation not allowed.");
+            ctx.ApplicantEducations.Remove(row);
+        }
         ctx.SaveChanges();
     }
 
     public void Update(params ApplicantEducationPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.ApplicantEducations.UpdateRange(items);
+        foreach (ApplicantEducationPoco item in items)
+        {
+            ApplicantEducationPoco row = GetSingle(e => e.Id == item.Id) ?? throw new Exception("Operation not allowed.");
+            row.Applicant = item.Applicant;
+            row.Major = item.Major;
+            row.CertificateDiploma = item.CertificateDiploma ?? row.CertificateDiploma;
+            row.StartDate = item.StartDate ?? row.StartDate;
+            row.CompletionDate = item.CompletionDate ?? row.CompletionDate;
+            row.CompletionPercent = item.CompletionPercent ?? row.CompletionPercent;
+            ctx.ApplicantEducations.Update(row);
+        }
         ctx.SaveChanges();
     }
 }
