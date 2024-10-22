@@ -142,4 +142,44 @@ public static class ConverterExtensions
         return request.LanguageId;
     }
     #endregion
+
+    #region ApplicantEducation
+    public static ApplicantEducationPoco Convert(this ApplicantEducation proto)
+    {
+        return new ApplicantEducationPoco
+        {
+            Id = Guid.Parse(proto.Id),
+            Applicant = Guid.Parse(proto.Applicant),
+            CertificateDiploma = proto.Type,
+            Major = proto.Major,
+            StartDate = proto.StartDate?.ToDateTime(),
+            CompletionDate = proto.CompletionDate?.ToDateTime(),
+            CompletionPercent = (Byte?) proto.CompletionPercent
+        };
+    }
+
+    public static ApplicantEducation Convert(this ApplicantEducationPoco poco)
+    {
+        return new ApplicantEducation
+        {
+            Id = poco.Id.ToString(),
+            Applicant = poco.Applicant.ToString(),
+            Type = poco.CertificateDiploma ?? "",
+            Major = poco.Major ?? "",
+            StartDate = Timestamp.FromDateTime(poco.StartDate.GetValueOrDefault(DateTime.MinValue).ToUniversalTime()),
+            CompletionDate = Timestamp.FromDateTime(poco.CompletionDate.GetValueOrDefault(DateTime.MinValue).ToUniversalTime()),
+            CompletionPercent = poco.CompletionPercent ?? 0
+        };
+    }
+
+    public static ApplicantEducationPoco[] Convert(this RemoveApplicantEducationRequest request)
+    {
+        return request.Ids.Select(e => new ApplicantEducationPoco
+        {
+            Id = Guid.Parse(e)
+        }).ToArray();
+    }
+
+    public static Guid Convert(this GetApplicantEducationRequest request) => Guid.Parse(request.Id.ToString());
+    #endregion
 }

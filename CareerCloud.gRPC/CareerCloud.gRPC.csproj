@@ -10,6 +10,7 @@
 	<Protobuf Include="Protos\security_login.proto" GrpcServices="Server" />
 	<Protobuf Include="Protos\security_login_log.proto" GrpcServices="Server" />
 	<Protobuf Include="Protos\system_language_code.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\applicant_education.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
