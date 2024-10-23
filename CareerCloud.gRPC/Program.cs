@@ -21,7 +21,8 @@ builder.Services
     .AddSingleton<BaseLogic<ApplicantEducationPoco>, ApplicantEducationLogic>()
     .AddSingleton<BaseLogic<ApplicantJobApplicationPoco>, ApplicantJobApplicationLogic>()
     .AddSingleton<BaseLogic<ApplicantProfilePoco>, ApplicantProfileLogic>()
-    .AddSingleton<BaseLogic<CompanyDescriptionPoco>, CompanyDescriptionLogic>();
+    .AddSingleton<BaseLogic<CompanyDescriptionPoco>, CompanyDescriptionLogic>()
+    .AddSingleton<BaseLogic<CompanyJobPoco>, CompanyJobLogic>();
 
 var app = builder.Build();
 
@@ -32,6 +33,7 @@ app.MapGrpcService<ApplicantEducationService>();
 app.MapGrpcService<ApplicantJobApplicationService>();
 app.MapGrpcService<ApplicantProfileService>();
 app.MapGrpcService<CompanyDescriptionService>();
+app.MapGrpcService<CompanyJobService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
 app.Run();

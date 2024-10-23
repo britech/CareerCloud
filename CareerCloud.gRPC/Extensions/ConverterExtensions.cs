@@ -319,4 +319,43 @@ public static class ConverterExtensions
         return Guid.Parse(proto.Id);
     }
     #endregion
+
+    #region CompanyJob
+    public static CompanyJobPoco Convert(this CompanyJob proto)
+    {
+        return new CompanyJobPoco
+        {
+            Id = Guid.Parse(proto.Id),
+            Company = Guid.Parse(proto.Company),
+            ProfileCreated = proto.ProfileCreated.ToDateTime(),
+            IsCompanyHidden = proto.Hidden,
+            IsInactive = proto.Inactive
+        };
+    }
+    
+    public static CompanyJob Convert(this CompanyJobPoco poco)
+    {
+        return new CompanyJob
+        {
+            Id = poco.Id.ToString(),
+            Company = poco.Company.ToString(),
+            ProfileCreated = Timestamp.FromDateTime(poco.ProfileCreated.ToUniversalTime()),
+            Hidden = poco.IsCompanyHidden,
+            Inactive = poco.IsInactive
+        };
+    }
+
+    public static CompanyJobPoco[] Convert(this RemoveCompanyJob proto) 
+    {
+        return proto.Ids.Select(e => new CompanyJobPoco
+        {
+            Id = Guid.Parse(e)
+        }).ToArray();
+    }
+
+    public static Guid Convert(this GetCompanyJob proto)
+    {
+        return Guid.Parse(proto.Id);
+    }
+    #endregion
 }
