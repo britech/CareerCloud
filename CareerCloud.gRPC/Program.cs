@@ -20,7 +20,8 @@ builder.Services
     .AddSingleton<AbstractValidatedPocoCRUDService<SystemLanguageCodePoco, string>, SystemLanguageCodeLogic>()
     .AddSingleton<BaseLogic<ApplicantEducationPoco>, ApplicantEducationLogic>()
     .AddSingleton<BaseLogic<ApplicantJobApplicationPoco>, ApplicantJobApplicationLogic>()
-    .AddSingleton<BaseLogic<ApplicantProfilePoco>, ApplicantProfileLogic>();
+    .AddSingleton<BaseLogic<ApplicantProfilePoco>, ApplicantProfileLogic>()
+    .AddSingleton<BaseLogic<CompanyDescriptionPoco>, CompanyDescriptionLogic>();
 
 var app = builder.Build();
 
@@ -30,6 +31,7 @@ app.MapGrpcService<SystemLanguageCodeService>();
 app.MapGrpcService<ApplicantEducationService>();
 app.MapGrpcService<ApplicantJobApplicationService>();
 app.MapGrpcService<ApplicantProfileService>();
+app.MapGrpcService<CompanyDescriptionService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
 app.Run();

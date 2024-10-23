@@ -280,4 +280,43 @@ public static class ConverterExtensions
         return result;
     }
     #endregion
+
+    #region CompanyDescription
+    public static CompanyDescriptionPoco Convert(this CompanyDescription proto)
+    {
+        return new CompanyDescriptionPoco
+        {
+            Id = Guid.Parse(proto.Id),
+            Company = Guid.Parse(proto.Company),
+            CompanyName = proto.CompanyName,
+            CompanyDescription = proto.CompanyDescription_,
+            LanguageId = proto.LanguageId
+        };
+    }
+
+    public static CompanyDescription Convert(this CompanyDescriptionPoco poco)
+    {
+        return new CompanyDescription
+        {
+            Id = poco.Id.ToString(),
+            Company = poco.Company.ToString(),
+            CompanyName = poco.CompanyName,
+            CompanyDescription_ = poco.CompanyDescription,
+            LanguageId = poco.LanguageId
+        };
+    }
+
+    public static CompanyDescriptionPoco[] Convert(this RemoveCompanyDescription proto)
+    {
+        return proto.Ids.Select(e => new CompanyDescriptionPoco
+        {
+            Id = Guid.Parse(e)
+        }).ToArray();
+    }
+
+    public static Guid Convert(this GetCompanyDescription proto)
+    {
+        return Guid.Parse(proto.Id);
+    }
+    #endregion
 }
