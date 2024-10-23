@@ -1,9 +1,9 @@
 ﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Constants;
 using CareerCloud.WebAPI.Core;
 using CareerCloud.WebAPI.Examples;
-using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -13,13 +13,13 @@ namespace CareerCloud.WebAPI.Controllers;
 public class SystemCountryCodeController : BaseCrudController<SystemCountryCodePoco, string>
 {
     [ActivatorUtilitiesConstructor]
-    public SystemCountryCodeController(BusinessLogicFactory factory) : base(factory)
+    public SystemCountryCodeController(AbstractValidatedPocoCRUDService<SystemCountryCodePoco, string> service) : base(service)
     {
 
     }
 
     public SystemCountryCodeController()
-        : this(CareerCloudServiceFactory.Default.Instance)
+        : this(new SystemCountryCodeLogic(new EFGenericRepository<SystemCountryCodePoco>(EFRepositoryFactory.Default.Instance)))
     {
 
     }

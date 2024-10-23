@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option csharp_namespace = "CareerCloud.gRPC.Protos";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service SecurityLoginService {
+	rpc Add (SecurityLogins) returns (SecurityLogins);
+	rpc Edit (SecurityLogins) returns (SecurityLogins);
+	rpc Remove (RemoveLoginsRequest) returns (google.protobuf.Empty);
+	rpc Get (GetLoginRequest) returns (SecurityLogin);
+	rpc List (google.protobuf.Empty) returns (SecurityLogins);
+}
+
+message SecurityLogin {
+	string id = 1;
+	string username = 2;
+	string password = 3;
+	google.protobuf.Timestamp dateCreated = 4;
+	optional google.protobuf.Timestamp passwordUpdatedDate = 5;
+	optional google.protobuf.Timestamp agreementAcceptedDate = 6;
+	bool isLocked = 7;
+	bool isInactive = 8;
+	string emailAddress = 9;
+	optional string phoneNumber = 10;
+	optional string name = 11;
+	bool forcePasswordChange = 12;
+	string preferredLanguage = 13;
+}
+
+message SecurityLogins {
+	repeated SecurityLogin logins = 1;
+}
+
+message RemoveLoginsRequest {
+	repeated string ids = 1;
+}
+
+message GetLoginRequest {
+	string id = 1;
+}

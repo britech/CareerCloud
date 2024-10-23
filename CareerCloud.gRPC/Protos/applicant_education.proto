@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "CareerCloud.gRPC.Protos";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service ApplicantEducationService {
+	rpc Add (ApplicantEducations) returns (ApplicantEducations);
+	rpc Edit (ApplicantEducations) returns (ApplicantEducations);
+	rpc Delete (RemoveApplicantEducationRequest) returns (google.protobuf.Empty);
+	rpc Get (GetApplicantEducationRequest) returns (ApplicantEducation);
+	rpc List (google.protobuf.Empty) returns (ApplicantEducations);
+}
+
+message ApplicantEducation {
+	string id = 1;
+	string applicant = 2;
+	string major = 3;
+	string type = 4;
+	google.protobuf.Timestamp startDate = 5;
+	google.protobuf.Timestamp completionDate = 6;
+	int32 completionPercent = 7;
+}
+
+message ApplicantEducations {
+	repeated ApplicantEducation entries = 1;
+}
+
+message RemoveApplicantEducationRequest {
+	repeated string ids = 1;
+}
+
+message GetApplicantEducationRequest {
+	string id = 1;
+}

@@ -3,31 +3,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebAPI.Core;
 
-public abstract class BaseCrudController<T, I>(BusinessLogicFactory factory) : AbstractCrudController<T, I>(factory)
+public abstract class BaseCrudController<T, I>(AbstractValidatedPocoCRUDService<T, I> service) : AbstractCrudController<T, I>
     where T : class
 {
     protected override ActionResult Add(T[] items)
     {
-        return Save(Factory.CreateService<T, I>().Add, items);
+        return Save(service.Add, items);
     }
 
     protected override ActionResult Update(T[] items)
     {
-        return Save(Factory.CreateService<T, I>().Update, items);
+        return Save(service.Update, items);
     }
 
     protected override ActionResult Delete(T[] items)
     {
-        return Save(Factory.CreateService<T, I>().Delete, items);
+        return Save(service.Delete, items);
     }
 
     protected override ActionResult FindById(I id)
     {
-        return FindById(Factory.CreateService<T, I>().Get, id);
+        return FindById(service.Get, id);
     }
 
     public override ActionResult FindAll()
     {
-        return FindAll(() => Factory.CreateService<T, I>().GetAll()?.ToArray()!);
+        return FindAll(() => service.GetAll()?.ToArray()!);
     }
 }

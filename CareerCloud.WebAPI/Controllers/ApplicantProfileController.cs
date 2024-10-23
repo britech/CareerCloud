@@ -1,9 +1,9 @@
 ﻿using CareerCloud.BusinessLogicLayer;
+using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Constants;
 using CareerCloud.WebAPI.Core;
 using CareerCloud.WebAPI.Examples;
-using CareerCloud.WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -13,13 +13,13 @@ namespace CareerCloud.WebAPI.Controllers;
 public class ApplicantProfileController : IPocoCrudController<ApplicantProfilePoco>
 {
     [ActivatorUtilitiesConstructor]
-    public ApplicantProfileController(BusinessLogicFactory factory) : base(factory)
+    public ApplicantProfileController(BaseLogic<ApplicantProfilePoco> service) : base(service)
     {
 
     }
 
     public ApplicantProfileController()
-        : this(CareerCloudServiceFactory.Default.Instance)
+        : this(new ApplicantProfileLogic(new EFGenericRepository<ApplicantProfilePoco>(EFRepositoryFactory.Default.Instance)))
     {
 
     }

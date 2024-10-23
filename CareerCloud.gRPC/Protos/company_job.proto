@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option csharp_namespace = "CareerCloud.gRPC.Protos";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service CompanyJobService {
+	rpc Add(CompanyJobCollection) returns (CompanyJobCollection);
+	rpc Edit(CompanyJobCollection) returns (CompanyJobCollection);
+	rpc Remove(RemoveCompanyJob) returns (google.protobuf.Empty);
+	rpc Get(GetCompanyJob) returns (CompanyJob);
+	rpc List(google.protobuf.Empty) returns (CompanyJobCollection);
+}
+
+message CompanyJob {
+	string id = 1;
+	string company = 2;
+	google.protobuf.Timestamp profileCreated = 3;
+	bool inactive = 4;
+	bool hidden = 5;
+}
+
+message CompanyJobCollection {
+	repeated CompanyJob entries = 1;
+}
+
+message RemoveCompanyJob {
+	repeated string ids = 1;
+}
+
+message GetCompanyJob {
+	string id = 1;
+}

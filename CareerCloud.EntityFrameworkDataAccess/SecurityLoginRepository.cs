@@ -41,14 +41,34 @@ public class SecurityLoginRepository(IDbContextFactory<CareerCloudContext> dbCon
     public void Remove(params SecurityLoginPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.SecurityLogins.RemoveRange(items);
+        foreach (SecurityLoginPoco item in items)
+        {
+            SecurityLoginPoco row = GetSingle(e => e.Id == item.Id) ?? throw new Exception("Operation not allowed.");
+            ctx.SecurityLogins.Remove(row);
+        }
         ctx.SaveChanges();
     }
 
     public void Update(params SecurityLoginPoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.SecurityLogins.UpdateRange(items);
+        foreach (SecurityLoginPoco item in items)
+        {
+            SecurityLoginPoco row = GetSingle(e => e.Id == item.Id) ?? throw new Exception("Operation not allowed.");
+            row.Login = item.Login;
+            row.Password = item.Password;
+            row.Created = item.Created;
+            row.PasswordUpdate = item.PasswordUpdate ?? row.PasswordUpdate;
+            row.AgreementAccepted = item.AgreementAccepted ?? row.AgreementAccepted;
+            row.IsLocked = item.IsLocked;
+            row.IsInactive = item.IsInactive;
+            row.EmailAddress = item.EmailAddress ?? row.EmailAddress;
+            row.PhoneNumber = item.PhoneNumber ?? row.PhoneNumber;
+            row.FullName = item.FullName ?? row.FullName;
+            row.ForceChangePassword = item.ForceChangePassword;
+            row.PrefferredLanguage = item.PrefferredLanguage ?? row.PrefferredLanguage;
+            ctx.SecurityLogins.Update(row);
+        }
         ctx.SaveChanges();
     }
 }
