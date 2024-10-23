@@ -10,7 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddGrpc();
 builder.Services
-    .AddPooledDbContextFactory<CareerCloudContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("JOB_PORTAL")))
+    .AddPooledDbContextFactory<CareerCloudContext>(options => options
+        .UseSqlServer(builder.Configuration.GetConnectionString("JOB_PORTAL"))
+        .LogTo(Console.WriteLine))
     .AddSingleton<IDataRepositoryFactory, EFRepositoryFactory>()
     .AddSingleton(typeof(IDataRepository<>), typeof(EFGenericRepository<>))
     .AddSingleton<BaseLogic<SecurityLoginPoco>, SecurityLoginLogic>()
