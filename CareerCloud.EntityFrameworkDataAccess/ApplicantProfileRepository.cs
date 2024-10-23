@@ -56,7 +56,6 @@ public class ApplicantProfileRepository(IDbContextFactory<CareerCloudContext> db
         foreach (ApplicantProfilePoco item in items) 
         {
             ApplicantProfilePoco row = GetSingle(e => e.Id == item.Id) ?? throw new EntityNotFoundException(nameof(ApplicantProfilePoco), item.Id);
-            row.Login = item.Id;
             row.CurrentSalary = item.CurrentSalary ?? row.CurrentSalary;
             row.CurrentRate = item.CurrentRate ?? row.CurrentRate;
             row.Currency = item.Currency ?? row.Currency;
