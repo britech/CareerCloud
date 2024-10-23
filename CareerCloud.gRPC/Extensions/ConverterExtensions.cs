@@ -6,6 +6,8 @@ namespace CareerCloud.gRPC.Extensions;
 
 public static class ConverterExtensions
 {
+    private readonly static Decimal? POCO_DEFAULT_DECIMAL = null;
+
     #region SecurityLogin
     public static SecurityLoginPoco Convert(this SecurityLogin proto)
     {
@@ -221,6 +223,61 @@ public static class ConverterExtensions
     public static Guid Convert(this GetApplicantJobApplicationRequest request)
     {
         return Guid.Parse(request.Id);
+    }
+    #endregion
+
+    #region ApplicantProfile
+    public static ApplicantProfilePoco Convert(this ApplicantProfile proto)
+    {
+        _ = decimal.TryParse(proto.CurrentRate, out decimal currentRate);
+        _ = decimal.TryParse(proto.CurrentSalary, out decimal currentSalary);
+
+        return new ApplicantProfilePoco
+        {
+            Id = Guid.Parse(proto.Id),
+            Login = Guid.Parse(proto.Login),
+            CurrentSalary = currentSalary,
+            CurrentRate = currentRate,
+            Currency = proto.Currency,
+            Street = proto.Street,
+            City = proto.City,
+            Province = proto.Province,
+            PostalCode = proto.PostalCode,
+            Country = proto.Country
+        };
+    }
+
+    public static ApplicantProfile Convert(this ApplicantProfilePoco poco)
+    {
+        return new ApplicantProfile
+        {
+            Id = poco.Id.ToString(),
+            Login = poco.Login.ToString(),
+            CurrentSalary = poco.CurrentSalary.GetValueOrDefault(decimal.Zero).ToString(),
+            CurrentRate = poco.CurrentRate.GetValueOrDefault(decimal.Zero).ToString(),
+            Currency = poco.Currency ?? string.Empty,
+            Street = poco.Street ?? string.Empty,
+            City = poco.City ?? string.Empty,
+            Province = poco.Province ?? string.Empty,
+            PostalCode = poco.PostalCode ?? string.Empty,
+            Country = poco.Country ?? string.Empty
+        };
+    }
+
+    public static ApplicantProfilePoco[] Convert(this RemoveApplicantProfile proto)
+    {
+        return proto.Ids
+            .Where(e => Guid.TryParse(e, out Guid _))
+            .Select(e => new ApplicantProfilePoco 
+            {
+                Id = Guid.Parse(e)
+            }).ToArray();
+    }
+
+    public static Guid Convert(this GetApplicantProfile proto)
+    {
+        _ = Guid.TryParse(proto.Id, out Guid result);
+        return result;
     }
     #endregion
 }
