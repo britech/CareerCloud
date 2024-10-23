@@ -358,4 +358,41 @@ public static class ConverterExtensions
         return Guid.Parse(proto.Id);
     }
     #endregion
+
+    #region CompanyJobEducation
+    public static CompanyJobEducationPoco Convert(this CompanyJobEducation proto)
+    {
+        return new CompanyJobEducationPoco
+        {
+            Id = Guid.Parse(proto.Id),
+            Job = Guid.Parse(proto.Job),
+            Major = proto.Major,
+            Importance = (short) proto.Importance
+        };
+    }
+
+    public static CompanyJobEducation Convert(this CompanyJobEducationPoco poco)
+    {
+        return new CompanyJobEducation
+        {
+            Id = poco.Id.ToString(),
+            Job = poco.Job.ToString(),
+            Major = poco.Major,
+            Importance = poco.Importance
+        };
+    }
+
+    public static CompanyJobEducationPoco[] Convert(this RemoveCompanyJobEducation proto)
+    {
+        return proto.Ids.Select(e => new CompanyJobEducationPoco
+        {
+            Id = Guid.Parse(e)
+        }).ToArray();
+    }
+
+    public static Guid Convert(this GetCompanyJobEducation proto)
+    {
+        return Guid.Parse(proto.Id);
+    }
+    #endregion
 }
