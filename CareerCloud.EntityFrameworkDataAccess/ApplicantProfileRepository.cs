@@ -1,4 +1,5 @@
 ﻿using CareerCloud.DataAccessLayer;
+using CareerCloud.EntityFrameworkDataAccess.Exceptions;
 using CareerCloud.Pocos;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -41,14 +42,31 @@ public class ApplicantProfileRepository(IDbContextFactory<CareerCloudContext> db
     public void Remove(params ApplicantProfilePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.ApplicantProfiles.RemoveRange(items);
+        foreach (ApplicantProfilePoco item in items)
+        {
+            ApplicantProfilePoco row = GetSingle(e => e.Id == item.Id) ?? throw new EntityNotFoundException(nameof(ApplicantProfilePoco), item.Id);
+            ctx.ApplicantProfiles.Remove(row);
+        }
         ctx.SaveChanges();
     }
 
     public void Update(params ApplicantProfilePoco[] items)
     {
         using CareerCloudContext ctx = _dbContextFactory.CreateDbContext();
-        ctx.ApplicantProfiles.UpdateRange(items);
+        foreach (ApplicantProfilePoco item in items) 
+        {
+            ApplicantProfilePoco row = GetSingle(e => e.Id == item.Id) ?? throw new EntityNotFoundException(nameof(ApplicantProfilePoco), item.Id);
+            row.Login = item.Id;
+            row.CurrentSalary = item.CurrentSalary ?? row.CurrentSalary;
+            row.CurrentRate = item.CurrentRate ?? row.CurrentRate;
+            row.Currency = item.Currency ?? row.Currency;
+            row.Street = item.Street ?? row.Street;
+            row.City = item.City ?? row.City;
+            row.Province = item.Province ?? row.Province;
+            row.PostalCode  = item.PostalCode ?? row.PostalCode;
+            row.Country = item.Country ?? row.Country;
+            ctx.ApplicantProfiles.Update(row);
+        }
         ctx.SaveChanges();
     }
 }
